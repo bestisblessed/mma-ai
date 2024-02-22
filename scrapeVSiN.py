@@ -2,7 +2,9 @@ from bs4 import BeautifulSoup
 import csv
 
 # Load the HTML from the file
-with open('./data/rawVSiN.html', 'r') as file:
+# with open('./data/rawVSiN.html', 'r') as file:
+#     html_content = file.read()
+with open('./data/odds_VSiN.html', 'r') as file:
     html_content = file.read()
 
 # Parse the HTML content
@@ -16,7 +18,7 @@ table = table_div.find('table')
 headers = [header.get_text(strip=True) for header in table.find_all('th')]
 
 # Write to CSV
-csv_file = "./data/table_data.csv"
+csv_file = "./data/odds_VSiN.csv"
 with open(csv_file, 'w', newline='') as csvfile:
     csvwriter = csv.writer(csvfile)
     csvwriter.writerow(headers)  # write headers
