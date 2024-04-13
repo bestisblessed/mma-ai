@@ -6,3 +6,4 @@ python-dotenv==1.0.1
 ipython==8.23.0
 matplotlib==3.8.4
 streamlit-lottie==0.0.5
+watchdog==4.0.0
