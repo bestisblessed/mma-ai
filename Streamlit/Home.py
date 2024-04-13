@@ -38,8 +38,8 @@ def load_lottie_pictures(url):
     return r.json()
 lottie_picture1 = load_lottie_pictures("https://lottie.host/9501172e-b94f-441d-a10d-406d7536663c/510yizrK3A.json")
 
-picture1 = Image.open('./images/pereira-adesanya-faceoff.jpeg') # Picture 1
-picture2 = Image.open('./images/ferg.jpg') # Picture 2
+picture1 = Image.open('./Streamlit/images/pereira-adesanya-faceoff.jpeg') # Picture 1
+picture2 = Image.open('./Streamlit/images/ferg.jpg') # Picture 2
 
 # ---- Introduction and Bio ---- #
 # st.write('---')
@@ -113,9 +113,9 @@ with image_column_right:
 # Images
 st.divider()
 st.header('Galleria')
-image1list = Image.open('./images/friends.jpg')
-image2list = Image.open('./images/holloway1.jpeg')
-image3list = Image.open('./images/jonesgustaffson.jpg')
+image1list = Image.open('./Streamlit/images/friends.jpg')
+image2list = Image.open('./Streamlit/images/holloway1.jpeg')
+image3list = Image.open('./Streamlit/images/jonesgustaffson.jpg')
 col1, col2, col3 = st.columns(3)  # Creates three columns
 with col1:
     st.image(image1list, use_column_width=True, caption="Image 1")
