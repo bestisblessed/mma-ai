@@ -162,4 +162,9 @@ cython_debug/
 #data/*
 .DS_Store*
 *.DS_Store*
-
+data/vsin.csv
+*data*
+data/*
+*data-raw*
+data-raw/*
+*bak*
