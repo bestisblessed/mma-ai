@@ -1,0 +1,1 @@
+Alex Pereira to win by KO/TKO.
