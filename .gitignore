@@ -169,3 +169,5 @@ data/*
 data-raw/*
 *bak*
 db*
+*predictions*
+*vscode*
