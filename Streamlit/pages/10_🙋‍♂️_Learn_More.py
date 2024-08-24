@@ -15,6 +15,18 @@ from PIL import Image
 # st.write("Basic Statistics for Fighter Data:")
 # st.write(df_fighter_data.describe())
 
+st.title("About Us")
+
+st.markdown("""
+<div style="background-color: #333333; padding: 20px; border-radius: 10px;">
+    <p style='color: white; text-align: center;'>
+        MMA AI leverages cutting-edge machine learning models and comprehensive fighter data to analyze matchups, predict fight outcomes, and generate detailed reports. 
+        Whether you're a seasoned bettor, a fight fan, or simply curious, MMA AI provides you with the insights you need to make informed decisions and stay ahead of the game. 
+        Get ready to dive into data-driven predictions that could be the difference between a win and a loss.
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
 # ---- Loading Other Files ---- #
 ### Lottie 1
 def load_lottie_pictures(url):
