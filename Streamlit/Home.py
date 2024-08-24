@@ -23,6 +23,7 @@ st.write("Files in current directory:", os.listdir(os.getcwd()))
 # ---- Loading Data ---- #
 # df_event_data = pd.read_csv('Streamlit/data/event_data_sherdog.csv')
 # df_fighter_data = pd.read_csv('Streamlit/data/fighter_info.csv')
+# Streamlit/Streamlit/
 
 # ---- Loading Data from GitHub URLs ---- #
 event_data_url = 'https://raw.githubusercontent.com/bestisblessed/mma-ai/main/Streamlit/Streamlit/data/event_data_sherdog.csv'
@@ -196,22 +197,24 @@ if st.button("Predict the Fight"):
     if api_key:
         st.markdown('<p style="color:blue; font-size:14px;">Generating</p>', unsafe_allow_html=True)
         client = OpenAI(api_key=api_key)
-        file1 = client.files.create(
-            file=open("data/fighter_info.csv", "rb"),
-            purpose='assistants')
-        file2 = client.files.create(
-            file=open("data/event_data_sherdog.csv", "rb"),
-            purpose='assistants')
-        assistant = client.beta.assistants.create(
-        name="MMA Handicapper",
-            instructions="You are an expert MMA/UFC Handicapper & Sport Bettor in Las Vegas. You definitely have the fighters requested general information in fighter_info.csv and all of their UFC fights and details in event_data_sherdog.csv.",
-            # model="gpt-4o",
-            model="gpt-4o-mini",
-            tools=[{"type": "code_interpreter"}],
-            tool_resources={
-                "code_interpreter": {
-                "file_ids": [file1.id, file2.id]
-                }})
+        # file1 = client.files.create(
+        #     file=open("data/fighter_info.csv", "rb"),
+        #     purpose='assistants')
+        # file2 = client.files.create(
+        #     file=open("data/event_data_sherdog.csv", "rb"),
+        #     purpose='assistants')
+        # assistant = client.beta.assistants.create(
+        # name="MMA Handicapper",
+        #     instructions="You are an expert MMA/UFC Handicapper & Sport Bettor in Las Vegas. You definitely have the fighters requested general information in fighter_info.csv and all of their UFC fights and details in event_data_sherdog.csv.",
+        #     # model="gpt-4o",
+        #     model="gpt-4o-mini",
+        #     tools=[{"type": "code_interpreter"}],
+        #     tool_resources={
+        #         "code_interpreter": {
+        #         "file_ids": [file1.id, file2.id]
+        #         }})
+        assistant_mma_handicapper = 'asst_Qa3dgoxXNz10xEzxWLBLkL0A'
+        assistant = client.beta.assistants.retrieve(assistant_mma_handicapper)
         st.write(assistant)
         thread = client.beta.threads.create()
         message1 = f"""Research {fighter1}"""
