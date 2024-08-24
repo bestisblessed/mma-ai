@@ -16,6 +16,10 @@ st.title('MMA AI')
 st.write('Welcome to MMA AI. Time to fucking win.')
 st.divider()
 
+import os
+st.write("Current working directory:", os.getcwd())
+st.write("Files in current directory:", os.listdir(os.getcwd()))
+
 # ---- Loading Data ---- #
 # df_event_data = pd.read_csv('Streamlit/data/event_data_sherdog.csv')
 # df_fighter_data = pd.read_csv('Streamlit/data/fighter_info.csv')
