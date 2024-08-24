@@ -6,6 +6,8 @@ from streamlit_lottie import st_lottie
 from PIL import Image
 import plotly.express as px
 from datetime import datetime
+from openai import OpenAI
+import time
 
 st.set_page_config(page_title="MMA AI", page_icon="🥊", layout="wide")
 
@@ -21,14 +23,18 @@ df_fighter_data = pd.read_csv('./data/fighter_info.csv')
 st.session_state['df_event_data'] = df_event_data
 st.session_state['df_fighter_data'] = df_fighter_data
 
+# Convert all text data to lowercase
+df_event_data = df_event_data.map(lambda x: x.lower() if isinstance(x, str) else x)
+df_fighter_data = df_fighter_data.map(lambda x: x.lower() if isinstance(x, str) else x)
+
 # ---- Fighter Selection ---- #
-st.subheader('Select Two Fighters to Compare')
+st.subheader('Select Fighters to Research & Predict')
 fighter_names = df_fighter_data['Fighter'].unique()
 col1, col2 = st.columns(2)
 with col1:
-    fighter1 = st.selectbox('Fighter 1', fighter_names, index=list(fighter_names).index("Conor McGregor"))
+    fighter1 = st.selectbox('Fighter 1', fighter_names, index=list(fighter_names).index("conor mcgregor"))
 with col2:
-    fighter2 = st.selectbox('Fighter 2', fighter_names, index=list(fighter_names).index("Michael Chandler"))
+    fighter2 = st.selectbox('Fighter 2', fighter_names, index=list(fighter_names).index("michael chandler"))
 st.divider()
 
 if fighter1 and fighter2:
@@ -167,11 +173,140 @@ else:
 
 
 
+# def generate_prediction(fighter1, fighter2):
+
+api_key = st.text_input("Enter your OpenAI API Key", type="password")
+
+if api_key:
+    st.write("Generating")
+    fighter1 = 'conor mcgregor'
+    fighter2 = 'michael chandler'
+    client = OpenAI(api_key=api_key)
+    file1 = client.files.create(
+        file=open("data/fighter_info.csv", "rb"),
+        purpose='assistants')
+    file2 = client.files.create(
+        file=open("data/event_data_sherdog.csv", "rb"),
+        purpose='assistants')
+    assistant = client.beta.assistants.create(
+    name="MMA Handicapper",
+        instructions="You are an expert MMA/UFC Handicapper & Sport Bettor in Las Vegas. You definitely have the fighters requested general information in fighter_info.csv and all of their UFC fights and details in event_data_sherdog.csv.",
+        # model="gpt-4o",
+        model="gpt-4o-mini",
+        tools=[{"type": "code_interpreter"}],
+        tool_resources={
+            "code_interpreter": {
+            "file_ids": [file1.id, file2.id]
+            }})
+    st.write(assistant)
+    thread = client.beta.threads.create()
+    message1 = f"""Research {fighter1}"""
+    message = client.beta.threads.messages.create(
+        thread_id=thread.id,
+        role="user",
+        content=message1
+    )
+    run = client.beta.threads.runs.create(
+    thread_id=thread.id,
+    assistant_id=assistant.id
+    )
+    while True:
+        if run.status == 'completed':
+            break
+        elif run.status == 'failed':
+            st.write("Run failed.")
+            break
+        else:
+            st.write(f"{run.status}")
+            run = client.beta.threads.runs.retrieve(
+            thread_id=thread.id,
+            run_id=run.id
+            )
+            time.sleep(5)
+    messages = client.beta.threads.messages.list(
+    thread_id=thread.id
+    )
+    # for message in reversed(messages.data):
+    #     if hasattr(message.content[0], 'text'):
+    #         st.write(message.role + ": " + message.content[0].text.value)
+    #     elif hasattr(message.content[0], 'image_file'):
+    #         st.write(message.role + ": [Image file received]")
+    message2 = f"""Research {fighter2}"""
+    message = client.beta.threads.messages.create(
+        thread_id=thread.id,
+        role="user",
+        content=message2
+    )
+    run = client.beta.threads.runs.create(
+    thread_id=thread.id,
+    assistant_id=assistant.id
+    )
+    while True:
+        if run.status == 'completed':
+            break
+        elif run.status == 'failed':
+            st.write("Run failed.")
+            break
+        else:
+            st.write(f"{run.status}")
+            run = client.beta.threads.runs.retrieve(
+            thread_id=thread.id,
+            run_id=run.id
+            )
+            time.sleep(5)
+    messages = client.beta.threads.messages.list(
+    thread_id=thread.id
+    )
+    # for message in reversed(messages.data):
+    #     if hasattr(message.content[0], 'text'):
+    #         st.write(message.role + ": " + message.content[0].text.value)
+    #     elif hasattr(message.content[0], 'image_file'):
+    #         st.write(message.role + ": [Image file received]")
+    message3=f"Now predict the outcome of a potential fight between {fighter1} and {fighter2}. You must provide who you think will win, the method and time of victory, and a detailed explanation why you think that is likely."
+    message = client.beta.threads.messages.create(
+        thread_id=thread.id,
+        role="user",
+        content=message3
+    )
+    run = client.beta.threads.runs.create(
+    thread_id=thread.id,
+    assistant_id=assistant.id
+    )
+    while True:
+        if run.status == 'completed':
+            break
+        elif run.status == 'failed':
+            st.write("Run failed.")
+            break
+        else:
+            st.write(f"{run.status}")
+            run = client.beta.threads.runs.retrieve(
+            thread_id=thread.id,
+            run_id=run.id
+            )
+            time.sleep(5)
+    messages = client.beta.threads.messages.list(
+    thread_id=thread.id
+    )
+    for message in reversed(messages.data):
+        if hasattr(message.content[0], 'text'):
+            st.write(message.role + ": " + message.content[0].text.value)
+        elif hasattr(message.content[0], 'image_file'):
+            st.write(message.role + ": [Image file received]")
+
+else:
+    st.write("It didn't work")
+st.divider()
+
+
+
+
 # Generate and Download Report
 if st.button("Generate Report"):
-    st.write("Generating")
+    st.write(" ")
 else:
     st.write(" ")
+
 
 
 
