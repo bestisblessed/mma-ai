@@ -2,16 +2,17 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import requests
 from streamlit_lottie import st_lottie
 from PIL import Image
+import plotly.express as px
+from datetime import datetime
 
 st.set_page_config(page_title="MMA AI", page_icon="🥊", layout="wide")
 
 # ---- Titles ---- #
 st.title('MMA AI')
-st.markdown('###### By Tyler Durette')
-st.write('Welcome to MMA AI. Time to fucking win')
+st.write('Welcome to MMA AI. Time to fucking win.')
+st.divider()
 
 # ---- Loading Data ---- #
 df_event_data = pd.read_csv('./data/event_data_sherdog.csv')
@@ -20,161 +21,161 @@ df_fighter_data = pd.read_csv('./data/fighter_info.csv')
 st.session_state['df_event_data'] = df_event_data
 st.session_state['df_fighter_data'] = df_fighter_data
 
-# ---- Dig Deep ---- #
-# st.dataframe(df_event_data.head())
-# st.write("Basic Statistics for Event Data:")
-# st.write(df_event_data.describe())
-
-# st.dataframe(df_fighter_data.head())
-# st.write("Basic Statistics for Fighter Data:")
-# st.write(df_fighter_data.describe())
-
-# ---- Loading Other Files ---- #
-### Lottie 1
-def load_lottie_pictures(url):
-    r = requests.get(url)
-    if r.status_code != 200:
-        return None
-    return r.json()
-lottie_picture1 = load_lottie_pictures("https://lottie.host/9501172e-b94f-441d-a10d-406d7536663c/510yizrK3A.json")
-
-picture1 = Image.open('./images/pereira-adesanya-faceoff.jpeg') # Picture 1
-picture2 = Image.open('./images/ferg.jpg') # Picture 2
-
-# ---- Introduction and Bio ---- #
-# st.write('---')
-st.divider()
-st.header('Introduction')
-left_column, right_column = st.columns(2)
-with left_column:
-    st.write('##')
-    st.write('''
-             I predict winners. Simple as that. All I do is win.
-             - Predictive modeling
-             - Game outcomes
-             - Player performances
-             - Arbitrage opportunities
-             - Random shit
-
-             If this all interests you, this is your lucky day. Nobody is better than us.
-             ''')
-with right_column:
-    st_lottie(lottie_picture1, height=400, width=400, key='lottie1')
-
-
-# ---- Some Samples ---- #
-# st.write('---')
-st.divider()
-st.header('Some Samples')
-
-### Sample Code
-st.write('##')
-st.code('''
-        import numpy as np
-        import streamlit as st
-        import pandas as pd
-        import numpy as np
-        import matplotlib.pyplot as plt
-        import requests
-        from streamlit_lottie import st_lottie
-        from PIL import Image
-        ''', language='python'
-        )
-
-### Sample 1
-st.write('##')
-image_column_left, text_column_right = st.columns((1, 2)) ### 2nd column twice as big as 1st
-with image_column_left:
-    st.image(picture1, use_column_width=True, caption="UFC 287")
-with text_column_right:
-    st.markdown('#### Sample 1')
-    st.write('''
-            Here is one of my examples, this is what it does:
-            1. Uses my unique and confidential mma dataset to analyze 
-            2. Finds outlying trends
-            3. Makes game and player predictions
-             ''')
-
-### Sample 2
-st.write('##')
-text_column_left, image_column_right = st.columns((2, 1)) ### 2nd column twice as big as 1st
-with text_column_left:
-    st.markdown('#### Sample 2')
-    st.write('''
-            Here is one of my examples, this is what it does:
-            1. Uses my unique and confidential mma dataset to analyze 
-            2. Finds outlying trends
-            3. Makes game and player predictions
-             ''')
-with image_column_right:
-    st.image(picture2, use_column_width=True, caption="Before the crash")
-
-# ---- Galleria ---- #
-# Images
-st.divider()
-st.header('Galleria')
-image1list = Image.open('./images/friends.jpg')
-image2list = Image.open('./images/holloway1.jpeg')
-image3list = Image.open('./images/jonesgustaffson.jpg')
-col1, col2, col3 = st.columns(3)  # Creates three columns
+# ---- Fighter Selection ---- #
+st.subheader('Select Two Fighters to Compare')
+fighter_names = df_fighter_data['Fighter'].unique()
+col1, col2 = st.columns(2)
 with col1:
-    st.image(image1list, use_column_width=True, caption="Image 1")
+    fighter1 = st.selectbox('Fighter 1', fighter_names, index=list(fighter_names).index("Conor McGregor"))
 with col2:
-    st.image(image2list, use_column_width=True, caption="Image 2")
-with col3:
-    st.image(image3list, use_column_width=True, caption="Image 3")
+    fighter2 = st.selectbox('Fighter 2', fighter_names, index=list(fighter_names).index("Michael Chandler"))
+st.divider()
 
-# Video
-video1 = 'https://www.youtube.com/watch?v=KxeQHTyfbc0&list=PL3HhsOxjnSwLz4DnP7jQxk8BnvvanToll&index=7&ab_channel=UFC'
-st.write('##')
-col1, col2, col3 = st.columns([1, 3, 1])
-with col2:
-    st.video(video1)
-    st.caption("To get hyped")
+if fighter1 and fighter2:
+    if fighter1 == fighter2:
+        st.warning("Please select two different fighters.")
+    else:
+        fighter1_data = df_fighter_data[df_fighter_data['Fighter'] == fighter1]
+        fighter2_data = df_fighter_data[df_fighter_data['Fighter'] == fighter2]
+
+        # Extract and format the name with nickname
+        fighter1_full_name = fighter1_data['Fighter'].values[0]
+        fighter1_nickname = fighter1_data['Nickname'].values[0]
+        fighter1_first_name = fighter1_full_name.split()[0]
+        fighter1_last_name = " ".join(fighter1_full_name.split()[1:])
+        fighter1_formatted_name = f"{fighter1_first_name} '{fighter1_nickname}' {fighter1_last_name}"
+        fighter2_full_name = fighter2_data['Fighter'].values[0]
+        fighter2_nickname = fighter2_data['Nickname'].values[0]
+        fighter2_first_name = fighter2_full_name.split()[0]
+        fighter2_last_name = " ".join(fighter2_full_name.split()[1:])
+        fighter2_formatted_name = f"{fighter2_first_name} '{fighter2_nickname}' {fighter2_last_name}"
+
+        # Calculate Fighter 1 and 2 win/loss streak
+        fighter1_fights = df_event_data[(df_event_data['Fighter 1'] == fighter1) | (df_event_data['Fighter 2'] == fighter1)]
+        fighter1_fights = fighter1_fights.sort_values(by='Event Date', ascending=False)
+        streak_type1 = None
+        streak_count1 = 0
+        for _, row in fighter1_fights.iterrows():
+            if row['Winning Fighter'] == fighter1:
+                if streak_type1 == 'W' or streak_type1 is None:
+                    streak_type1 = 'W'
+                    streak_count1 += 1
+                else:
+                    break
+            else:
+                if streak_type1 == 'L' or streak_type1 is None:
+                    streak_type1 = 'L'
+                    streak_count1 += 1
+                else:
+                    break
+        fighter1_streak = f"{streak_count1}{streak_type1}" if streak_type1 else "No Streak"
+        fighter2_fights = df_event_data[(df_event_data['Fighter 1'] == fighter2) | (df_event_data['Fighter 2'] == fighter2)]
+        fighter2_fights = fighter2_fights.sort_values(by='Event Date', ascending=False)
+        streak_type2 = None
+        streak_count2 = 0
+        for _, row in fighter2_fights.iterrows():
+            if row['Winning Fighter'] == fighter2:
+                if streak_type2 == 'W' or streak_type2 is None:
+                    streak_type2 = 'W'
+                    streak_count2 += 1
+                else:
+                    break
+            else:
+                if streak_type2 == 'L' or streak_type2 is None:
+                    streak_type2 = 'L'
+                    streak_count2 += 1
+                else:
+                    break
+        fighter2_streak = f"{streak_count2}{streak_type2}" if streak_type2 else "No Streak"
+
+        col1, col2 = st.columns(2)
+        with col1:
+            # st.write(f"### {fighter1_formatted_name}")
+            st.write(f"### '{fighter1_nickname}' {fighter1}")
+            st.markdown(f"""
+            - **Nickname**: {fighter1_data['Nickname'].values[0]}
+            - **Birth Date**: {fighter1_data['Birth Date'].values[0]}
+            - **Nationality**: {fighter1_data['Nationality'].values[0]}
+            - **Association**: {fighter1_data['Association'].values[0]}
+            - **Weight Class**: {fighter1_data['Weight Class'].values[0]}
+            - **Height**: {fighter1_data['Height'].values[0]}
+            - **Wins**: {fighter1_data['Wins'].values[0]}
+            - **Losses**: {fighter1_data['Losses'].values[0]}
+            - **Wins by Decision**: {fighter1_data['Win_Decision'].values[0]}
+            - **Wins by KO**: {fighter1_data['Win_KO'].values[0]}
+            - **Wins by Submission**: {fighter1_data['Win_Sub'].values[0]}
+            - **Losses by Decision**: {fighter1_data['Loss_Decision'].values[0]}
+            - **Losses by KO**: {fighter1_data['Loss_KO'].values[0]}
+            - **Losses by Submission**: {fighter1_data['Loss_Sub'].values[0]}
+            - **Fighter ID**: {fighter1_data['Fighter_ID'].values[0]}
+            - **Current Streak**: {fighter1_streak}
+            """)
+            # Most Recent 5 Fights for Fighter 1
+            st.markdown("<h5 style='text-align: center; color: grey;'>Most Recent 5 Fights</h5>", unsafe_allow_html=True)
+            fighter1_fights = df_event_data[(df_event_data['Fighter 1'] == fighter1) | (df_event_data['Fighter 2'] == fighter1)]
+            fighter1_fights = fighter1_fights.sort_values(by='Event Date', ascending=False).head(5)
+            fighter1_styled = fighter1_fights[['Event Name', 'Event Date', 'Fighter 1', 'Fighter 2', 'Winning Fighter', 'Winning Method', 'Winning Round']].style.apply(
+                lambda row: ['background-color: lightgreen' if row['Winning Fighter'] == fighter1 else 'background-color: lightcoral'] * len(row),
+                axis=1
+            )
+            st.dataframe(fighter1_styled)
+            # Fighter 1 Pie Chart
+            labels1 = ['KO', 'Submission', 'Decision']
+            values1 = [fighter1_data['Win_KO'].values[0], fighter1_data['Win_Sub'].values[0], fighter1_data['Win_Decision'].values[0]]
+            fig1 = px.pie(values=values1, names=labels1, title=f"{fighter1} Winning Methods")
+            st.plotly_chart(fig1, theme="streamlit")
+
+        with col2:
+            st.write(f"### '{fighter2_nickname}' {fighter2}")
+            st.markdown(f"""
+            - **Nickname**: {fighter2_data['Nickname'].values[0]}
+            - **Birth Date**: {fighter2_data['Birth Date'].values[0]}
+            - **Nationality**: {fighter2_data['Nationality'].values[0]}
+            - **Association**: {fighter2_data['Association'].values[0]}
+            - **Weight Class**: {fighter2_data['Weight Class'].values[0]}
+            - **Height**: {fighter2_data['Height'].values[0]}
+            - **Wins**: {fighter2_data['Wins'].values[0]}
+            - **Losses**: {fighter2_data['Losses'].values[0]}
+            - **Wins by Decision**: {fighter2_data['Win_Decision'].values[0]}
+            - **Wins by KO**: {fighter2_data['Win_KO'].values[0]}
+            - **Wins by Submission**: {fighter2_data['Win_Sub'].values[0]}
+            - **Losses by Decision**: {fighter2_data['Loss_Decision'].values[0]}
+            - **Losses by KO**: {fighter2_data['Loss_KO'].values[0]}
+            - **Losses by Submission**: {fighter2_data['Loss_Sub'].values[0]}
+            - **Fighter ID**: {fighter2_data['Fighter_ID'].values[0]}
+            - **Current Streak**: {fighter2_streak}
+            """)
+            # Most Recent 5 Fights for Fighter 2
+            st.markdown("<h5 style='text-align: center; color: grey;'>Most Recent 5 Fights</h5>", unsafe_allow_html=True)
+            fighter2_fights = df_event_data[(df_event_data['Fighter 1'] == fighter2) | (df_event_data['Fighter 2'] == fighter2)]
+            fighter2_fights = fighter2_fights.sort_values(by='Event Date', ascending=False).head(5)
+            fighter2_styled = fighter2_fights[['Event Name', 'Event Date', 'Fighter 1', 'Fighter 2', 'Winning Fighter', 'Winning Method', 'Winning Round']].style.apply(
+                lambda row: ['background-color: lightgreen' if row['Winning Fighter'] == fighter2 else 'background-color: lightcoral'] * len(row),
+                axis=1
+            )
+            st.dataframe(fighter2_styled)
+            # Fighter 2 Pie Chart   
+            labels2 = ['KO', 'Submission', 'Decision']
+            values2 = [fighter2_data['Win_KO'].values[0], fighter2_data['Win_Sub'].values[0], fighter2_data['Win_Decision'].values[0]]
+            fig2 = px.pie(values=values2, names=labels2, title=f"{fighter2} Winning Methods")
+            st.plotly_chart(fig2, theme="streamlit")
+        
+
+else:
+    st.write("Select both fighters to begin analysis.")
+
+
+
+
+# Generate and Download Report
+if st.button("Generate Report"):
+    st.write("Generating")
+else:
+    st.write(" ")
+
 
 
 # ---- Contact Me ---- #
 st.divider()
-st.markdown("MMA AI © 2024 | [GitHub](https://github.com/bestisblessed) | [Contact](https://twitter.com/Drtyyy_)")
-
-
-# # Data Display Functions
-# st.dataframe(data)  # Display a dataframe
-# st.table(data)  # Display a static table
-# st.json(data)  # Display JSON content
-
-# # Input Widgets
-# st.button("Click Me")  # Display a button
-# st.checkbox("Check me out")  # Display a checkbox
-# st.radio("Choose one", options=['Option 1', 'Option 2'])  # Display radio buttons
-# st.selectbox("Pick one:", options=['Option 1', 'Option 2'])  # Display a select box
-# st.multiselect("Pick several:", options=['Option 1', 'Option 2'])  # Display a multiselect box
-# st.slider("Slide me", min_value=0, max_value=10)  # Display a slider
-# st.select_slider("Slide to select", options=['Option 1', 'Option 2'])  # Display a select slider
-# st.text_input("Enter something")  # Display a text input box
-# st.number_input("Enter a number")  # Display a number input box
-# st.text_area("Area for textual entry")  # Display a text area
-# st.date_input("Pick a date")  # Display a date input
-# st.time_input("Pick a time")  # Display a time input
-# st.file_uploader("Upload a file")  # Display a file uploader
-# st.color_picker("Pick a color")  # Display a color picker
-
-# # Display Text
-# st.title("This is a title")  # Display a title
-# st.header("This is a header")  # Display a header
-# st.subheader("This is a subheader")  # Display a subheader
-# st.text("This is some text")  # Display text
-# st.markdown("This is **markdown**")  # Display markdown
-# st.caption("This is a caption")  # Display a caption
-# st.code("for i in range(10): pass", language='python')  # Display code
-
-# # Layouts and Containers
-# st.columns([1, 2, 3])  # Display columns for layout
-# st.expander("See explanation")  # Display an expander
-# st.container()  # Create a container
-# st.empty()  # Create an empty slot
-
-# # Media and Static Elements
-# st.image(image, caption="This is an image")  # Display an image
-# st.audio(data)  # Display audio
-# st.video(data)  # Display video
+st.markdown('###### Created By Tyler Durette')
+st.markdown("MMA AI © 2024 | [GitHub](https://github.com/bestisblessed) | [Contact Me](mailto:tyler.durette@gmail.com)")
