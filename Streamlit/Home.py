@@ -24,18 +24,19 @@ st.write("Files in current directory:", os.listdir(os.getcwd()))
 # df_event_data = pd.read_csv('Streamlit/data/event_data_sherdog.csv')
 # df_fighter_data = pd.read_csv('Streamlit/data/fighter_info.csv')
 # Streamlit/Streamlit/
-
-# ---- Loading Data from GitHub URLs ---- #
-event_data_url = 'https://raw.githubusercontent.com/bestisblessed/mma-ai/main/Streamlit/Streamlit/data/event_data_sherdog.csv'
-fighter_data_url = 'https://raw.githubusercontent.com/bestisblessed/mma-ai/main/Streamlit/Streamlit/data/fighter_info.csv'
-df_event_data = pd.read_csv(event_data_url)
-df_fighter_data = pd.read_csv(fighter_data_url)
-
-# Store in session state
+base_dir = os.path.dirname(os.path.abspath(__file__))  # This gives you the directory where the script is located
+df_event_data = pd.read_csv(os.path.join(base_dir, 'Streamlit/data/event_data_sherdog.csv'))
+df_fighter_data = pd.read_csv(os.path.join(base_dir, 'Streamlit/data/fighter_info.csv'))
+dataframes = [df_event_data, df_fighter_data]
 st.session_state['df_event_data'] = df_event_data
 st.session_state['df_fighter_data'] = df_fighter_data
 
-# dataframes = [df_event_data, df_fighter_data]
+
+# ---- Loading Data from GitHub URLs ---- #
+# event_data_url = 'https://raw.githubusercontent.com/bestisblessed/mma-ai/main/Streamlit/Streamlit/data/event_data_sherdog.csv'
+# fighter_data_url = 'https://raw.githubusercontent.com/bestisblessed/mma-ai/main/Streamlit/Streamlit/data/fighter_info.csv'
+# df_event_data = pd.read_csv(event_data_url)
+# df_fighter_data = pd.read_csv(fighter_data_url)
 # st.session_state['df_event_data'] = df_event_data
 # st.session_state['df_fighter_data'] = df_fighter_data
 
@@ -327,7 +328,7 @@ if st.button("Generate Report"):
                 report_file.write(message.role + ": " + message.content[0].text.value + "\n")
     st.write(f"Report generated and saved as 'mma_fight_prediction_report_{fighter1}_{fighter2}.txt'")
 else:
-    st.write("Report not generated")
+    st.write("")
 
 
 
