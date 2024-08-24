@@ -210,7 +210,7 @@ if st.button("Predict the Fight"):
             purpose='assistants'
         )
         assistant = client.beta.assistants.create(
-            name="MMA Handicapper",
+        name="MMA Handicapper",
             instructions="You are an expert MMA/UFC Handicapper & Sport Bettor in Las Vegas. You definitely have the fighters requested general information in fighter_info.csv and all of their UFC fights and details in event_data_sherdog.csv.",
             # model="gpt-4o",
             model="gpt-4o-mini",
