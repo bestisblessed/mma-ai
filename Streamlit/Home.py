@@ -194,7 +194,7 @@ else:
 
 api_key = st.text_input("Enter your OpenAI API Key", type="password")
 
-if st.button("Predict the Fight"):
+if st.button("Predict and Generate Report"):
     if api_key:
         st.markdown('<p style="color:blue; font-size:14px;">Generating</p>', unsafe_allow_html=True)
         client = OpenAI(api_key=api_key)
@@ -315,25 +315,30 @@ if st.button("Predict the Fight"):
             if hasattr(message.content[0], 'text'):
                 st.write(message.role + ": " + message.content[0].text.value)
             elif hasattr(message.content[0], 'image_file'):
-                st.write(message.role + ": [Image file received]")
+                    st.write(message.role + ": [Image file received]")
+
+        with open(f"mma_fight_prediction_report_{fighter1}_{fighter2}.txt", "w") as report_file:
+            for message in reversed(messages.data):
+                if hasattr(message.content[0], 'text'):
+                    st.write(message.role + ": " + message.content[0].text.value)
+                    report_file.write(message.role + ": " + message.content[0].text.value + "\n")
+        st.write(f"Report generated and saved as 'mma_fight_prediction_report_{fighter1}_{fighter2}.txt'")
     else:
         st.markdown('<p style="color:orange; font-size:14px;">Must enter OpenAI API Key to Generate Prediction</p>', unsafe_allow_html=True)
-
 else:
     st.write("")
 st.divider()
 
-
 # Generate and Download Report
-if st.button("Generate Report"):
-    with open(f"mma_fight_prediction_report_{fighter1}_{fighter2}.txt", "w") as report_file:
-        for message in reversed(messages.data):
-            if hasattr(message.content[0], 'text'):
-                st.write(message.role + ": " + message.content[0].text.value)
-                report_file.write(message.role + ": " + message.content[0].text.value + "\n")
-    st.write(f"Report generated and saved as 'mma_fight_prediction_report_{fighter1}_{fighter2}.txt'")
-else:
-    st.write("")
+# if st.button("Generate Report"):
+#     with open(f"mma_fight_prediction_report_{fighter1}_{fighter2}.txt", "w") as report_file:
+#         for message in reversed(messages.data):
+#             if hasattr(message.content[0], 'text'):
+#                 st.write(message.role + ": " + message.content[0].text.value)
+#                 report_file.write(message.role + ": " + message.content[0].text.value + "\n")
+#     st.write(f"Report generated and saved as 'mma_fight_prediction_report_{fighter1}_{fighter2}.txt'")
+# else:
+#     st.write("")
 
 
 
