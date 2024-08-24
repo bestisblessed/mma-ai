@@ -8,6 +8,10 @@ import plotly.express as px
 from datetime import datetime
 from openai import OpenAI
 import time
+import os
+
+# TO DO
+# - get fighter pictures when selected from online
 
 st.set_page_config(page_title="MMA AI", page_icon="🥊", layout="wide")
 
@@ -15,10 +19,6 @@ st.set_page_config(page_title="MMA AI", page_icon="🥊", layout="wide")
 st.title('MMA AI')
 st.write('Welcome to MMA AI. Time to fucking win.')
 st.divider()
-
-import os
-st.write("Current working directory:", os.getcwd())
-st.write("Files in current directory:", os.listdir(os.getcwd()))
 
 # ---- Loading Data ---- #
 # df_event_data = pd.read_csv('Streamlit/data/event_data_sherdog.csv')
@@ -30,7 +30,6 @@ df_fighter_data = pd.read_csv(os.path.join(base_dir, 'Streamlit/data/fighter_inf
 dataframes = [df_event_data, df_fighter_data]
 st.session_state['df_event_data'] = df_event_data
 st.session_state['df_fighter_data'] = df_fighter_data
-
 
 # ---- Loading Data from GitHub URLs ---- #
 # event_data_url = 'https://raw.githubusercontent.com/bestisblessed/mma-ai/main/Streamlit/Streamlit/data/event_data_sherdog.csv'
@@ -188,12 +187,8 @@ else:
     st.write("Select both fighters to begin analysis.")
 
 
-
-
-# def generate_prediction(fighter1, fighter2):
-
+# Fight Prediction and Report Assistant GPT
 api_key = st.text_input("Enter your OpenAI API Key", type="password")
-
 if st.button("Predict and Generate Report"):
     if api_key:
         st.markdown('<p style="color:blue; font-size:14px;">Generating</p>', unsafe_allow_html=True)
@@ -335,7 +330,6 @@ if st.button("Predict and Generate Report"):
         st.markdown('<p style="color:orange; font-size:14px;">Must enter OpenAI API Key to Generate Prediction</p>', unsafe_allow_html=True)
 else:
     st.write("")
-st.divider()
 
 # Generate and Download Report
 # if st.button("Generate Report"):
