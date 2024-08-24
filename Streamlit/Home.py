@@ -316,13 +316,21 @@ if st.button("Predict and Generate Report"):
                 st.write(message.role + ": " + message.content[0].text.value)
             elif hasattr(message.content[0], 'image_file'):
                     st.write(message.role + ": [Image file received]")
-
-        with open(f"mma_fight_prediction_report_{fighter1}_{fighter2}.txt", "w") as report_file:
+        report_filename = f"mma_fight_prediction_report_{fighter1}_{fighter2}.txt"
+        with open(report_filename, "w") as report_file:
             for message in reversed(messages.data):
                 if hasattr(message.content[0], 'text'):
                     st.write(message.role + ": " + message.content[0].text.value)
                     report_file.write(message.role + ": " + message.content[0].text.value + "\n")
         st.write(f"Report generated and saved as 'mma_fight_prediction_report_{fighter1}_{fighter2}.txt'")
+        with open(report_filename, "r") as file:
+            report_content = file.read()
+        st.download_button(
+            label="Download Report",
+            data=report_content,
+            file_name=report_filename,
+            mime="text/plain"
+        )
     else:
         st.markdown('<p style="color:orange; font-size:14px;">Must enter OpenAI API Key to Generate Prediction</p>', unsafe_allow_html=True)
 else:
