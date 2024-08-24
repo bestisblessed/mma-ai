@@ -299,13 +299,16 @@ else:
 st.divider()
 
 
-
-
 # Generate and Download Report
 if st.button("Generate Report"):
-    st.write(" ")
+    with open("mma_fight_prediction_report.txt", "w") as report_file:
+        for message in reversed(messages.data):
+            if hasattr(message.content[0], 'text'):
+                st.write(message.role + ": " + message.content[0].text.value)
+                report_file.write(message.role + ": " + message.content[0].text.value + "\n")
+    st.write("Report generated and saved as 'mma_fight_prediction_report.txt'")
 else:
-    st.write(" ")
+    st.write("Report not generated")
 
 
 
