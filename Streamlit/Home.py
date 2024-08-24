@@ -17,11 +17,22 @@ st.write('Welcome to MMA AI. Time to fucking win.')
 st.divider()
 
 # ---- Loading Data ---- #
-df_event_data = pd.read_csv('Streamlit/data/event_data_sherdog.csv')
-df_fighter_data = pd.read_csv('Streamlit/data/fighter_info.csv')
-dataframes = [df_event_data, df_fighter_data]
+# df_event_data = pd.read_csv('Streamlit/data/event_data_sherdog.csv')
+# df_fighter_data = pd.read_csv('Streamlit/data/fighter_info.csv')
+
+# ---- Loading Data from GitHub URLs ---- #
+event_data_url = 'https://raw.githubusercontent.com/bestisblessed/mma-ai/main/Streamlit/Streamlit/data/event_data_sherdog.csv'
+fighter_data_url = 'https://raw.githubusercontent.com/bestisblessed/mma-ai/main/Streamlit/Streamlit/data/fighter_info.csv'
+df_event_data = pd.read_csv(event_data_url)
+df_fighter_data = pd.read_csv(fighter_data_url)
+
+# Store in session state
 st.session_state['df_event_data'] = df_event_data
 st.session_state['df_fighter_data'] = df_fighter_data
+
+# dataframes = [df_event_data, df_fighter_data]
+# st.session_state['df_event_data'] = df_event_data
+# st.session_state['df_fighter_data'] = df_fighter_data
 
 # Convert all text data to lowercase
 df_event_data = df_event_data.map(lambda x: x.lower() if isinstance(x, str) else x)
