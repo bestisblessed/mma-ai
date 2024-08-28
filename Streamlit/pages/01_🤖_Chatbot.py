@@ -13,7 +13,7 @@ st.title('MMA AI Chatbot')
 def run_chatbot(OPENAI_API_KEY):
     client = OpenAI(api_key=OPENAI_API_KEY)
     # assistant_mma_handicapper = 'asst_2kHC5LP6HMuDjrNDlUwhNAz2'
-    assistant_mma_handicapper = 'asst_DqzNKHovo9ryalNPK9Nlh1IU' # GPT-3.5-Turbo
+    assistant_mma_handicapper = 'asst_l98W2wkDAwj2yTRFgZmxRb1N'
     assistant = client.beta.assistants.retrieve(assistant_mma_handicapper)
     if 'thread_id' not in st.session_state:
         thread = client.beta.threads.create()
