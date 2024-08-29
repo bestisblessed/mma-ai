@@ -18,6 +18,10 @@ from xgboost import XGBClassifier
 import os
 import shutil
 
+# ---- Loading Data ---- #
+base_dir = os.path.dirname(os.path.abspath(__file__))  # This gives you the directory where the script is located
+df = pd.read_csv(os.path.join(base_dir, 'data/master_logistic_regression.csv'))
+
 st.title('Predictive Modeling')
 st.write("""
 In this section, we will develop models to predict the probabilities of fight outcomes. By leveraging key features related to the fighters' attributes and performance, we aim to determine the likelihood of each fighter winning their match.
@@ -50,7 +54,8 @@ def probability_to_american_odds(prob):
 
 # Logistic Regression
 st.markdown("## Basic Logistic Regression")
-df = pd.read_csv('data/master_logistic_regression.csv')
+# df = pd.read_csv('data/master_logistic_regression.csv')
+df = pd.read_csv(os.path.join(base_dir, 'data/master_logistic_regression.csv'))
 df = df.dropna(subset=['fighter2_height_in_inches'])
 features = [
     'fighter1_age_on_fight_night',
@@ -235,7 +240,8 @@ st.write("Now evaluate other machine learning models with the same features as l
 # Random Forest
 st.markdown("#### Random Forest")
 with st.expander("View Random Forest Results"):
-    df = pd.read_csv('data/master_logistic_regression.csv')
+    df = pd.read_csv(os.path.join(base_dir, 'data/master_logistic_regression.csv'))
+    # df = pd.read_csv('data/master_logistic_regression.csv')
     df = df.dropna(subset=['fighter2_height_in_inches'])
     features = [
         'fighter1_age_on_fight_night',
@@ -272,7 +278,8 @@ st.write(upcoming_fights_df[['fighter 1', 'fighter 2', 'fighter1_win_probability
 # XGBoost
 st.markdown("#### XGBoost")
 with st.expander("View XGBoost Results"):
-    df = pd.read_csv('data/master_logistic_regression.csv')
+    # df = pd.read_csv('data/master_logistic_regression.csv')
+    df = pd.read_csv(os.path.join(base_dir, 'data/master_logistic_regression.csv'))
     df = df.dropna(subset=['fighter2_height_in_inches'])
     features = [
         'fighter1_age_on_fight_night',
@@ -312,7 +319,8 @@ st.write(upcoming_fights_df[['fighter 1', 'fighter 2', 'fighter1_win_probability
 st.markdown("#### LightGBM")
 with st.expander("View LightGBM Results"):
     from lightgbm import LGBMClassifier
-    df = pd.read_csv('data/master_logistic_regression.csv')
+    # df = pd.read_csv('data/master_logistic_regression.csv')
+    df = pd.read_csv(os.path.join(base_dir, 'data/master_logistic_regression.csv'))
     df = df.dropna(subset=['fighter2_height_in_inches'])
     features = [
         'fighter1_age_on_fight_night',
