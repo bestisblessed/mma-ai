@@ -17,15 +17,15 @@ st.set_page_config(page_title="MMA AI", page_icon="🥊", layout="wide")
 
 # ---- Loading Data ---- #
 base_dir = os.path.dirname(os.path.abspath(__file__))  # This gives you the directory where the script is located
-df_event_data = pd.read_csv(os.path.join(base_dir, 'Streamlit/data/event_data_sherdog.csv'))
-df_fighter_data = pd.read_csv(os.path.join(base_dir, 'Streamlit/data/fighter_info.csv'))
+df_event_data = pd.read_csv(os.path.join(base_dir, 'data/event_data_sherdog.csv'))
+df_fighter_data = pd.read_csv(os.path.join(base_dir, 'data/fighter_info.csv'))
 dataframes = [df_event_data, df_fighter_data]
 st.session_state['df_event_data'] = df_event_data
 st.session_state['df_fighter_data'] = df_fighter_data
 # Streamlit/Streamlit/
 # ---- Loading Data from GitHub URLs ---- #
-# event_data_url = 'https://raw.githubusercontent.com/bestisblessed/mma-ai/main/Streamlit/Streamlit/data/event_data_sherdog.csv'
-# fighter_data_url = 'https://raw.githubusercontent.com/bestisblessed/mma-ai/main/Streamlit/Streamlit/data/fighter_info.csv'
+# event_data_url = 'https://raw.githubusercontent.com/bestisblessed/mma-ai/main/Streamlit/data/event_data_sherdog.csv'
+# fighter_data_url = 'https://raw.githubusercontent.com/bestisblessed/mma-ai/main/Streamlit/data/fighter_info.csv'
 # df_event_data = pd.read_csv(event_data_url)
 # df_fighter_data = pd.read_csv(fighter_data_url)
 # st.session_state['df_event_data'] = df_event_data
@@ -67,8 +67,8 @@ with col2:
             with st.spinner('Generating prediction and report...'):  # This line was added
                 client = OpenAI(api_key=api_key)
                 base_dir = os.path.dirname(os.path.abspath(__file__))
-                fighter_info_path = os.path.join(base_dir, 'Streamlit/data/fighter_info.csv')
-                event_data_path = os.path.join(base_dir, 'Streamlit/data/event_data_sherdog.csv')
+                fighter_info_path = os.path.join(base_dir, 'data/fighter_info.csv')
+                event_data_path = os.path.join(base_dir, 'data/event_data_sherdog.csv')
                 file1 = client.files.create(
                     file=open(fighter_info_path, "rb"),
                     purpose='assistants'
