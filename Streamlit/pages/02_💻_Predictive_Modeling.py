@@ -98,7 +98,7 @@ y_probs = model.predict_proba(X_test)[:, 1]
 fpr, tpr, thresholds = roc_curve(y_test, y_probs)
 roc_auc = roc_auc_score(y_test, y_probs)
 # upcoming_fights_df = pd.read_csv('data/upcoming_fights.csv')
-upcoming_fights_df = pd.read_csv(os.path.join(base_dir, '../Streamlit/data/upcoming_fights.csv'))
+upcoming_fights_df = pd.read_csv(os.path.join(base_dir, '../data/upcoming_fights.csv'))
 X_upcoming = upcoming_fights_df[features]
 X_upcoming_scaled = scaler.transform(X_upcoming)
 st.markdown("###### Upcoming Fights Predictions")
@@ -119,7 +119,7 @@ st.write("Now evaluate other machine learning models with the same features as l
 # Random Forest
 st.markdown("#### Random Forest")
 with st.expander("View Random Forest Results"):
-    df = pd.read_csv(os.path.join(base_dir, '../Streamlit/data/master_logistic_regression.csv'))
+    df = pd.read_csv(os.path.join(base_dir, '../data/master_logistic_regression.csv'))
     df = df.dropna(subset=['fighter2_height_in_inches'])
     features = [
         'fighter1_age_on_fight_night',
@@ -146,7 +146,7 @@ with st.expander("View Random Forest Results"):
     st.table(conf_matrix)
     st.markdown("###### Classification Report")
     st.dataframe(pd.DataFrame(report).transpose())
-    upcoming_fights_df = pd.read_csv(os.path.join(base_dir, '../Streamlit/data/upcoming_fights.csv'))
+    upcoming_fights_df = pd.read_csv(os.path.join(base_dir, '../data/upcoming_fights.csv'))
     X_upcoming = upcoming_fights_df[features]
     X_upcoming_scaled = scaler.transform(X_upcoming)
     upcoming_fights_df['fighter1_win_probability'] = model.predict_proba(X_upcoming_scaled)[:, 1]
@@ -156,7 +156,7 @@ st.write(upcoming_fights_df[['fighter 1', 'fighter 2', 'fighter1_win_probability
 # XGBoost
 st.markdown("#### XGBoost")
 with st.expander("View XGBoost Results"):
-    df = pd.read_csv(os.path.join(base_dir, '../Streamlit/data/master_logistic_regression.csv'))
+    df = pd.read_csv(os.path.join(base_dir, '../data/master_logistic_regression.csv'))
     df = df.dropna(subset=['fighter2_height_in_inches'])
     features = [
         'fighter1_age_on_fight_night',
@@ -185,7 +185,7 @@ with st.expander("View XGBoost Results"):
     st.table(conf_matrix)
     st.markdown("###### Classification Report")
     st.dataframe(pd.DataFrame(report).transpose())
-    upcoming_fights_df = pd.read_csv(os.path.join(base_dir, '../Streamlit/data/upcoming_fights.csv'))
+    upcoming_fights_df = pd.read_csv(os.path.join(base_dir, '../data/upcoming_fights.csv'))
     X_upcoming = upcoming_fights_df[features]
     X_upcoming_scaled = scaler.transform(X_upcoming)
     upcoming_fights_df['fighter1_win_probability'] = model.predict_proba(X_upcoming_scaled)[:, 1]
@@ -196,7 +196,7 @@ st.write(upcoming_fights_df[['fighter 1', 'fighter 2', 'fighter1_win_probability
 st.markdown("#### LightGBM")
 with st.expander("View LightGBM Results"):
     from lightgbm import LGBMClassifier
-    df = pd.read_csv(os.path.join(base_dir, '../Streamlit/data/master_logistic_regression.csv'))
+    df = pd.read_csv(os.path.join(base_dir, '../data/master_logistic_regression.csv'))
     df = df.dropna(subset=['fighter2_height_in_inches'])
     features = [
         'fighter1_age_on_fight_night',
@@ -228,7 +228,7 @@ with st.expander("View LightGBM Results"):
     st.table(lgbm_conf_matrix)
     st.markdown("###### Classification Report")
     st.dataframe(pd.DataFrame(lgbm_report).transpose())
-    upcoming_fights_df = pd.read_csv(os.path.join(base_dir, '../Streamlit/data/upcoming_fights.csv'))
+    upcoming_fights_df = pd.read_csv(os.path.join(base_dir, '../data/upcoming_fights.csv'))
     upcoming_fights_df['lgbm_fighter1_win_probability'] = lgbm_model.predict_proba(X_upcoming_scaled)[:, 1]
     upcoming_fights_df['lgbm_fighter1_american_odds'] = upcoming_fights_df['lgbm_fighter1_win_probability'].apply(probability_to_american_odds)
 st.write(upcoming_fights_df[['fighter 1', 'fighter 2', 'lgbm_fighter1_win_probability', 'lgbm_fighter1_american_odds']])
