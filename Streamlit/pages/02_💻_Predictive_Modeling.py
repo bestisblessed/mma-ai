@@ -98,7 +98,8 @@ st.dataframe(report)
 y_probs = model.predict_proba(X_test)[:, 1]
 fpr, tpr, thresholds = roc_curve(y_test, y_probs)
 roc_auc = roc_auc_score(y_test, y_probs)
-upcoming_fights_df = pd.read_csv('data/upcoming_fights.csv')
+# upcoming_fights_df = pd.read_csv('data/upcoming_fights.csv')
+upcoming_fights_df = pd.read_csv(os.path.join(base_dir, '../Streamlit/data/upcoming_fights.csv'))
 X_upcoming = upcoming_fights_df[features]
 X_upcoming_scaled = scaler.transform(X_upcoming)
 st.markdown("###### Upcoming Fights Predictions")
@@ -146,7 +147,7 @@ with st.expander("View Random Forest Results"):
     st.table(conf_matrix)
     st.markdown("###### Classification Report")
     st.dataframe(pd.DataFrame(report).transpose())
-    upcoming_fights_df = pd.read_csv('data/upcoming_fights.csv')
+    upcoming_fights_df = pd.read_csv(os.path.join(base_dir, '../Streamlit/data/upcoming_fights.csv'))
     X_upcoming = upcoming_fights_df[features]
     X_upcoming_scaled = scaler.transform(X_upcoming)
     upcoming_fights_df['fighter1_win_probability'] = model.predict_proba(X_upcoming_scaled)[:, 1]
@@ -185,7 +186,7 @@ with st.expander("View XGBoost Results"):
     st.table(conf_matrix)
     st.markdown("###### Classification Report")
     st.dataframe(pd.DataFrame(report).transpose())
-    upcoming_fights_df = pd.read_csv('data/upcoming_fights.csv')
+    upcoming_fights_df = pd.read_csv(os.path.join(base_dir, '../Streamlit/data/upcoming_fights.csv'))
     X_upcoming = upcoming_fights_df[features]
     X_upcoming_scaled = scaler.transform(X_upcoming)
     upcoming_fights_df['fighter1_win_probability'] = model.predict_proba(X_upcoming_scaled)[:, 1]
@@ -228,6 +229,7 @@ with st.expander("View LightGBM Results"):
     st.table(lgbm_conf_matrix)
     st.markdown("###### Classification Report")
     st.dataframe(pd.DataFrame(lgbm_report).transpose())
+    upcoming_fights_df = pd.read_csv(os.path.join(base_dir, '../Streamlit/data/upcoming_fights.csv'))
     upcoming_fights_df['lgbm_fighter1_win_probability'] = lgbm_model.predict_proba(X_upcoming_scaled)[:, 1]
     upcoming_fights_df['lgbm_fighter1_american_odds'] = upcoming_fights_df['lgbm_fighter1_win_probability'].apply(probability_to_american_odds)
 st.write(upcoming_fights_df[['fighter 1', 'fighter 2', 'lgbm_fighter1_win_probability', 'lgbm_fighter1_american_odds']])
