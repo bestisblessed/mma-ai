@@ -114,7 +114,7 @@ st.divider()
 
 
 # Predict Upcoming Fights Probabilities
-st.markdown("## Predict Using Other Models")
+st.markdown("## Evaluate Using Other Models")
 st.write("Now evaluate other machine learning models with the same features as logistic regression to compare results.")
 
 # Random Forest
