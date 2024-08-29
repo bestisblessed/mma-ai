@@ -20,7 +20,7 @@ import shutil
 
 # ---- Loading Data ---- #
 base_dir = os.path.dirname(os.path.abspath(__file__))  # This gives you the directory where the script is located
-df = pd.read_csv(os.path.join(base_dir, '../Streamlit/data/master_logistic_regression.csv'))
+df = pd.read_csv(os.path.join(base_dir, '../data/master_logistic_regression.csv'))
 
 st.title('Predictive Modeling')
 st.write("""
@@ -55,7 +55,7 @@ def probability_to_american_odds(prob):
 # Logistic Regression
 st.markdown("## Basic Logistic Regression")
 # df = pd.read_csv('data/master_logistic_regression.csv')
-df = pd.read_csv(os.path.join(base_dir, '../Streamlit/data/master_logistic_regression.csv'))
+df = pd.read_csv(os.path.join(base_dir, '../data/master_logistic_regression.csv'))
 df = df.dropna(subset=['fighter2_height_in_inches'])
 features = [
     'fighter1_age_on_fight_night',
