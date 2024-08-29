@@ -53,12 +53,12 @@ with col2:
     # st.subheader('Select Fighters')
     st.markdown("<h2 style='text-align: center; color: white; background-color: #d62828; padding: 10px;'>Select Fighters</h2>", unsafe_allow_html=True)
     st.write('')
-    fighter_names = df_fighter_data['Fighter'].unique()
+    fighter_names = df_fighter_data['fighter'].unique()
     col1, col2 = st.columns(2)
     with col1:
-        fighter1 = st.selectbox('Fighter 1', fighter_names, index=list(fighter_names).index("conor mcgregor"))
+        fighter1 = st.selectbox('fighter 1', fighter_names, index=list(fighter_names).index("conor mcgregor"))
     with col2:
-        fighter2 = st.selectbox('Fighter 2', fighter_names, index=list(fighter_names).index("michael chandler"))
+        fighter2 = st.selectbox('fighter 2', fighter_names, index=list(fighter_names).index("michael chandler"))
     st.divider()
     # Fight Prediction and Report Assistant GPT
     api_key = st.text_input("Enter your OpenAI API Key", type="password")
@@ -208,54 +208,54 @@ if fighter1 and fighter2:
     if fighter1 == fighter2:
         st.warning("Please select two different fighters.")
     else:
-        fighter1_data = df_fighter_data[df_fighter_data['Fighter'] == fighter1]
-        fighter2_data = df_fighter_data[df_fighter_data['Fighter'] == fighter2]
+        fighter1_data = df_fighter_data[df_fighter_data['fighter'] == fighter1]
+        fighter2_data = df_fighter_data[df_fighter_data['fighter'] == fighter2]
 
         # Extract and format the name with nickname
-        fighter1_full_name = fighter1_data['Fighter'].values[0]
-        fighter1_nickname = fighter1_data['Nickname'].values[0]
+        fighter1_full_name = fighter1_data['fighter'].values[0]
+        fighter1_nickname = fighter1_data['nickname'].values[0]
         fighter1_first_name = fighter1_full_name.split()[0]
         fighter1_last_name = " ".join(fighter1_full_name.split()[1:])
         fighter1_formatted_name = f"{fighter1_first_name} '{fighter1_nickname}' {fighter1_last_name}"
-        fighter2_full_name = fighter2_data['Fighter'].values[0]
-        fighter2_nickname = fighter2_data['Nickname'].values[0]
+        fighter2_full_name = fighter2_data['fighter'].values[0]
+        fighter2_nickname = fighter2_data['nickname'].values[0]
         fighter2_first_name = fighter2_full_name.split()[0]
         fighter2_last_name = " ".join(fighter2_full_name.split()[1:])
         fighter2_formatted_name = f"{fighter2_first_name} '{fighter2_nickname}' {fighter2_last_name}"
 
         # Calculate Fighter 1 and 2 win/loss streak
-        fighter1_fights = df_event_data[(df_event_data['Fighter 1'] == fighter1) | (df_event_data['Fighter 2'] == fighter1)]
-        fighter1_fights = fighter1_fights.sort_values(by='Event Date', ascending=False)
+        fighter1_fights = df_event_data[(df_event_data['fighter 1'] == fighter1) | (df_event_data['fighter 2'] == fighter1)]
+        fighter1_fights = fighter1_fights.sort_values(by='event date', ascending=False)
         streak_type1 = None
         streak_count1 = 0
         for _, row in fighter1_fights.iterrows():
-            if row['Winning Fighter'] == fighter1:
-                if streak_type1 == 'W' or streak_type1 is None:
-                    streak_type1 = 'W'
+            if row['winning fighter'] == fighter1:
+                if streak_type1 == 'w' or streak_type1 is None:
+                    streak_type1 = 'w'
                     streak_count1 += 1
                 else:
                     break
             else:
-                if streak_type1 == 'L' or streak_type1 is None:
-                    streak_type1 = 'L'
+                if streak_type1 == 'l' or streak_type1 is None:
+                    streak_type1 = 'l'
                     streak_count1 += 1
                 else:
                     break
         fighter1_streak = f"{streak_count1}{streak_type1}" if streak_type1 else "No Streak"
-        fighter2_fights = df_event_data[(df_event_data['Fighter 1'] == fighter2) | (df_event_data['Fighter 2'] == fighter2)]
-        fighter2_fights = fighter2_fights.sort_values(by='Event Date', ascending=False)
+        fighter2_fights = df_event_data[(df_event_data['fighter 1'] == fighter2) | (df_event_data['fighter 2'] == fighter2)]
+        fighter2_fights = fighter2_fights.sort_values(by='event date', ascending=False)
         streak_type2 = None
         streak_count2 = 0
         for _, row in fighter2_fights.iterrows():
-            if row['Winning Fighter'] == fighter2:
-                if streak_type2 == 'W' or streak_type2 is None:
-                    streak_type2 = 'W'
+            if row['winning fighter'] == fighter2:
+                if streak_type2 == 'w' or streak_type2 is None:
+                    streak_type2 = 'w'
                     streak_count2 += 1
                 else:
                     break
             else:
-                if streak_type2 == 'L' or streak_type2 is None:
-                    streak_type2 = 'L'
+                if streak_type2 == 'l' or streak_type2 is None:
+                    streak_type2 = 'l'
                     streak_count2 += 1
                 else:
                     break
@@ -266,76 +266,77 @@ if fighter1 and fighter2:
             # st.write(f"### {fighter1_formatted_name}")
             st.write(f"### '{fighter1_nickname}' {fighter1}")
             st.markdown(f"""
-            - **Nickname**: {fighter1_data['Nickname'].values[0]}
-            - **Birth Date**: {fighter1_data['Birth Date'].values[0]}
-            - **Nationality**: {fighter1_data['Nationality'].values[0]}
-            - **Association**: {fighter1_data['Association'].values[0]}
-            - **Weight Class**: {fighter1_data['Weight Class'].values[0]}
-            - **Height**: {fighter1_data['Height'].values[0]}
-            - **Wins**: {fighter1_data['Wins'].values[0]}
-            - **Losses**: {fighter1_data['Losses'].values[0]}
-            - **Wins by Decision**: {fighter1_data['Win_Decision'].values[0]}
-            - **Wins by KO**: {fighter1_data['Win_KO'].values[0]}
-            - **Wins by Submission**: {fighter1_data['Win_Sub'].values[0]}
-            - **Losses by Decision**: {fighter1_data['Loss_Decision'].values[0]}
-            - **Losses by KO**: {fighter1_data['Loss_KO'].values[0]}
-            - **Losses by Submission**: {fighter1_data['Loss_Sub'].values[0]}
-            - **Fighter ID**: {fighter1_data['Fighter_ID'].values[0]}
+            - **Nickname**: {fighter1_data['nickname'].values[0]}
+            - **Birth Date**: {fighter1_data['birth date'].values[0]}
+            - **Nationality**: {fighter1_data['nationality'].values[0]}
+            - **Association**: {fighter1_data['association'].values[0]}
+            - **Weight Class**: {fighter1_data['weight class'].values[0]}
+            - **Height**: {fighter1_data['height'].values[0]}
+            - **Wins**: {fighter1_data['wins'].values[0]}
+            - **Losses**: {fighter1_data['losses'].values[0]}
+            - **Wins by Decision**: {fighter1_data['win_decision'].values[0]}
+            - **Wins by KO**: {fighter1_data['win_ko'].values[0]}
+            - **Wins by Submission**: {fighter1_data['win_sub'].values[0]}
+            - **Losses by Decision**: {fighter1_data['loss_decision'].values[0]}
+            - **Losses by KO**: {fighter1_data['loss_ko'].values[0]}
+            - **Losses by Submission**: {fighter1_data['loss_sub'].values[0]}
+            - **Fighter ID**: {fighter1_data['fighter_id'].values[0]}
             - **Current Streak**: {fighter1_streak}
             """)
             # Most Recent 5 Fights for Fighter 1
             st.markdown("<h5 style='text-align: center; color: grey;'>Most Recent 5 Fights</h5>", unsafe_allow_html=True)
-            fighter1_fights = df_event_data[(df_event_data['Fighter 1'] == fighter1) | (df_event_data['Fighter 2'] == fighter1)]
-            fighter1_fights = fighter1_fights.sort_values(by='Event Date', ascending=False).head(5)
-            fighter1_styled = fighter1_fights[['Event Name', 'Event Date', 'Fighter 1', 'Fighter 2', 'Winning Fighter', 'Winning Method', 'Winning Round']].style.apply(
-                lambda row: ['background-color: lightgreen' if row['Winning Fighter'] == fighter1 else 'background-color: lightcoral'] * len(row),
+            fighter1_fights = df_event_data[(df_event_data['fighter 1'] == fighter1) | (df_event_data['fighter 2'] == fighter1)]
+            fighter1_fights = fighter1_fights.sort_values(by='event date', ascending=False).head(5)
+            fighter1_styled = fighter1_fights[['event name', 'event date', 'fighter 1', 'fighter 2', 'winning fighter', 'winning method', 'winning round']].style.apply(
+                lambda row: ['background-color: lightgreen' if row['winning fighter'] == fighter1 else 'background-color: lightcoral'] * len(row),
                 axis=1
             )
             st.dataframe(fighter1_styled)
             # Fighter 1 Pie Chart
             labels1 = ['KO', 'Submission', 'Decision']
-            values1 = [fighter1_data['Win_KO'].values[0], fighter1_data['Win_Sub'].values[0], fighter1_data['Win_Decision'].values[0]]
+            values1 = [fighter1_data['win_ko'].values[0], fighter1_data['win_sub'].values[0], fighter1_data['win_decision'].values[0]]
             fig1 = px.pie(values=values1, names=labels1, title=f"{fighter1} Winning Methods")
             st.plotly_chart(fig1, theme="streamlit")
 
         with col2:
             st.write(f"### '{fighter2_nickname}' {fighter2}")
             st.markdown(f"""
-            - **Nickname**: {fighter2_data['Nickname'].values[0]}
-            - **Birth Date**: {fighter2_data['Birth Date'].values[0]}
-            - **Nationality**: {fighter2_data['Nationality'].values[0]}
-            - **Association**: {fighter2_data['Association'].values[0]}
-            - **Weight Class**: {fighter2_data['Weight Class'].values[0]}
-            - **Height**: {fighter2_data['Height'].values[0]}
-            - **Wins**: {fighter2_data['Wins'].values[0]}
-            - **Losses**: {fighter2_data['Losses'].values[0]}
-            - **Wins by Decision**: {fighter2_data['Win_Decision'].values[0]}
-            - **Wins by KO**: {fighter2_data['Win_KO'].values[0]}
-            - **Wins by Submission**: {fighter2_data['Win_Sub'].values[0]}
-            - **Losses by Decision**: {fighter2_data['Loss_Decision'].values[0]}
-            - **Losses by KO**: {fighter2_data['Loss_KO'].values[0]}
-            - **Losses by Submission**: {fighter2_data['Loss_Sub'].values[0]}
-            - **Fighter ID**: {fighter2_data['Fighter_ID'].values[0]}
+            - **Nickname**: {fighter2_data['nickname'].values[0]}
+            - **Birth Date**: {fighter2_data['birth date'].values[0]}
+            - **Nationality**: {fighter2_data['nationality'].values[0]}
+            - **Association**: {fighter2_data['association'].values[0]}
+            - **Weight Class**: {fighter2_data['weight class'].values[0]}
+            - **Height**: {fighter2_data['height'].values[0]}
+            - **Wins**: {fighter2_data['wins'].values[0]}
+            - **Losses**: {fighter2_data['losses'].values[0]}
+            - **Wins by Decision**: {fighter2_data['win_decision'].values[0]}
+            - **Wins by KO**: {fighter2_data['win_ko'].values[0]}
+            - **Wins by Submission**: {fighter2_data['win_sub'].values[0]}
+            - **Losses by Decision**: {fighter2_data['loss_decision'].values[0]}
+            - **Losses by KO**: {fighter2_data['loss_ko'].values[0]}
+            - **Losses by Submission**: {fighter2_data['loss_sub'].values[0]}
+            - **Fighter ID**: {fighter2_data['fighter_id'].values[0]}
             - **Current Streak**: {fighter2_streak}
             """)
             # Most Recent 5 Fights for Fighter 2
             st.markdown("<h5 style='text-align: center; color: grey;'>Most Recent 5 Fights</h5>", unsafe_allow_html=True)
-            fighter2_fights = df_event_data[(df_event_data['Fighter 1'] == fighter2) | (df_event_data['Fighter 2'] == fighter2)]
-            fighter2_fights = fighter2_fights.sort_values(by='Event Date', ascending=False).head(5)
-            fighter2_styled = fighter2_fights[['Event Name', 'Event Date', 'Fighter 1', 'Fighter 2', 'Winning Fighter', 'Winning Method', 'Winning Round']].style.apply(
-                lambda row: ['background-color: lightgreen' if row['Winning Fighter'] == fighter2 else 'background-color: lightcoral'] * len(row),
+            fighter2_fights = df_event_data[(df_event_data['fighter 1'] == fighter2) | (df_event_data['fighter 2'] == fighter2)]
+            fighter2_fights = fighter2_fights.sort_values(by='event date', ascending=False).head(5)
+            fighter2_styled = fighter2_fights[['event name', 'event date', 'fighter 1', 'fighter 2', 'winning fighter', 'winning method', 'winning round']].style.apply(
+                lambda row: ['background-color: lightgreen' if row['winning fighter'] == fighter2 else 'background-color: lightcoral'] * len(row),
                 axis=1
             )
             st.dataframe(fighter2_styled)
             # Fighter 2 Pie Chart   
             labels2 = ['KO', 'Submission', 'Decision']
-            values2 = [fighter2_data['Win_KO'].values[0], fighter2_data['Win_Sub'].values[0], fighter2_data['Win_Decision'].values[0]]
+            values2 = [fighter2_data['win_ko'].values[0], fighter2_data['win_sub'].values[0], fighter2_data['win_decision'].values[0]]
             fig2 = px.pie(values=values2, names=labels2, title=f"{fighter2} Winning Methods")
             st.plotly_chart(fig2, theme="streamlit")
         
 
 else:
     st.write("Select both fighters to begin analysis.")
+
 
 # Generate and Download Report
 # if st.button("Generate Report"):
