@@ -20,8 +20,8 @@ import shutil
 
 # ---- Loading Data ---- #
 base_dir = os.path.dirname(os.path.abspath(__file__))  # This gives you the directory where the script is located
-# df = pd.read_csv(os.path.join(base_dir, 'data/master_logistic_regression.csv'))
 st.write(base_dir)
+df = pd.read_csv(os.path.join(base_dir, '../Streamlit/data/master_logistic_regression.csv'))
 
 # st.title('Predictive Modeling')
 # st.write("""
