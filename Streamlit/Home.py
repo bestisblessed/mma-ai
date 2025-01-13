@@ -19,7 +19,8 @@ st.set_page_config(page_title="MMA AI", page_icon="🥊", layout="wide")
 base_dir = os.path.dirname(os.path.abspath(__file__))  # This gives you the directory where the script is located
 df_event_data = pd.read_csv(os.path.join(base_dir, 'data/event_data_sherdog.csv'))
 df_fighter_data = pd.read_csv(os.path.join(base_dir, 'data/fighter_info.csv'))
-df_fighter_data_chatbot = pd.read_csv(os.path.join(base_dir, 'data/fighter_info_chatbot.csv'))
+# df_fighter_data_chatbot = pd.read_csv(os.path.join(base_dir, 'data/fighter_info_chatbot.csv'))
+df_fighter_data_chatbot = pd.read_csv(os.path.join(base_dir, 'data/fighter_info.csv'))
 
 dataframes = [df_event_data, df_fighter_data]
 st.session_state['df_event_data'] = df_event_data

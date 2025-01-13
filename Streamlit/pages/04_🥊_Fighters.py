@@ -16,12 +16,19 @@ fighter_profile = df_fighter_data[df_fighter_data['fighter'] == selected_fighter
 # st.header(f"Profile for {selected_fighter.title()}")  # Capitalize for display
 columns_to_display = [
     'nickname', 'birth date', 'nationality', 'hometown', 
-    'association', 'weight class', 'reach', 'height_in_inches', 'height', 'wins', 'losses', 'current_layoff',
+    'association', 'weight class', 'height', 'reach', 'wins', 'losses', 'current_layoff',
     'current_win_streak', 'recent_win_rate_7fights', 'recent_win_rate_5fights', 'recent_win_rate_3fights'
 ]
 for column in columns_to_display:
     value = fighter_profile[column].values[0]
-    if isinstance(value, str):
-        st.write(f"{column.title()}: {value.title()}")  # Capitalize string values
+    if column == 'current_layoff':
+        # st.write(f"{column.title()}: {int(value)} Days")
+        st.write(f"{column.upper()}: {int(value)} Days")
+    elif isinstance(value, str):
+        # st.write(f"{column.title()}: {value.title()}")
+        st.write(f"{column.upper()}: {value.title()}")
     else:
-        st.write(f"{column.title()}: {value}")  # Display non-string values as is
+        # st.write(f"{column.title()}: {value}")
+        st.write(f"{column.upper()}: {value}")
+
+
