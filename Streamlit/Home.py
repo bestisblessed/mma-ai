@@ -19,9 +19,12 @@ st.set_page_config(page_title="MMA AI", page_icon="🥊", layout="wide")
 base_dir = os.path.dirname(os.path.abspath(__file__))  # This gives you the directory where the script is located
 df_event_data = pd.read_csv(os.path.join(base_dir, 'data/event_data_sherdog.csv'))
 df_fighter_data = pd.read_csv(os.path.join(base_dir, 'data/fighter_info.csv'))
+df_fighter_data_chatbot = pd.read_csv(os.path.join(base_dir, 'data/fighter_info_chatbot.csv'))
+
 dataframes = [df_event_data, df_fighter_data]
 st.session_state['df_event_data'] = df_event_data
 st.session_state['df_fighter_data'] = df_fighter_data
+st.session_state['df_fighter_data_chatbot'] = df_fighter_data_chatbot
 # Streamlit/Streamlit/
 # ---- Loading Data from GitHub URLs ---- #
 # event_data_url = 'https://raw.githubusercontent.com/bestisblessed/mma-ai/main/Streamlit/data/event_data_sherdog.csv'
@@ -32,6 +35,7 @@ st.session_state['df_fighter_data'] = df_fighter_data
 # st.session_state['df_fighter_data'] = df_fighter_data
 df_event_data = df_event_data.map(lambda x: x.lower() if isinstance(x, str) else x)
 df_fighter_data = df_fighter_data.map(lambda x: x.lower() if isinstance(x, str) else x)
+df_fighter_data_chatbot = df_fighter_data_chatbot.map(lambda x: x.lower() if isinstance(x, str) else x)
 
 # ---- Centered Container ---- #
 col1, col2, col3 = st.columns([0.1, 1, 0.1])
@@ -53,7 +57,7 @@ with col2:
     # st.subheader('Select Fighters')
     st.markdown("<h2 style='text-align: center; color: white; background-color: #d62828; padding: 10px;'>Select Fighters</h2>", unsafe_allow_html=True)
     st.write('')
-    fighter_names = df_fighter_data['fighter'].unique()
+    fighter_names = df_fighter_data_chatbot['fighter'].unique()
     col1, col2 = st.columns(2)
     with col1:
         fighter1 = st.selectbox('fighter 1', fighter_names, index=list(fighter_names).index("conor mcgregor"))
@@ -209,8 +213,8 @@ if fighter1 and fighter2:
     if fighter1 == fighter2:
         st.warning("Please select two different fighters.")
     else:
-        fighter1_data = df_fighter_data[df_fighter_data['fighter'] == fighter1]
-        fighter2_data = df_fighter_data[df_fighter_data['fighter'] == fighter2]
+        fighter1_data = df_fighter_data_chatbot[df_fighter_data_chatbot['fighter'] == fighter1]
+        fighter2_data = df_fighter_data_chatbot[df_fighter_data_chatbot['fighter'] == fighter2]
 
         # Extract and format the name with nickname
         fighter1_full_name = fighter1_data['fighter'].values[0]
@@ -349,8 +353,6 @@ else:
 #     st.write(f"Report generated and saved as 'mma_fight_prediction_report_{fighter1}_{fighter2}.txt'")
 # else:
 #     st.write("")
-
-
 
 
 # ---- Contact Me ---- #
