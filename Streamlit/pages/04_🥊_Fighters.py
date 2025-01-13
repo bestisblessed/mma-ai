@@ -15,7 +15,7 @@ fighter_profile = df_fighter_data[df_fighter_data['fighter'] == selected_fighter
 # st.write(fighter_profile)
 # st.header(f"Profile for {selected_fighter.title()}")  # Capitalize for display
 columns_to_display = [
-    'fighter', 'nickname', 'birth date', 'nationality', 'hometown', 
+    'nickname', 'birth date', 'nationality', 'hometown', 
     'association', 'weight class', 'reach', 'height_in_inches', 'height', 'wins', 'losses', 'current_layoff',
     'current_win_streak', 'recent_win_rate_7fights', 'recent_win_rate_5fights', 'recent_win_rate_3fights'
 ]
