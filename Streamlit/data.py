@@ -9,9 +9,9 @@ import seaborn as sns
 import os
 import shutil
 
-shutil.rmtree("data")
+shutil.rmtree("data", ignore_errors=True)
 os.makedirs("data")
-shutil.rmtree("Streamlit/data")
+shutil.rmtree("Streamlit/data", ignore_errors=True)
 os.makedirs("Streamlit/data")
 os.system('cp "../Scrapers/data/event_data_sherdog.csv" "data/"')
 os.system('cp "../Scrapers/data/fighter_info.csv" "data/"')
@@ -38,18 +38,56 @@ os.system('cp "../Scrapers/data/fighter_info.csv" "Streamlit/data/"')
 # shutil.copy('../../Scrapers/data/github/master.csv', 'data/')
 # shutil.copytree('../../Scrapers/data/fighters', 'data/fighters')
 
+# # Load event data and clean it
+# df = pd.read_csv('data/event_data_sherdog.csv')
+# df.columns = df.columns.str.lower().str.strip()  # Clean column names
+# for col in df.select_dtypes(include=['object']).columns:
+#     df[col] = df[col].str.lower().str.strip()  # Clean string values
+# df.to_csv('data/event_data_sherdog.csv', index=False)  # Save cleaned data
+
+# # Load fighter_info.csv and clean it
+# df_fighters = pd.read_csv('data/fighter_info.csv')
+# df_fighters.columns = df_fighters.columns.str.lower().str.strip()  # Clean column names
+# for col in df_fighters.select_dtypes(include=['object']).columns:
+#     df_fighters[col] = df_fighters[col].str.lower().str.strip()  # Clean string values
+# df_fighters.to_csv('data/fighter_info.csv', index=False)  # Save cleaned data
+
+# # Load master_logistic_regression.csv and clean it
+# df = pd.read_csv('data/master_logistic_regression.csv')
+# df.columns = df.columns.str.lower().str.strip()  # Clean column names
+# for col in df.select_dtypes(include=['object']).columns:
+#     df[col] = df[col].str.lower().str.strip()  # Clean string values
+# df.to_csv('data/master_logistic_regression.csv', index=False)  # Save cleaned data
+
+# # Loop through all CSV files in the 'data' directory and clean them
+# for filename in os.listdir('data'):
+#     if filename.endswith('.csv'):
+#         df = pd.read_csv(f'data/{filename}')
+#         df.columns = df.columns.str.lower().str.strip()
+#         df = df.apply(lambda x: x.str.lower().str.strip() if x.dtype == 'object' else x)
+#         df.to_csv(f'data/{filename}', index=False)
+
 # For Predictive Modeling
 # Remove all fights before 2012
 df = pd.read_csv('data/event_data_sherdog.csv')
-df['event date'] = pd.to_datetime(df['event date'])
+initial_row_count = len(df)  # Capture initial row count
+df['event date'] = pd.to_datetime(df['event date'], errors='coerce')
 df = df[df['event date'] >= '2012-01-01']
+filtered_row_count = len(df)  # Capture row count after filtering
+print(f"\nFiltered out {initial_row_count - filtered_row_count} rows due to events before 2012.")
+print(f"Total rows before filtering: {initial_row_count}")
+print(f"Total rows after filtering: {filtered_row_count}")
 df.to_csv('data/master_logistic_regression.csv', index=False)
 
 # Remove all DQs, No Contests, and Draws
 df = pd.read_csv('data/master_logistic_regression.csv')
-print(f"Number of rows before filtering: {len(df)}")
+initial_row_count = len(df)  # Capture initial row count
 df = df[~df['winning method'].str.contains('Disqualification|No contest|Draw', case=False)]
-print(f"Number of rows after filtering: {len(df)}")
+filtered_row_count = len(df)  # Capture row count after filtering
+filtered_out_count = initial_row_count - filtered_row_count
+print(f"\nFiltered out {filtered_out_count} fights due to unwanted outcomes (Disqualification, No Contest, Draw).")
+print(f"Total number of fights before filtering: {initial_row_count}")
+print(f"Total number of fights after filtering: {filtered_row_count}")
 df.to_csv('data/master_logistic_regression.csv', index=False)
 
 # Remove special characters from winning fighter column
@@ -141,7 +179,7 @@ for fighter1, fighter2 in upcoming_fighters:
     fighter2_info = df_fighters[df_fighters['fighter'].str.lower() == fighter2]
     
     if fighter1_info.empty or fighter2_info.empty:
-        print(f"Missing data for {fighter1} or {fighter2}")
+        print(f"\nMissing data for {fighter1} or {fighter2}")
         continue
     
     # Calculate fighter age on fight night
@@ -191,5 +229,14 @@ upcoming_fights_df.to_csv('data/upcoming_fights.csv')
 # Copy the master_logistic_regression.csv file to the Streamlit/data/ directory
 shutil.copy('data/master_logistic_regression.csv', 'Streamlit/data/master_logistic_regression.csv')
 
+# Optionally, if you want to copy the original event data as well
+shutil.copy('data/event_data_sherdog.csv', 'Streamlit/data/event_data_sherdog.csv')
+
 # Optional: Copy the upcoming_fights.csv file as well
 shutil.copy('data/upcoming_fights.csv', 'Streamlit/data/upcoming_fights.csv')
+
+# Copy all CSV files from the data directory to the Streamlit/data directory
+for filename in os.listdir('data/'):
+    if filename.endswith('.csv'):
+        shutil.copy(os.path.join('data/', filename), os.path.join('Streamlit/data/', filename))
+
