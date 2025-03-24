@@ -1,0 +1,234 @@
+file1,file2,game_date,game_time,matchup,sportsbook,odds_before,odds_after
+ufc_odds_vsin_20250227_1403.json,ufc_odds_vsin_20250227_1406.json,"Sat,March 22nd",11:00 PM,Chordale Booker vs  Sebastian Fundora,GLD Nugget,- | -,+750 | -1200
+ufc_odds_vsin_20250227_1403.json,ufc_odds_vsin_20250227_1406.json,"Sat,March 29th",11:00 PM,Sandy Ryan vs  Mikaela Mayer,GLD Nugget,- | -,-115 | -105
+ufc_odds_vsin_20250227_1403.json,ufc_odds_vsin_20250227_1406.json,"Sat,March 29th",10:00 PM,Derrick Cuevas vs  Brian Norman Jr,GLD Nugget,- | -,+350 | -420
+ufc_odds_vsin_20250313_1815.json,ufc_odds_vsin_20250313_1821.json,"Sat,March 22nd",04:00 PM,Sean Brady vs  Leon Edwards,Circa,- | -,-150 | +130
+ufc_odds_vsin_20250313_1815.json,ufc_odds_vsin_20250313_1821.json,"Sat,March 22nd",04:00 PM,Carlos Ulberg vs  Jan Blachowicz,Circa,- | -,-235 | +200
+ufc_odds_vsin_20250313_1815.json,ufc_odds_vsin_20250313_1821.json,"Sat,March 22nd",04:00 PM,Kevin Holland vs  Gunnar Nelson,Circa,- | -,+125 | -145
+ufc_odds_vsin_20250313_1815.json,ufc_odds_vsin_20250313_1821.json,"Sat,March 22nd",04:00 PM,Istela Nunes vs  Molly McCann,Circa,- | -,+260 | -310
+ufc_odds_vsin_20250313_1815.json,ufc_odds_vsin_20250313_1821.json,"Sat,March 22nd",04:00 PM,Chris Duncan vs  Jordan Vucenic,Circa,- | -,+265 | -320
+ufc_odds_vsin_20250313_1815.json,ufc_odds_vsin_20250313_1821.json,"Sat,March 22nd",04:00 PM,Morgan Charriere vs  Nathaniel Wood,Circa,- | -,-170 | +150
+ufc_odds_vsin_20250313_1815.json,ufc_odds_vsin_20250313_1821.json,"Sat,March 22nd",04:00 PM,Chris Padilla vs  Jai Herbert,Circa,- | -,+105 | -125
+ufc_odds_vsin_20250313_1815.json,ufc_odds_vsin_20250313_1821.json,"Sat,March 22nd",04:00 PM,Felipe dos Santos vs  Loneer Kavanagh,Circa,- | -,+310 | -380
+ufc_odds_vsin_20250313_1815.json,ufc_odds_vsin_20250313_1821.json,"Sat,March 22nd",04:00 PM,Mick Parkin vs  Marcin Tybura,Circa,- | -,+120 | -140
+ufc_odds_vsin_20250313_1815.json,ufc_odds_vsin_20250313_1821.json,"Sat,March 22nd",04:00 PM,Andrey Pulyaev vs  Christian Leroy Duncan,Circa,- | -,+400 | -510
+ufc_odds_vsin_20250313_1815.json,ufc_odds_vsin_20250313_1821.json,"Sat,March 22nd",04:00 PM,Puja Tomar vs  Shauna Bannon,Circa,- | -,+175 | -200
+ufc_odds_vsin_20250313_1815.json,ufc_odds_vsin_20250313_1821.json,"Sat,March 22nd",04:00 PM,Caolan Loughran vs  Nathan Fletcher,Circa,- | -,+135 | -155
+ufc_odds_vsin_20250313_1815.json,ufc_odds_vsin_20250313_1821.json,"Sat,March 22nd",04:00 PM,Kaua Fernandes vs  Guram Kutateladze,Circa,- | -,+350 | -435
+ufc_odds_vsin_20250313_2051.json,ufc_odds_vsin_20250313_2057.json,"Sat,March 22nd",04:00 PM,Kevin Holland vs  Gunnar Nelson,Wynn,+130 | -150,+125 | -145
+ufc_odds_vsin_20250313_2051.json,ufc_odds_vsin_20250313_2057.json,"Sat,March 22nd",04:00 PM,Morgan Charriere vs  Nathaniel Wood,Wynn,-200 | +170,-180 | +160
+ufc_odds_vsin_20250313_2051.json,ufc_odds_vsin_20250313_2057.json,"Sat,March 22nd",04:00 PM,Puja Tomar vs  Shauna Bannon,Wynn,- | -,+170 | -200
+ufc_odds_vsin_20250313_2051.json,ufc_odds_vsin_20250313_2057.json,"Sat,March 22nd",04:00 PM,Caolan Loughran vs  Nathan Fletcher,Wynn,- | -,+140 | -160
+ufc_odds_vsin_20250313_2051.json,ufc_odds_vsin_20250313_2057.json,"Sat,March 22nd",04:00 PM,Kaua Fernandes vs  Guram Kutateladze,Wynn,- | -,+310 | -400
+ufc_odds_vsin_20250313_2139.json,ufc_odds_vsin_20250313_2145.json,"Sat,March 22nd",04:00 PM,Istela Nunes vs  Molly McCann,Circa,+260 | -310,- | -
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Morgan Charriere vs  Nathaniel Wood,Circa,-170 | +150,-150 | +130
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Morgan Charriere vs  Nathaniel Wood,Westgate,-190 | +165,-155 | +135
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Morgan Charriere vs  Nathaniel Wood,Wynn,-180 | +160,-150 | +130
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Morgan Charriere vs  Nathaniel Wood,Stations,-200 | +160,-150 | +130
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Morgan Charriere vs  Nathaniel Wood,BetMGM,-190 | +160,-145 | +120
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Chris Padilla vs  Jai Herbert,Circa,+105 | -125,-235 | +200
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Chris Padilla vs  Jai Herbert,Westgate,+105 | -125,-210 | +180
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Chris Padilla vs  Jai Herbert,Wynn,+105 | -125,-220 | +180
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Chris Padilla vs  Jai Herbert,Stations,+100 | -130,-215 | +185
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Chris Padilla vs  Jai Herbert,BetMGM,-105 | -115,-225 | +185
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Felipe dos Santos vs  Loneer Kavanagh,Circa,+310 | -380,+125 | -145
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Felipe dos Santos vs  Loneer Kavanagh,Westgate,+290 | -350,+125 | -145
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Felipe dos Santos vs  Loneer Kavanagh,Wynn,+280 | -350,+125 | -145
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Felipe dos Santos vs  Loneer Kavanagh,Stations,+270 | -360,+120 | -150
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Felipe dos Santos vs  Loneer Kavanagh,BetMGM,+255 | -325,+125 | -150
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Mick Parkin vs  Marcin Tybura,Circa,+120 | -140,- | -
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Mick Parkin vs  Marcin Tybura,Westgate,+130 | -150,+240 | -280
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Mick Parkin vs  Marcin Tybura,Wynn,+130 | -150,+240 | -300
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Mick Parkin vs  Marcin Tybura,Stations,+125 | -155,+220 | -300
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Mick Parkin vs  Marcin Tybura,BetMGM,+120 | -145,+235 | -295
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Andrey Pulyaev vs  Christian Leroy Duncan,Circa,+400 | -510,+265 | -320
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Andrey Pulyaev vs  Christian Leroy Duncan,Westgate,+450 | -600,+280 | -340
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Andrey Pulyaev vs  Christian Leroy Duncan,Wynn,+450 | -600,+280 | -350
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Andrey Pulyaev vs  Christian Leroy Duncan,Stations,+475 | -700,+285 | -375
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Andrey Pulyaev vs  Christian Leroy Duncan,BetMGM,+445 | -625,+275 | -350
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Puja Tomar vs  Shauna Bannon,Circa,+175 | -200,-170 | +150
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Puja Tomar vs  Shauna Bannon,Westgate,+165 | -190,-190 | +165
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Puja Tomar vs  Shauna Bannon,Wynn,+170 | -200,-180 | +160
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Puja Tomar vs  Shauna Bannon,Stations,- | -,-200 | +160
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Puja Tomar vs  Shauna Bannon,BetMGM,-200 | +165,-190 | +160
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Caolan Loughran vs  Nathan Fletcher,Circa,+135 | -155,+105 | -125
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Caolan Loughran vs  Nathan Fletcher,Westgate,+145 | -165,+105 | -125
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Caolan Loughran vs  Nathan Fletcher,Wynn,+140 | -160,+105 | -125
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Caolan Loughran vs  Nathan Fletcher,Stations,- | -,+100 | -130
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Caolan Loughran vs  Nathan Fletcher,BetMGM,-170 | +140,-105 | -115
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Kaua Fernandes vs  Guram Kutateladze,Circa,+350 | -435,+310 | -380
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Kaua Fernandes vs  Guram Kutateladze,Westgate,+330 | -400,+290 | -350
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Kaua Fernandes vs  Guram Kutateladze,Wynn,+310 | -400,+280 | -350
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Kaua Fernandes vs  Guram Kutateladze,Stations,- | -,+270 | -360
+ufc_odds_vsin_20250314_0433.json,ufc_odds_vsin_20250314_0951.json,"Sat,March 22nd",04:00 PM,Kaua Fernandes vs  Guram Kutateladze,BetMGM,+275 | -350,+255 | -325
+ufc_odds_vsin_20250314_0951.json,ufc_odds_vsin_20250314_0957.json,"Sat,March 22nd",04:00 PM,Felipe dos Santos vs  Loneer Kavanagh,Circa,+310 | -380,+295 | -360
+ufc_odds_vsin_20250314_1003.json,ufc_odds_vsin_20250314_1009.json,"Sat,March 22nd",04:00 PM,Chris Duncan vs  Jordan Vucenic,Stations,+285 | -375,+260 | -350
+ufc_odds_vsin_20250314_1003.json,ufc_odds_vsin_20250314_1009.json,"Sat,March 22nd",04:00 PM,Morgan Charriere vs  Nathaniel Wood,Stations,-200 | +160,-190 | +155
+ufc_odds_vsin_20250314_1303.json,ufc_odds_vsin_20250314_1309.json,"Sat,March 22nd",04:00 PM,Istela Nunes vs  Molly McCann,Westgate,+240 | -280,- | -
+ufc_odds_vsin_20250317_1728.json,ufc_odds_vsin_20250317_1731.json,"Sat,March 22nd",04:00 PM,Sean Brady vs  Leon Edwards,BetMGM,-150 | +125,-170 | +140
+ufc_odds_vsin_20250317_1740.json,ufc_odds_vsin_20250317_1743.json,"Sat,March 22nd",04:00 PM,Caolan Loughran vs  Nathan Fletcher,BetMGM,+110 | -130,-105 | -115
+ufc_odds_vsin_20250317_1804.json,ufc_odds_vsin_20250317_1807.json,"Sat,March 22nd",04:00 PM,Mick Parkin vs  Marcin Tybura,Circa,-105 | -115,-110 | -110
+ufc_odds_vsin_20250317_1852.json,ufc_odds_vsin_20250317_1855.json,"Sat,March 22nd",04:00 PM,Alexia Thainara vs  Molly McCann,Circa,-170 | +150,-185 | +160
+ufc_odds_vsin_20250317_1916.json,ufc_odds_vsin_20250317_1919.json,"Sat,March 22nd",04:00 PM,Morgan Charriere vs  Nathaniel Wood,Circa,-165 | +145,-180 | +155
+ufc_odds_vsin_20250317_1940.json,ufc_odds_vsin_20250317_1943.json,"Sat,March 22nd",04:00 PM,Caolan Loughran vs  Nathan Fletcher,Circa,-105 | -115,+110 | -130
+ufc_odds_vsin_20250317_1952.json,ufc_odds_vsin_20250317_1955.json,"Sat,March 22nd",04:00 PM,Puja Tomar vs  Shauna Bannon,Circa,+155 | -180,+160 | -185
+ufc_odds_vsin_20250317_1952.json,ufc_odds_vsin_20250317_1955.json,"Sat,March 22nd",04:00 PM,Puja Tomar vs  Shauna Bannon,Westgate,+155 | -175,+165 | -190
+ufc_odds_vsin_20250317_2016.json,ufc_odds_vsin_20250317_2019.json,"Sat,March 22nd",04:00 PM,Kevin Holland vs  Gunnar Nelson,Circa,+125 | -145,+110 | -130
+ufc_odds_vsin_20250317_2016.json,ufc_odds_vsin_20250317_2019.json,"Sat,March 22nd",04:00 PM,Kevin Holland vs  Gunnar Nelson,Westgate,+120 | -140,+105 | -125
+ufc_odds_vsin_20250317_2016.json,ufc_odds_vsin_20250317_2019.json,"Sat,March 22nd",04:00 PM,Kevin Holland vs  Gunnar Nelson,Wynn,+125 | -145,+115 | -135
+ufc_odds_vsin_20250317_2028.json,ufc_odds_vsin_20250317_2031.json,"Sat,March 22nd",04:00 PM,Puja Tomar vs  Shauna Bannon,Circa,+160 | -185,+150 | -170
+ufc_odds_vsin_20250317_2028.json,ufc_odds_vsin_20250317_2031.json,"Sat,March 22nd",04:00 PM,Puja Tomar vs  Shauna Bannon,Westgate,+165 | -190,+155 | -175
+ufc_odds_vsin_20250317_2052.json,ufc_odds_vsin_20250317_2055.json,"Sat,March 22nd",04:00 PM,Puja Tomar vs  Shauna Bannon,Circa,+150 | -170,+145 | -165
+ufc_odds_vsin_20250317_2104.json,ufc_odds_vsin_20250317_2107.json,"Sat,March 22nd",04:00 PM,Puja Tomar vs  Shauna Bannon,Circa,+145 | -165,+155 | -180
+ufc_odds_vsin_20250317_2128.json,ufc_odds_vsin_20250317_2131.json,"Sat,March 22nd",04:00 PM,Chris Duncan vs  Jordan Vucenic,Circa,+290 | -350,+295 | -360
+ufc_odds_vsin_20250317_2140.json,ufc_odds_vsin_20250317_2143.json,"Sat,March 22nd",04:00 PM,Caolan Loughran vs  Nathan Fletcher,Circa,+110 | -130,+105 | -125
+ufc_odds_vsin_20250317_2304.json,ufc_odds_vsin_20250317_2307.json,"Sat,March 22nd",04:00 PM,Sean Brady vs  Leon Edwards,Circa,-155 | +135,-165 | +145
+ufc_odds_vsin_20250317_2304.json,ufc_odds_vsin_20250317_2307.json,"Sat,March 22nd",04:00 PM,Sean Brady vs  Leon Edwards,Westgate,-155 | +135,-170 | +150
+ufc_odds_vsin_20250317_2304.json,ufc_odds_vsin_20250317_2307.json,"Sat,March 22nd",04:00 PM,Felipe dos Santos vs  Loneer Kavanagh,Circa,+260 | -310,+230 | -270
+ufc_odds_vsin_20250317_2304.json,ufc_odds_vsin_20250317_2307.json,"Sat,March 22nd",04:00 PM,Felipe dos Santos vs  Loneer Kavanagh,Westgate,+260 | -310,+235 | -275
+ufc_odds_vsin_20250317_2316.json,ufc_odds_vsin_20250317_2319.json,"Sat,March 22nd",04:00 PM,Felipe dos Santos vs  Loneer Kavanagh,Circa,+230 | -270,+265 | -320
+ufc_odds_vsin_20250317_2316.json,ufc_odds_vsin_20250317_2319.json,"Sat,March 22nd",04:00 PM,Andrey Pulyaev vs  Christian Leroy Duncan,Circa,+465 | -615,+400 | -510
+ufc_odds_vsin_20250317_2316.json,ufc_odds_vsin_20250317_2319.json,"Sat,March 22nd",04:00 PM,Andrey Pulyaev vs  Christian Leroy Duncan,Westgate,+450 | -600,+400 | -500
+ufc_odds_vsin_20250318_0040.json,ufc_odds_vsin_20250318_0043.json,"Sat,March 22nd",04:00 PM,Sean Brady vs  Leon Edwards,Circa,-165 | +145,-170 | +150
+ufc_odds_vsin_20250318_0052.json,ufc_odds_vsin_20250318_0055.json,"Sat,March 22nd",04:00 PM,Chris Duncan vs  Jordan Vucenic,Circa,+295 | -360,+300 | -365
+ufc_odds_vsin_20250318_0052.json,ufc_odds_vsin_20250318_0055.json,"Sat,March 22nd",04:00 PM,Andrey Pulyaev vs  Christian Leroy Duncan,Circa,+400 | -510,+415 | -535
+ufc_odds_vsin_20250318_0328.json,ufc_odds_vsin_20250318_0331.json,"Sat,March 22nd",11:00 PM,Chordale Booker vs  Sebastian Fundora,Circa,- | -,+775 | -1200
+ufc_odds_vsin_20250318_0556.json,ufc_odds_vsin_20250318_0919.json,"Sat,March 22nd",04:00 PM,Morgan Charriere vs  Nathaniel Wood,Circa,-180 | +155,-165 | +145
+ufc_odds_vsin_20250318_0556.json,ufc_odds_vsin_20250318_0919.json,"Sat,April 26th",02:00 PM,Lyndon Arthur vs  Anthony Yarde,Westgate,+500 | -700,+140 | -160
+ufc_odds_vsin_20250318_0556.json,ufc_odds_vsin_20250318_0919.json,"Sat,April 26th",02:00 PM,Brandon Glanton vs  Chris Billam-Smith,Westgate,+185 | -215,+105 | -125
+ufc_odds_vsin_20250318_0556.json,ufc_odds_vsin_20250318_0919.json,"Sat,April 26th",02:00 PM,Cheavon Clarke vs  Viddal Riley,Westgate,+135 | -155,+500 | -700
+ufc_odds_vsin_20250318_0952.json,ufc_odds_vsin_20250318_0955.json,"Sat,March 22nd",04:00 PM,Sean Brady vs  Leon Edwards,BetMGM,-170 | +140,-165 | +135
+ufc_odds_vsin_20250318_0952.json,ufc_odds_vsin_20250318_0955.json,"Sat,March 22nd",04:00 PM,Carlos Ulberg vs  Jan Blachowicz,BetMGM,-260 | +210,-275 | +225
+ufc_odds_vsin_20250318_0952.json,ufc_odds_vsin_20250318_0955.json,"Sat,March 22nd",04:00 PM,Kevin Holland vs  Gunnar Nelson,BetMGM,+115 | -135,+110 | -130
+ufc_odds_vsin_20250318_0952.json,ufc_odds_vsin_20250318_0955.json,"Sat,March 22nd",04:00 PM,Morgan Charriere vs  Nathaniel Wood,Circa,-165 | +145,-170 | +150
+ufc_odds_vsin_20250318_0952.json,ufc_odds_vsin_20250318_0955.json,"Sat,March 22nd",04:00 PM,Alexia Thainara vs  Molly McCann,BetMGM,- | -,-185 | +155
+ufc_odds_vsin_20250318_0952.json,ufc_odds_vsin_20250318_0955.json,"Sat,March 22nd",03:00 AM,Terrell Gausha vs  Elijah Garcia,Westgate,- | -,+475 | -650
+ufc_odds_vsin_20250318_1028.json,ufc_odds_vsin_20250318_1031.json,"Sat,March 22nd",04:00 PM,Sean Brady vs  Leon Edwards,Stations,-150 | +130,-165 | +145
+ufc_odds_vsin_20250318_1028.json,ufc_odds_vsin_20250318_1031.json,"Sat,March 22nd",04:00 PM,Kevin Holland vs  Gunnar Nelson,Westgate,+105 | -125,+115 | -135
+ufc_odds_vsin_20250318_1028.json,ufc_odds_vsin_20250318_1031.json,"Sat,March 22nd",04:00 PM,Kevin Holland vs  Gunnar Nelson,Stations,+120 | -150,+105 | -135
+ufc_odds_vsin_20250318_1028.json,ufc_odds_vsin_20250318_1031.json,"Sat,March 22nd",04:00 PM,Chris Padilla vs  Jai Herbert,Westgate,+110 | -130,-110 | -110
+ufc_odds_vsin_20250318_1028.json,ufc_odds_vsin_20250318_1031.json,"Sat,March 22nd",04:00 PM,Chris Padilla vs  Jai Herbert,Stations,+100 | -130,-115 | -115
+ufc_odds_vsin_20250318_1028.json,ufc_odds_vsin_20250318_1031.json,"Sat,March 22nd",04:00 PM,Mick Parkin vs  Marcin Tybura,Westgate,-105 | -115,-125 | +105
+ufc_odds_vsin_20250318_1028.json,ufc_odds_vsin_20250318_1031.json,"Sat,March 22nd",04:00 PM,Mick Parkin vs  Marcin Tybura,Stations,-105 | -125,-120 | -110
+ufc_odds_vsin_20250318_1028.json,ufc_odds_vsin_20250318_1031.json,"Sat,March 22nd",04:00 PM,Puja Tomar vs  Shauna Bannon,Westgate,+155 | -175,+165 | -190
+ufc_odds_vsin_20250318_1028.json,ufc_odds_vsin_20250318_1031.json,"Sat,March 22nd",04:00 PM,Caolan Loughran vs  Nathan Fletcher,Westgate,+105 | -125,+115 | -135
+ufc_odds_vsin_20250318_1028.json,ufc_odds_vsin_20250318_1031.json,"Sat,March 22nd",04:00 PM,Kaua Fernandes vs  Guram Kutateladze,Westgate,+350 | -420,+310 | -370
+ufc_odds_vsin_20250318_1040.json,ufc_odds_vsin_20250318_1043.json,"Sat,March 22nd",04:00 PM,Chris Padilla vs  Jai Herbert,Stations,-115 | -115,-110 | -120
+ufc_odds_vsin_20250318_1040.json,ufc_odds_vsin_20250318_1043.json,"Sat,March 22nd",04:00 PM,Mick Parkin vs  Marcin Tybura,BetMGM,-110 | -110,-115 | -105
+ufc_odds_vsin_20250318_1052.json,ufc_odds_vsin_20250318_1055.json,"Sat,March 22nd",03:00 AM,Guido Emmanuel Schramm vs  Jesus Ramos Jr,Westgate,- | -,+1100 | -2500
+ufc_odds_vsin_20250318_1104.json,ufc_odds_vsin_20250318_1107.json,"Sat,March 22nd",04:00 PM,Sean Brady vs  Leon Edwards,Wynn,-155 | +135,-170 | +150
+ufc_odds_vsin_20250318_1104.json,ufc_odds_vsin_20250318_1107.json,"Sat,March 22nd",04:00 PM,Chris Padilla vs  Jai Herbert,Wynn,+110 | -130,+100 | -120
+ufc_odds_vsin_20250318_1104.json,ufc_odds_vsin_20250318_1107.json,"Sat,March 22nd",04:00 PM,Felipe dos Santos vs  Loneer Kavanagh,Wynn,+260 | -330,+250 | -310
+ufc_odds_vsin_20250318_1104.json,ufc_odds_vsin_20250318_1107.json,"Sat,March 22nd",04:00 PM,Mick Parkin vs  Marcin Tybura,Wynn,-105 | -115,-125 | +105
+ufc_odds_vsin_20250318_1104.json,ufc_odds_vsin_20250318_1107.json,"Sat,March 22nd",04:00 PM,Andrey Pulyaev vs  Christian Leroy Duncan,Wynn,+450 | -600,+425 | -550
+ufc_odds_vsin_20250318_1216.json,ufc_odds_vsin_20250318_1219.json,"Sat,March 22nd",04:00 PM,Sean Brady vs  Leon Edwards,Westgate,-170 | +150,-205 | +175
+ufc_odds_vsin_20250318_1240.json,ufc_odds_vsin_20250318_1243.json,"Sat,March 22nd",04:00 PM,Sean Brady vs  Leon Edwards,Westgate,-205 | +175,-200 | +170
+ufc_odds_vsin_20250318_1504.json,ufc_odds_vsin_20250318_1507.json,"Sat,March 22nd",04:00 PM,Alexia Thainara vs  Molly McCann,Stations,- | -,-190 | +155
+ufc_odds_vsin_20250318_1552.json,ufc_odds_vsin_20250318_1555.json,"Sat,March 22nd",04:00 PM,Morgan Charriere vs  Nathaniel Wood,Circa,-170 | +150,-160 | +140
+ufc_odds_vsin_20250318_1552.json,ufc_odds_vsin_20250318_1555.json,"Sat,March 22nd",04:00 PM,Chris Padilla vs  Jai Herbert,Circa,+110 | -130,+100 | -120
+ufc_odds_vsin_20250318_1552.json,ufc_odds_vsin_20250318_1555.json,"Sat,March 22nd",04:00 PM,Mick Parkin vs  Marcin Tybura,Circa,-110 | -110,-115 | -105
+ufc_odds_vsin_20250318_1604.json,ufc_odds_vsin_20250318_1607.json,"Sat,March 22nd",04:00 PM,Sean Brady vs  Leon Edwards,Circa,-180 | +155,-170 | +150
+ufc_odds_vsin_20250318_1604.json,ufc_odds_vsin_20250318_1607.json,"Sat,March 22nd",04:00 PM,Sean Brady vs  Leon Edwards,Westgate,-200 | +170,-190 | +165
+ufc_odds_vsin_20250318_1604.json,ufc_odds_vsin_20250318_1607.json,"Sat,March 22nd",04:00 PM,Carlos Ulberg vs  Jan Blachowicz,Circa,-270 | +230,-310 | +260
+ufc_odds_vsin_20250318_1604.json,ufc_odds_vsin_20250318_1607.json,"Sat,March 22nd",04:00 PM,Carlos Ulberg vs  Jan Blachowicz,Westgate,-270 | +230,-310 | +260
+ufc_odds_vsin_20250318_1604.json,ufc_odds_vsin_20250318_1607.json,"Sat,March 22nd",04:00 PM,Kevin Holland vs  Gunnar Nelson,Circa,+110 | -130,+100 | -120
+ufc_odds_vsin_20250318_1604.json,ufc_odds_vsin_20250318_1607.json,"Sat,March 22nd",04:00 PM,Kevin Holland vs  Gunnar Nelson,Westgate,+115 | -135,+105 | -125
+ufc_odds_vsin_20250318_1604.json,ufc_odds_vsin_20250318_1607.json,"Sat,March 22nd",04:00 PM,Chris Duncan vs  Jordan Vucenic,Circa,+300 | -365,+320 | -390
+ufc_odds_vsin_20250318_1604.json,ufc_odds_vsin_20250318_1607.json,"Sat,March 22nd",04:00 PM,Chris Padilla vs  Jai Herbert,Circa,+100 | -120,-105 | -115
+ufc_odds_vsin_20250318_1616.json,ufc_odds_vsin_20250318_1619.json,"Sat,March 22nd",04:00 PM,Sean Brady vs  Leon Edwards,Circa,-170 | +150,-160 | +140
+ufc_odds_vsin_20250318_1616.json,ufc_odds_vsin_20250318_1619.json,"Sat,March 22nd",04:00 PM,Sean Brady vs  Leon Edwards,Westgate,-190 | +165,-165 | +145
+ufc_odds_vsin_20250318_1628.json,ufc_odds_vsin_20250318_1631.json,"Sat,March 22nd",04:00 PM,Carlos Ulberg vs  Jan Blachowicz,Stations,-260 | +220,-310 | +255
+ufc_odds_vsin_20250318_1628.json,ufc_odds_vsin_20250318_1631.json,"Sat,March 22nd",04:00 PM,Kevin Holland vs  Gunnar Nelson,Stations,+105 | -135,+100 | -130
+ufc_odds_vsin_20250318_1740.json,ufc_odds_vsin_20250318_1743.json,"Sat,March 22nd",04:00 PM,Morgan Charriere vs  Nathaniel Wood,Circa,-160 | +140,-165 | +145
+ufc_odds_vsin_20250318_1740.json,ufc_odds_vsin_20250318_1743.json,"Sat,March 22nd",04:00 PM,Andrey Pulyaev vs  Christian Leroy Duncan,Circa,+415 | -535,+405 | -520
+ufc_odds_vsin_20250318_1752.json,ufc_odds_vsin_20250318_1755.json,"Sat,March 22nd",04:00 PM,Sean Brady vs  Leon Edwards,BetMGM,-165 | +135,-160 | +135
+ufc_odds_vsin_20250318_1752.json,ufc_odds_vsin_20250318_1755.json,"Sat,March 22nd",04:00 PM,Carlos Ulberg vs  Jan Blachowicz,BetMGM,-275 | +225,-300 | +240
+ufc_odds_vsin_20250318_1752.json,ufc_odds_vsin_20250318_1755.json,"Sat,March 22nd",04:00 PM,Chris Padilla vs  Jai Herbert,BetMGM,+105 | -125,-105 | -115
+ufc_odds_vsin_20250318_1752.json,ufc_odds_vsin_20250318_1755.json,"Sat,March 22nd",04:00 PM,Mick Parkin vs  Marcin Tybura,BetMGM,-115 | -105,-120 | +100
+ufc_odds_vsin_20250318_1814.json,ufc_odds_vsin_20250318_1819.json,"Sat,March 22nd",04:00 PM,Sean Brady vs  Leon Edwards,Wynn,-170 | +150,-165 | +145
+ufc_odds_vsin_20250318_1814.json,ufc_odds_vsin_20250318_1819.json,"Sat,March 22nd",04:00 PM,Carlos Ulberg vs  Jan Blachowicz,Wynn,-270 | +220,-300 | +240
+ufc_odds_vsin_20250318_1814.json,ufc_odds_vsin_20250318_1819.json,"Sat,March 22nd",04:00 PM,Kevin Holland vs  Gunnar Nelson,Wynn,+115 | -135,+105 | -125
+ufc_odds_vsin_20250318_1814.json,ufc_odds_vsin_20250318_1819.json,"Sat,March 22nd",04:00 PM,Chris Duncan vs  Jordan Vucenic,Westgate,+320 | -380,+330 | -400
+ufc_odds_vsin_20250318_1814.json,ufc_odds_vsin_20250318_1819.json,"Sat,March 22nd",04:00 PM,Chris Padilla vs  Jai Herbert,Wynn,+100 | -120,-105 | -115
+ufc_odds_vsin_20250318_1814.json,ufc_odds_vsin_20250318_1819.json,"Sat,March 22nd",04:00 PM,Andrey Pulyaev vs  Christian Leroy Duncan,Wynn,+425 | -550,+400 | -500
+ufc_odds_vsin_20250318_1828.json,ufc_odds_vsin_20250318_1831.json,"Sat,March 22nd",04:00 PM,Morgan Charriere vs  Nathaniel Wood,Westgate,-165 | +145,-170 | +150
+ufc_odds_vsin_20250318_1828.json,ufc_odds_vsin_20250318_1831.json,"Sat,March 22nd",04:00 PM,Felipe dos Santos vs  Loneer Kavanagh,Westgate,+235 | -275,+230 | -270
+ufc_odds_vsin_20250318_1828.json,ufc_odds_vsin_20250318_1831.json,"Sat,March 22nd",04:00 PM,Caolan Loughran vs  Nathan Fletcher,Westgate,+115 | -135,+110 | -130
+ufc_odds_vsin_20250318_1828.json,ufc_odds_vsin_20250318_1831.json,"Sat,March 22nd",04:00 PM,Alexia Thainara vs  Molly McCann,Westgate,- | -,-175 | +155
+ufc_odds_vsin_20250318_1828.json,ufc_odds_vsin_20250318_1831.json,"Sat,March 22nd",04:00 PM,Alexia Thainara vs  Molly McCann,Wynn,- | -,-180 | +160
+ufc_odds_vsin_20250318_1943.json,ufc_odds_vsin_20250323_1340.json,"Sat,March 29th",07:00 PM,Ateba Gautier vs  Jose Daniel Medina,Westgate,- | -,+500 | -700
+ufc_odds_vsin_20250323_1340.json,ufc_odds_vsin_20250323_1343.json,"Sat,March 29th",11:00 PM,Sandy Ryan vs  Mikaela Mayer,Wynn,- | -,-110 | -110
+ufc_odds_vsin_20250323_1340.json,ufc_odds_vsin_20250323_1343.json,"Sat,March 29th",10:00 PM,Derrick Cuevas vs  Brian Norman Jr,Wynn,- | -,+350 | -450
+ufc_odds_vsin_20250323_1340.json,ufc_odds_vsin_20250323_1343.json,"Sat,March 29th",10:00 PM,Tevin Farmer vs  William Zepeda,Wynn,- | -,+500 | -700
+ufc_odds_vsin_20250323_1340.json,ufc_odds_vsin_20250323_1343.json,"Sat,April 12th",08:00 PM,Eimantas Stanionis vs  Jaron Ennis,Wynn,- | -,+450 | -600
+ufc_odds_vsin_20250323_1340.json,ufc_odds_vsin_20250323_1343.json,"Fri,May 2nd",07:00 PM,Rolando Romero vs  Ryan Garcia,Wynn,- | -,+525 | -750
+ufc_odds_vsin_20250323_1340.json,ufc_odds_vsin_20250323_1343.json,"Fri,May 2nd",06:00 PM,Jose Ramirez vs  Devin Haney,Wynn,- | -,+725 | -1300
+ufc_odds_vsin_20250323_1340.json,ufc_odds_vsin_20250323_1343.json,"Fri,May 2nd",06:00 PM,Arnold Barboza Jr vs  Teofimo Lopez,Wynn,- | -,+200 | -250
+ufc_odds_vsin_20250323_1340.json,ufc_odds_vsin_20250323_1343.json,"Sat,May 3rd",03:00 PM,William Scull vs  Canelo Alvarez,Wynn,- | -,+1200 | -3500
+ufc_odds_vsin_20250323_1352.json,ufc_odds_vsin_20250323_1355.json,"Sat,March 29th",07:00 PM,Gabriel Miranda vs  Jamall Emmers,Wynn,- | -,+235 | -290
+ufc_odds_vsin_20250323_1416.json,ufc_odds_vsin_20250323_1419.json,"Sat,March 29th",07:00 PM,Joe Pyfer vs  Kelvin Gastelum,Circa,-460 | +370,-435 | +350
+ufc_odds_vsin_20250323_1416.json,ufc_odds_vsin_20250323_1419.json,"Sat,March 29th",07:00 PM,Ateba Gautier vs  Jose Daniel Medina,Circa,-470 | +375,-460 | +370
+ufc_odds_vsin_20250323_1604.json,ufc_odds_vsin_20250323_1607.json,"Sat,March 29th",07:00 PM,Steve Erceg vs  Brandon Moreno,Westgate,+170 | -200,+165 | -190
+ufc_odds_vsin_20250323_1604.json,ufc_odds_vsin_20250323_1607.json,"Sat,March 29th",07:00 PM,Kevin Borjas vs  Ronaldo Rodriguez,Westgate,+135 | -155,+140 | -160
+ufc_odds_vsin_20250323_1604.json,ufc_odds_vsin_20250323_1607.json,"Sat,March 29th",07:00 PM,Ateba Gautier vs  Jose Daniel Medina,Westgate,-450 | +375,-420 | +350
+ufc_odds_vsin_20250323_1604.json,ufc_odds_vsin_20250323_1607.json,"Sat,March 29th",07:00 PM,Ateba Gautier vs  Jose Daniel Medina,BetMGM,-550 | +400,-500 | +375
+ufc_odds_vsin_20250323_1604.json,ufc_odds_vsin_20250323_1607.json,"Sat,March 29th",07:00 PM,Julia Polastri vs  Lupita Godinez,Westgate,+180 | -210,+185 | -215
+ufc_odds_vsin_20250323_1613.json,ufc_odds_vsin_20250323_1639.json,"Sat,March 29th",07:00 PM,Steve Erceg vs  Brandon Moreno,Circa,+160 | -185,+155 | -180
+ufc_odds_vsin_20250323_1613.json,ufc_odds_vsin_20250323_1639.json,"Sat,March 29th",07:00 PM,Steve Erceg vs  Brandon Moreno,Wynn,+170 | -200,+165 | -185
+ufc_odds_vsin_20250323_1613.json,ufc_odds_vsin_20250323_1639.json,"Sat,March 29th",07:00 PM,Steve Erceg vs  Brandon Moreno,Stations,- | -,+170 | -190
+ufc_odds_vsin_20250323_1613.json,ufc_odds_vsin_20250323_1639.json,"Sat,March 29th",07:00 PM,Drew Dober vs  Manuel Torres,Stations,- | -,-105 | -115
+ufc_odds_vsin_20250323_1613.json,ufc_odds_vsin_20250323_1639.json,"Sat,March 29th",07:00 PM,Joe Pyfer vs  Kelvin Gastelum,Stations,- | -,-450 | +320
+ufc_odds_vsin_20250323_1613.json,ufc_odds_vsin_20250323_1639.json,"Sat,March 29th",07:00 PM,Kevin Borjas vs  Ronaldo Rodriguez,Wynn,+135 | -155,+140 | -160
+ufc_odds_vsin_20250323_1613.json,ufc_odds_vsin_20250323_1639.json,"Sat,March 29th",07:00 PM,Kevin Borjas vs  Ronaldo Rodriguez,Stations,- | -,+135 | -165
+ufc_odds_vsin_20250323_1613.json,ufc_odds_vsin_20250323_1639.json,"Sat,March 29th",07:00 PM,Saimon Oliveira vs  David Martinez,Stations,- | -,+305 | -425
+ufc_odds_vsin_20250323_1613.json,ufc_odds_vsin_20250323_1639.json,"Sat,March 29th",07:00 PM,CJ Vergara vs  Edgar Chairez,Stations,- | -,+250 | -330
+ufc_odds_vsin_20250323_1613.json,ufc_odds_vsin_20250323_1639.json,"Sat,March 29th",07:00 PM,Ateba Gautier vs  Jose Daniel Medina,Circa,-460 | +370,-450 | +360
+ufc_odds_vsin_20250323_1613.json,ufc_odds_vsin_20250323_1639.json,"Sat,March 29th",07:00 PM,Ateba Gautier vs  Jose Daniel Medina,Wynn,-475 | +375,-425 | +325
+ufc_odds_vsin_20250323_1613.json,ufc_odds_vsin_20250323_1639.json,"Sat,March 29th",07:00 PM,Ateba Gautier vs  Jose Daniel Medina,Stations,- | -,-450 | +320
+ufc_odds_vsin_20250323_1613.json,ufc_odds_vsin_20250323_1639.json,"Sat,March 29th",07:00 PM,Julia Polastri vs  Lupita Godinez,Stations,- | -,+180 | -230
+ufc_odds_vsin_20250323_1613.json,ufc_odds_vsin_20250323_1639.json,"Sat,March 29th",07:00 PM,Vinc Pichel vs  Rafa Garcia,Stations,- | -,+375 | -550
+ufc_odds_vsin_20250323_1613.json,ufc_odds_vsin_20250323_1639.json,"Sat,March 29th",07:00 PM,Melquizael Costa vs  Christian Rodriguez,Wynn,+150 | -170,+140 | -160
+ufc_odds_vsin_20250323_1613.json,ufc_odds_vsin_20250323_1639.json,"Sat,March 29th",07:00 PM,Melquizael Costa vs  Christian Rodriguez,Stations,- | -,+140 | -170
+ufc_odds_vsin_20250323_1613.json,ufc_odds_vsin_20250323_1639.json,"Sat,March 29th",07:00 PM,Vince Morales vs  Raul Rosas Jr,Circa,+240 | -285,+280 | -340
+ufc_odds_vsin_20250323_1613.json,ufc_odds_vsin_20250323_1639.json,"Sat,March 29th",07:00 PM,Vince Morales vs  Raul Rosas Jr,Stations,- | -,+250 | -330
+ufc_odds_vsin_20250323_1613.json,ufc_odds_vsin_20250323_1639.json,"Sat,March 29th",07:00 PM,Gabriel Miranda vs  Jamall Emmers,Wynn,+235 | -290,+255 | -320
+ufc_odds_vsin_20250323_1613.json,ufc_odds_vsin_20250323_1639.json,"Sat,March 29th",07:00 PM,Gabriel Miranda vs  Jamall Emmers,Stations,- | -,+250 | -330
+ufc_odds_vsin_20250323_1704.json,ufc_odds_vsin_20250323_1707.json,"Sat,March 29th",07:00 PM,Steve Erceg vs  Brandon Moreno,Circa,+155 | -180,+150 | -170
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,Steve Erceg vs  Brandon Moreno,Circa,+150 | -170,+165 | -190
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,Drew Dober vs  Manuel Torres,Circa,-105 | -115,+112 | -132
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,Drew Dober vs  Manuel Torres,Westgate,-105 | -115,+110 | -130
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,Drew Dober vs  Manuel Torres,Wynn,-105 | -115,+105 | -125
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,Joe Pyfer vs  Kelvin Gastelum,Circa,-435 | +350,-360 | +295
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,Joe Pyfer vs  Kelvin Gastelum,Westgate,-450 | +375,-350 | +290
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,Joe Pyfer vs  Kelvin Gastelum,Wynn,-450 | +350,-360 | +290
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,Joe Pyfer vs  Kelvin Gastelum,Stations,-450 | +320,-400 | +300
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,Joe Pyfer vs  Kelvin Gastelum,BetMGM,-550 | +400,-380 | +300
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,Kevin Borjas vs  Ronaldo Rodriguez,Circa,+140 | -160,+125 | -145
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,Kevin Borjas vs  Ronaldo Rodriguez,Westgate,+140 | -160,+125 | -145
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,Kevin Borjas vs  Ronaldo Rodriguez,Stations,+135 | -165,+115 | -145
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,CJ Vergara vs  Edgar Chairez,Circa,+250 | -300,+230 | -270
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,CJ Vergara vs  Edgar Chairez,Westgate,+275 | -335,+235 | -275
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,CJ Vergara vs  Edgar Chairez,Wynn,+260 | -330,+240 | -300
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,Melquizael Costa vs  Christian Rodriguez,Circa,+145 | -165,+115 | -135
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,Melquizael Costa vs  Christian Rodriguez,Westgate,+145 | -165,+105 | -125
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,Melquizael Costa vs  Christian Rodriguez,Wynn,+140 | -160,+110 | -130
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,Melquizael Costa vs  Christian Rodriguez,BetMGM,+140 | -170,+120 | -145
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,Vince Morales vs  Raul Rosas Jr,Westgate,+250 | -300,+280 | -340
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,Gabriel Miranda vs  Jamall Emmers,Westgate,+250 | -300,+270 | -330
+ufc_odds_vsin_20250323_1852.json,ufc_odds_vsin_20250323_1855.json,"Sat,March 29th",07:00 PM,Austin Hubbard vs  Marquel Mederos,Stations,- | -,+165 | -210
+ufc_odds_vsin_20250323_1916.json,ufc_odds_vsin_20250323_1919.json,"Sat,March 29th",07:00 PM,Drew Dober vs  Manuel Torres,Stations,-105 | -115,+110 | -130
+ufc_odds_vsin_20250323_1916.json,ufc_odds_vsin_20250323_1919.json,"Sat,March 29th",07:00 PM,Joe Pyfer vs  Kelvin Gastelum,Stations,-400 | +300,-360 | +270
+ufc_odds_vsin_20250323_1916.json,ufc_odds_vsin_20250323_1919.json,"Sat,March 29th",07:00 PM,CJ Vergara vs  Edgar Chairez,Stations,+250 | -330,+220 | -300
+ufc_odds_vsin_20250323_1916.json,ufc_odds_vsin_20250323_1919.json,"Sat,March 29th",07:00 PM,Melquizael Costa vs  Christian Rodriguez,Stations,+140 | -170,+120 | -150
+ufc_odds_vsin_20250323_2040.json,ufc_odds_vsin_20250323_2043.json,"Sat,March 29th",07:00 PM,Kevin Borjas vs  Ronaldo Rodriguez,BetMGM,+140 | -170,+120 | -145
+ufc_odds_vsin_20250323_2040.json,ufc_odds_vsin_20250323_2043.json,"Sat,March 29th",07:00 PM,Vinc Pichel vs  Rafa Garcia,Circa,+410 | -525,+400 | -510
+ufc_odds_vsin_20250323_2052.json,ufc_odds_vsin_20250323_2055.json,"Sat,March 29th",07:00 PM,Drew Dober vs  Manuel Torres,BetMGM,+100 | -120,+110 | -130
+ufc_odds_vsin_20250323_2052.json,ufc_odds_vsin_20250323_2055.json,"Sat,March 29th",07:00 PM,Joe Pyfer vs  Kelvin Gastelum,BetMGM,-380 | +300,-370 | +290
+ufc_odds_vsin_20250323_2052.json,ufc_odds_vsin_20250323_2055.json,"Sat,March 29th",07:00 PM,Kevin Borjas vs  Ronaldo Rodriguez,Wynn,+140 | -160,+125 | -145
+ufc_odds_vsin_20250323_2052.json,ufc_odds_vsin_20250323_2055.json,"Sat,March 29th",07:00 PM,CJ Vergara vs  Edgar Chairez,Wynn,+240 | -300,+225 | -275
+ufc_odds_vsin_20250323_2052.json,ufc_odds_vsin_20250323_2055.json,"Sat,March 29th",07:00 PM,Vince Morales vs  Raul Rosas Jr,Wynn,+240 | -300,+270 | -340
+ufc_odds_vsin_20250323_2104.json,ufc_odds_vsin_20250323_2107.json,"Sat,March 29th",07:00 PM,Vince Morales vs  Raul Rosas Jr,BetMGM,+240 | -300,+270 | -340
+ufc_odds_vsin_20250323_2152.json,ufc_odds_vsin_20250323_2155.json,"Sat,March 29th",10:00 PM,Derrick Cuevas vs  Brian Norman Jr,Westgate,+375 | -450,+350 | -420
+ufc_odds_vsin_20250323_2340.json,ufc_odds_vsin_20250323_2343.json,"Sat,March 29th",07:00 PM,Austin Hubbard vs  Marquel Mederos,BetMGM,- | -,+165 | -200
+ufc_odds_vsin_20250324_0004.json,ufc_odds_vsin_20250324_0007.json,"Sat,March 29th",07:00 PM,Austin Hubbard vs  Marquel Mederos,Westgate,- | -,+170 | -200
+ufc_odds_vsin_20250324_0252.json,ufc_odds_vsin_20250324_0255.json,"Sat,March 29th",07:00 PM,Steve Erceg vs  Brandon Moreno,Circa,+165 | -190,+175 | -200
