@@ -89,62 +89,81 @@ def create_odds_chart(filtered_df, selected_matchup):
     for idx, sportsbook in enumerate(sportsbooks):
         book_data = filtered_df[filtered_df['sportsbook'] == sportsbook]
         
-        # Fighter 1
-        fig.add_trace(go.Scatter(
-            x=book_data['timestamp'],
-            y=book_data['odds_after_f1'].str.replace('+', '').astype(int),
-            mode='lines+markers',
-            name=f"{fighter1} ({sportsbook})",
-            line=dict(color=colors_f1[idx % len(colors_f1)]),
-            marker=dict(size=8),
-            text=book_data['odds_after_f1'],
-            hovertemplate='%{text}<br>%{x}<br>%{text}<extra></extra>'
-        ))
+        # Skip this sportsbook if either fighter has no valid odds
+        if book_data['odds_after_f1'].isna().all() or book_data['odds_after_f2'].isna().all():
+            continue
+            
+        # Filter out rows where either fighter has no odds
+        book_data = book_data.dropna(subset=['odds_after_f1', 'odds_after_f2'])
         
-        # Fighter 2
-        fig.add_trace(go.Scatter(
-            x=book_data['timestamp'],
-            y=book_data['odds_after_f2'].str.replace('+', '').astype(int),
-            mode='lines+markers',
-            name=f"{fighter2} ({sportsbook})",
-            line=dict(color=colors_f2[idx % len(colors_f2)]),
-            marker=dict(size=8),
-            text=book_data['odds_after_f2'],
-            hovertemplate='%{text}<br>%{x}<br>%{text}<extra></extra>'
-        ))
+        if len(book_data) == 0:
+            continue
+            
+        # Fighter 1
+        try:
+            fig.add_trace(go.Scatter(
+                x=book_data['timestamp'],
+                y=book_data['odds_after_f1'].str.replace('+', '').astype(int),
+                mode='lines+markers',
+                name=f"{fighter1} ({sportsbook})",
+                line=dict(color=colors_f1[idx % len(colors_f1)]),
+                marker=dict(size=8),
+                text=book_data['odds_after_f1'],
+                hovertemplate='%{text}<br>%{x}<br>%{text}<extra></extra>'
+            ))
+            
+            # Fighter 2
+            fig.add_trace(go.Scatter(
+                x=book_data['timestamp'],
+                y=book_data['odds_after_f2'].str.replace('+', '').astype(int),
+                mode='lines+markers',
+                name=f"{fighter2} ({sportsbook})",
+                line=dict(color=colors_f2[idx % len(colors_f2)]),
+                marker=dict(size=8),
+                text=book_data['odds_after_f2'],
+                hovertemplate='%{text}<br>%{x}<br>%{text}<extra></extra>'
+            ))
+        except:
+            continue
     
-    # Calculate dynamic y-axis range
-    all_odds = pd.concat([
-        filtered_df['odds_after_f1'].str.replace('+', '').astype(int),
-        filtered_df['odds_after_f2'].str.replace('+', '').astype(int)
-    ])
-    y_min = all_odds.min() - 50
-    y_max = all_odds.max() + 50
+    # If no valid data was plotted, return None
+    if not fig.data:
+        return None
+        
+    # Calculate dynamic y-axis range only for valid odds
+    valid_odds = []
+    for trace in fig.data:
+        valid_odds.extend(trace.y)
     
-    fig.add_shape(
-        type="line",
-        x0=filtered_df['timestamp'].min(),
-        y0=0,
-        x1=filtered_df['timestamp'].max(),
-        y1=0,
-        line=dict(color="gray", width=1, dash="dash"),
-    )
-    
-    fig.update_layout(
-        title=f"Odds Movement: {selected_matchup} (All Sportsbooks)",
-        xaxis_title="Time",
-        yaxis_title="American Odds",
-        yaxis=dict(range=[y_min, y_max]),
-        legend_title="Fighter & Sportsbook",
-        hovermode="closest",
-        height=600,
-        margin=dict(l=50, r=50, t=50, b=50),
-        template="plotly_dark",
-        plot_bgcolor='rgba(30,30,30,1)',
-        paper_bgcolor='rgba(30,30,30,1)',
-        font=dict(color='white')
-    )
-    return fig
+    if valid_odds:
+        y_min = min(valid_odds) - 50
+        y_max = max(valid_odds) + 50
+        
+        fig.add_shape(
+            type="line",
+            x0=filtered_df['timestamp'].min(),
+            y0=0,
+            x1=filtered_df['timestamp'].max(),
+            y1=0,
+            line=dict(color="gray", width=1, dash="dash"),
+        )
+        
+        fig.update_layout(
+            title=f"Odds Movement: {selected_matchup} (All Sportsbooks)",
+            xaxis_title="Time",
+            yaxis_title="American Odds",
+            yaxis=dict(range=[y_min, y_max]),
+            legend_title="Fighter & Sportsbook",
+            hovermode="closest",
+            height=600,
+            margin=dict(l=50, r=50, t=50, b=50),
+            template="plotly_dark",
+            plot_bgcolor='rgba(30,30,30,1)',
+            paper_bgcolor='rgba(30,30,30,1)',
+            font=dict(color='white')
+        )
+        return fig
+    return None
 def get_odds_shift_description(start_odds, end_odds):
     if not start_odds or not end_odds:
         return "No data", "gray"
