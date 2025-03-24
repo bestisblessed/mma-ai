@@ -181,7 +181,7 @@ def get_odds_shift_description(start_odds, end_odds):
         return "Invalid odds format", "gray"
     return "No change", "gray"
 def ufc_odds_dashboard():
-    st.title("UFC Fight Night March 22 Odds Movement Dashboard")
+    st.title("Odds Tracking & Movement Dashboard")
     
     data = load_and_process_data()
     if data is None:
@@ -190,32 +190,21 @@ def ufc_odds_dashboard():
     main_card_df, main_card_matchups = data
     
     # Create tabs for the dashboard
-    tabs = st.tabs(["React Dashboard", "Odds Timeline", "Raw Data"])
+    tabs = st.tabs(["Odds Timeline", "Raw Data"])
     
     with tabs[0]:
-        st.header("UFC Odds Movement React Dashboard")
+        st.header("UFC Fight Night 255 - Edwards vs. Brady")
         
-        # Add controls outside of elements - using Streamlit native components
+        # Controls - same as React dashboard
         col1, col2 = st.columns([3, 1])
-        
         with col1:
-            selected_matchup = st.selectbox(
-                "Select Fight", 
-                main_card_matchups,
-                key="react_matchup"
-            )
+            selected_matchup = st.selectbox("Select Fight", main_card_matchups, key="timeline_matchup")
         
-        # Get unique sportsbooks for the selected matchup
         available_sportsbooks = ['All'] + list(main_card_df[main_card_df['matchup'] == selected_matchup]['sportsbook'].unique())
-        
         with col2:
-            selected_sportsbook = st.selectbox(
-                "Select Sportsbook", 
-                available_sportsbooks,
-                key="react_sportsbook"
-            )
-            
-        # Filter data based on selections
+            selected_sportsbook = st.selectbox("Select Sportsbook", available_sportsbooks, key="timeline_sportsbook")
+        
+        # Filter data based on selections - same as React dashboard
         filtered_df = main_card_df[main_card_df['matchup'] == selected_matchup].copy()
         if selected_sportsbook != 'All':
             filtered_df = filtered_df[filtered_df['sportsbook'] == selected_sportsbook].copy()
@@ -223,44 +212,42 @@ def ufc_odds_dashboard():
         # Sort by timestamp
         filtered_df = filtered_df.sort_values('timestamp')
         
-        # Get unique sportsbooks for the selected matchup
-        available_sportsbooks = ['All'] + list(main_card_df[main_card_df['matchup'] == selected_matchup]['sportsbook'].unique())
-        
         # Create Plotly chart
         fig = create_odds_chart(filtered_df, selected_matchup)
         
-        # Extract fighter names from selected matchup
+        # Extract fighter names
         fighters = selected_matchup.split(' vs ')
         fighter1 = fighters[0].strip()
         fighter2 = fighters[1].strip() if len(fighters) > 1 else ""
         
-        # Calculate movement for selected fighters
+        # Calculate movement for selected fighters - same as React dashboard
         if len(filtered_df) >= 2:
-            first_record = filtered_df.iloc[0]
-            last_record = filtered_df.iloc[-1]
-            
-            f1_description, f1_color = get_odds_shift_description(
-                first_record['odds_before_f1'], 
-                last_record['odds_after_f1']
-            )
-            
-            f2_description, f2_color = get_odds_shift_description(
-                first_record['odds_before_f2'], 
-                last_record['odds_after_f2']
-            )
-            
-            # Prepare line movement data for each fighter
+            # Initialize movements lists
             f1_movements = []
             f2_movements = []
-            prev_f1_odds = first_record['odds_before_f1']
-            prev_f2_odds = first_record['odds_before_f2']
+            prev_f1_odds = None
+            prev_f2_odds = None
+            first_f1_odds = None
+            first_f2_odds = None
+            last_f1_odds = None
+            last_f2_odds = None
             
             # Go through all sorted records to track line movements
             for _, row in filtered_df.iterrows():
-                # Only process if we have valid odds
                 if row['odds_after_f1'] and row['odds_after_f2']:
+                    # Track first valid odds
+                    if first_f1_odds is None:
+                        first_f1_odds = row['odds_after_f1']
+                        first_f2_odds = row['odds_after_f2']
+                    
+                    # Update last valid odds
+                    last_f1_odds = row['odds_after_f1']
+                    last_f2_odds = row['odds_after_f2']
+                    
                     # For Fighter 1
-                    if row['odds_after_f1'] != prev_f1_odds:
+                    if prev_f1_odds is None:
+                        prev_f1_odds = row['odds_after_f1']
+                    elif row['odds_after_f1'] != prev_f1_odds:
                         move_desc, move_color = get_odds_shift_description(prev_f1_odds, row['odds_after_f1'])
                         timestamp = row['timestamp'].strftime('%m/%d %H:%M') if row['timestamp'] else 'Unknown'
                         f1_movements.append({
@@ -271,7 +258,9 @@ def ufc_odds_dashboard():
                         prev_f1_odds = row['odds_after_f1']
                     
                     # For Fighter 2
-                    if row['odds_after_f2'] != prev_f2_odds:
+                    if prev_f2_odds is None:
+                        prev_f2_odds = row['odds_after_f2']
+                    elif row['odds_after_f2'] != prev_f2_odds:
                         move_desc, move_color = get_odds_shift_description(prev_f2_odds, row['odds_after_f2'])
                         timestamp = row['timestamp'].strftime('%m/%d %H:%M') if row['timestamp'] else 'Unknown'
                         f2_movements.append({
@@ -280,6 +269,17 @@ def ufc_odds_dashboard():
                             'color': move_color
                         })
                         prev_f2_odds = row['odds_after_f2']
+            
+            # Calculate overall movement using first and last valid odds
+            if first_f1_odds and last_f1_odds:
+                f1_description, f1_color = get_odds_shift_description(first_f1_odds, last_f1_odds)
+            else:
+                f1_description, f1_color = "No data", "gray"
+            
+            if first_f2_odds and last_f2_odds:
+                f2_description, f2_color = get_odds_shift_description(first_f2_odds, last_f2_odds)
+            else:
+                f2_description, f2_color = "No data", "gray"
         else:
             f1_description = "Insufficient data"
             f2_description = "Insufficient data"
@@ -288,160 +288,133 @@ def ufc_odds_dashboard():
             f1_movements = []
             f2_movements = []
         
-        # Create reactive elements container for visualization only
-        with elements("ufc_odds_dashboard"):
-            # Define layout
-            layout = [
-                {"i": "header", "x": 0, "y": 0, "w": 12, "h": 2, "static": True},
-                {"i": "chart", "x": 0, "y": 2, "w": 12, "h": 20, "static": True},
-                {"i": "fighter1", "x": 0, "y": 22, "w": 6, "h": 14, "static": True},
-                {"i": "fighter2", "x": 6, "y": 22, "w": 6, "h": 14, "static": True},
-                {"i": "info", "x": 0, "y": 36, "w": 12, "h": 2, "static": True}
-            ]
-            
-            # Create dashboard with material UI
-            with dashboard.Grid(layout=layout, draggableHandle=".draggable", rowHeight=30, containerPadding=[10, 10]):
-                # Header card - simplified, no dropdowns
-                with mui.Card(key="header", sx={"height": "100%"}):
-                    with mui.CardContent(sx={"height": "100%"}):
-                        mui.Typography("UFC Fight Night March 22 Odds Movement", 
-                                      variant="h5", 
-                                      className="draggable", 
-                                      sx={"mb": 1, "color": "white"})
-                
-                # Chart card
-                with mui.Card(key="chart", sx={"height": "100%"}):
-                    with mui.CardContent(sx={"height": "100%", "pt": 2, "pb": 2}):
-                        mui.Typography("Odds Movement Timeline", 
-                                      variant="h6", 
-                                      className="draggable",
-                                      sx={"color": "white", "mb": 1})
-                        
-                        if fig:
-                            html_str = fig.to_html(full_html=False, include_plotlyjs='cdn')
-                            with mui.Box(sx={"height": "90%", "overflow": "hidden"}):
-                                html.Iframe(
-                                    srcDoc=html_str,
-                                    style={"width": "100%", "height": "100%", "border": "none", "minHeight": "450px"}
-                                )
-                        else:
-                            mui.Typography("No data available for the selected fight and sportsbook.",
-                                          sx={"color": "gray", "textAlign": "center", "mt": 10})
-                
-                # Fighter 1 stats card
-                with mui.Card(key="fighter1", sx={"height": "100%"}):
-                    with mui.CardContent:
-                        mui.Typography(fighter1, 
-                                      variant="h6", 
-                                      className="draggable",
-                                      sx={"color": "#ff8c00", "mb": 1})
-                        
-                        mui.Divider(sx={"mb": 2})
-                        
-                        mui.Typography("Odds Movement:", variant="subtitle2", sx={"color": "white"})
-                        
-                        mui.Typography(f1_description, 
-                                      sx={"color": f1_color, "fontWeight": "bold", "mb": 2})
-                        
-                        # Show individual line movements if available
-                        if selected_sportsbook != 'All' and f1_movements:
-                            with mui.Box(sx={"mt": 1, "mb": 2, "maxHeight": 800, "overflow": "auto"}):
-                                mui.Typography("Movement Timeline:", variant="subtitle2", sx={"color": "white", "mb": 1})
-                                for move in f1_movements:
-                                    with mui.Box(sx={"display": "flex", "alignItems": "center", "mb": 1}):
-                                        mui.Typography(
-                                            move['timestamp'],
-                                            variant="caption",
-                                            sx={"minWidth": 65, "color": "lightgray"}
-                                        )
-                                        mui.Typography(
-                                            move['description'],
-                                            variant="body2",
-                                            sx={"color": move['color']}
-                                        )
-                        elif selected_sportsbook == 'All':
-                            mui.Typography(
-                                "Select a specific sportsbook to see line movements",
-                                variant="body2",
-                                sx={"color": "gray", "fontStyle": "italic", "mt": 1}
-                            )
-                        else:
-                            mui.Typography(
-                                "No line movements recorded for this fighter",
-                                variant="body2",
-                                sx={"color": "gray", "fontStyle": "italic", "mt": 1}
-                            )
-                
-                # Fighter 2 stats card
-                with mui.Card(key="fighter2", sx={"height": "100%"}):
-                    with mui.CardContent:
-                        mui.Typography(fighter2, 
-                                      variant="h6", 
-                                      className="draggable",
-                                      sx={"color": "#00bfff", "mb": 1})
-                        
-                        mui.Divider(sx={"mb": 2})
-                        
-                        mui.Typography("Odds Movement:", variant="subtitle2", sx={"color": "white"})
-                        
-                        mui.Typography(f2_description, 
-                                      sx={"color": f2_color, "fontWeight": "bold", "mb": 2})
-                        
-                        # Show individual line movements if available
-                        if selected_sportsbook != 'All' and f2_movements:
-                            with mui.Box(sx={"mt": 1, "mb": 2, "maxHeight": 800, "overflow": "auto"}):
-                                mui.Typography("Movement Timeline:", variant="subtitle2", sx={"color": "white", "mb": 1})
-                                for move in f2_movements:
-                                    with mui.Box(sx={"display": "flex", "alignItems": "center", "mb": 1}):
-                                        mui.Typography(
-                                            move['timestamp'],
-                                            variant="caption",
-                                            sx={"minWidth": 65, "color": "lightgray"}
-                                        )
-                                        mui.Typography(
-                                            move['description'],
-                                            variant="body2",
-                                            sx={"color": move['color']}
-                                        )
-                        elif selected_sportsbook == 'All':
-                            mui.Typography(
-                                "Select a specific sportsbook to see line movements",
-                                variant="body2",
-                                sx={"color": "gray", "fontStyle": "italic", "mt": 1}
-                            )
-                        else:
-                            mui.Typography(
-                                "No line movements recorded for this fighter",
-                                variant="body2",
-                                sx={"color": "gray", "fontStyle": "italic", "mt": 1}
-                            )
-                
-                # # Info footer card
-                # with mui.Card(key="info", sx={"height": "100%"}):
-                #     with mui.CardContent(sx={"display": "flex", "justifyContent": "space-between"}):
-                #         mui.Typography("Developed by Tyler Durette | MMA AI © 2025", 
-                #                       variant="body2", 
-                #                       sx={"color": "gray"})
-
-    with tabs[1]:
-        st.header("Odds Movement Timeline")
-        col1, col2 = st.columns([3, 1])
-        with col1:
-            selected_matchup = st.selectbox("Select Fight", main_card_matchups)
-        available_sportsbooks = ['All'] + list(main_card_df[main_card_df['matchup'] == selected_matchup]['sportsbook'].unique())
-        with col2:
-            selected_sportsbook = st.selectbox("Select Sportsbook", available_sportsbooks)
-        filtered_df = main_card_df[main_card_df['matchup'] == selected_matchup]
-        if selected_sportsbook != 'All':
-            filtered_df = filtered_df[filtered_df['sportsbook'] == selected_sportsbook]
-        filtered_df = filtered_df.sort_values('timestamp')
-        fig = create_odds_chart(filtered_df, selected_matchup)
+        # Display chart
         if fig:
             st.plotly_chart(fig, use_container_width=True)
+            
+            # Add custom CSS for styling
+            st.markdown("""
+            <style>
+            .fighter-card {
+                background-color: rgba(30,30,30,1);
+                border-radius: 8px;
+                padding: 15px;
+                margin-bottom: 20px;
+                border: 1px solid rgba(60,60,60,1);
+            }
+            .fighter-name {
+                font-size: 20px;
+                font-weight: bold;
+                margin-bottom: 10px;
+                padding-bottom: 10px;
+                border-bottom: 1px solid rgba(60,60,60,1);
+            }
+            .fighter-1-name { color: #ff8c00; }
+            .fighter-2-name { color: #00bfff; }
+            .movement-label {
+                font-size: 14px;
+                margin-bottom: 5px;
+                color: white;
+            }
+            .movement-value {
+                font-weight: bold;
+                font-size: 16px;
+                margin-bottom: 15px;
+            }
+            .timeline-item {
+                display: flex;
+                margin-bottom: 8px;
+            }
+            .timestamp {
+                min-width: 80px;
+                font-size: 13px;
+                color: #aaaaaa;
+            }
+            .description {
+                font-size: 14px;
+            }
+            .section-title {
+                font-size: 15px;
+                color: white;
+                margin-bottom: 10px;
+            }
+            .scrollable {
+                max-height: 300px;
+                overflow-y: auto;
+                padding-right: 10px;
+            }
+            .message {
+                font-style: italic;
+                color: gray;
+            }
+            </style>
+            """, unsafe_allow_html=True)
+            
+            # Create fighter cards
+            fighter_cols = st.columns(2)
+            
+            # Fighter 1 card - Build the complete HTML string without extra indentation
+            f1_html = f"""<div class="fighter-card">
+<div class="fighter-name fighter-1-name">{fighter1}</div>
+<div class="movement-label">Odds Movement:</div>
+<div class="movement-value" style="color: {f1_color};">{f1_description}</div>
+<div class="section-title">Movement Timeline:</div>
+<div class="scrollable">"""
+            
+            # Add movement timeline without extra indentation
+            if selected_sportsbook != 'All' and f1_movements:
+                for move in f1_movements:
+                    f1_html += f"""<div class="timeline-item">
+<div class="timestamp">{move['timestamp']}</div>
+<div class="description" style="color: {move['color']};">{move['description']}</div>
+</div>"""
+            elif selected_sportsbook == 'All':
+                f1_html += '<div class="message">Select a specific sportsbook to see line movements</div>'
+            else:
+                f1_html += '<div class="message">No line movements recorded for this fighter</div>'
+            
+            f1_html += '</div></div>'
+            
+            # Render complete HTML string
+            with fighter_cols[0]:
+                st.markdown(f1_html, unsafe_allow_html=True)
+            
+            # Fighter 2 card - Build the complete HTML string
+            f2_html = f"""
+<div class="fighter-card">
+    <div class="fighter-name fighter-2-name">{fighter2}</div>
+    <div class="movement-label">Odds Movement:</div>
+    <div class="movement-value" style="color: {f2_color};">{f2_description}</div>
+    <div class="section-title">Movement Timeline:</div>
+    <div class="scrollable">
+"""
+            
+            # Add movement timeline to the HTML string
+            if selected_sportsbook != 'All' and f2_movements:
+                for move in f2_movements:
+                    f2_html += f"""
+<div class="timeline-item">
+    <div class="timestamp">{move['timestamp']}</div>
+    <div class="description" style="color: {move['color']};">{move['description']}</div>
+</div>
+                    """
+            elif selected_sportsbook == 'All':
+                f2_html += '<div class="message">Select a specific sportsbook to see line movements</div>'
+            else:
+                f2_html += '<div class="message">No line movements recorded for this fighter</div>'
+            
+            # Close the HTML tags
+            f2_html += '</div></div>'
+            
+            # Render complete HTML strings
+            with fighter_cols[1]:
+                st.markdown(f2_html, unsafe_allow_html=True)
+            
+            # Caption for chart
             st.caption("The chart shows American odds movement over time. Negative values (e.g., -150) indicate favorites, while positive values (e.g., +200) indicate underdogs.")
         else:
             st.warning("No odds data available for this selection.")
-    with tabs[2]:
+    with tabs[1]:
         st.header("Raw Data")
         st.write("March 22 Fight Data")
         st.dataframe(main_card_df)
