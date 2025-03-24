@@ -38,8 +38,8 @@ def parse_odds(odds_string):
 def load_and_process_data():
     if 'df_odds_movements' not in st.session_state:
         try:
-            base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-            df = pd.read_csv(os.path.join(base_dir, 'data/ufc_odds_movements.csv'))
+            # Adjust the path to point to the correct location of the CSV file
+            df = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/ufc_odds_movements.csv'))
             st.session_state['df_odds_movements'] = df
         except Exception as e:
             st.error(f"Error loading odds movement data: {e}")
@@ -50,16 +50,6 @@ def load_and_process_data():
     if len(march22_fights) == 0:
         st.warning("No March 22 fights found in the data. Check the 'game_date' column format.")
         return None
-    # march22_fights['timestamp'] = march22_fights.apply(
-    #     lambda row: extract_timestamp(row['file2']), 
-    #     axis=1
-    # )
-    # march22_fights[['odds_before_f1', 'odds_before_f2']] = march22_fights['odds_before'].apply(
-    #     lambda x: pd.Series(parse_odds(x))
-    # )
-    # march22_fights[['odds_after_f1', 'odds_after_f2']] = march22_fights['odds_after'].apply(
-    #     lambda x: pd.Series(parse_odds(x))
-    # )
     march22_fights = march22_fights.copy()  # Create a copy to avoid SettingWithCopyWarning
     march22_fights.loc[:, 'timestamp'] = march22_fights['file2'].apply(extract_timestamp)
     march22_fights.loc[:, ['odds_before_f1', 'odds_before_f2']] = march22_fights['odds_before'].apply(parse_odds).tolist()
