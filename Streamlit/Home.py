@@ -13,6 +13,10 @@ import os
 # TO DO
 # - get fighter pictures when selected from online
 
+# At the top of your file, after imports
+OPENAI_API_KEY = st.secrets["general"]["OPENAI_API_KEY"]
+api_key = OPENAI_API_KEY
+
 st.set_page_config(page_title="MMA AI", page_icon="🥊", layout="wide")
 
 # ---- Loading Data ---- #
@@ -69,7 +73,7 @@ with col2:
         fighter2 = st.selectbox('fighter 2', fighter_names, index=list(fighter_names).index("michael chandler"))
     st.divider()
     # Fight Prediction and Report Assistant GPT
-    api_key = st.text_input("Enter your OpenAI API Key", type="password")
+    # api_key = st.text_input("Enter your OpenAI API Key", type="password")
     if st.button("Predict Fight and Generate Report"):
         if api_key:
             with st.spinner('Generating prediction and report...'):  # This line was added
