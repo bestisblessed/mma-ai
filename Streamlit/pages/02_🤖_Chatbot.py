@@ -56,8 +56,10 @@ def run_chatbot(OPENAI_API_KEY):
         else:
             st.write('No image :(')
 
+# OPENAI_API_KEY = st.sidebar.text_input("Enter your OpenAI API key:", type='password')
 
-OPENAI_API_KEY = st.sidebar.text_input("Enter your OpenAI API key:", type='password')
+# Access the API key from secrets
+OPENAI_API_KEY = st.secrets["general"]["OPENAI_API_KEY"]
 
 if OPENAI_API_KEY:
     run_chatbot(OPENAI_API_KEY)
