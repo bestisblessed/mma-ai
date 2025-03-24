@@ -294,9 +294,9 @@ def ufc_odds_dashboard():
             layout = [
                 {"i": "header", "x": 0, "y": 0, "w": 12, "h": 2, "static": True},
                 {"i": "chart", "x": 0, "y": 2, "w": 12, "h": 20, "static": True},
-                {"i": "fighter1", "x": 0, "y": 22, "w": 6, "h": 7, "static": True},
-                {"i": "fighter2", "x": 6, "y": 22, "w": 6, "h": 7, "static": True},
-                {"i": "info", "x": 0, "y": 29, "w": 12, "h": 2, "static": True}
+                {"i": "fighter1", "x": 0, "y": 22, "w": 6, "h": 14, "static": True},
+                {"i": "fighter2", "x": 6, "y": 22, "w": 6, "h": 14, "static": True},
+                {"i": "info", "x": 0, "y": 36, "w": 12, "h": 2, "static": True}
             ]
             
             # Create dashboard with material UI
@@ -345,7 +345,7 @@ def ufc_odds_dashboard():
                         
                         # Show individual line movements if available
                         if selected_sportsbook != 'All' and f1_movements:
-                            with mui.Box(sx={"mt": 1, "mb": 2, "maxHeight": 150, "overflow": "auto"}):
+                            with mui.Box(sx={"mt": 1, "mb": 2, "maxHeight": 800, "overflow": "auto"}):
                                 mui.Typography("Movement Timeline:", variant="subtitle2", sx={"color": "white", "mb": 1})
                                 for move in f1_movements:
                                     with mui.Box(sx={"display": "flex", "alignItems": "center", "mb": 1}):
@@ -389,7 +389,7 @@ def ufc_odds_dashboard():
                         
                         # Show individual line movements if available
                         if selected_sportsbook != 'All' and f2_movements:
-                            with mui.Box(sx={"mt": 1, "mb": 2, "maxHeight": 150, "overflow": "auto"}):
+                            with mui.Box(sx={"mt": 1, "mb": 2, "maxHeight": 800, "overflow": "auto"}):
                                 mui.Typography("Movement Timeline:", variant="subtitle2", sx={"color": "white", "mb": 1})
                                 for move in f2_movements:
                                     with mui.Box(sx={"display": "flex", "alignItems": "center", "mb": 1}):
@@ -416,16 +416,12 @@ def ufc_odds_dashboard():
                                 sx={"color": "gray", "fontStyle": "italic", "mt": 1}
                             )
                 
-                # Info footer card
-                with mui.Card(key="info", sx={"height": "100%"}):
-                    with mui.CardContent(sx={"display": "flex", "justifyContent": "space-between"}):
-                        mui.Typography("Developed by Tyler Durette | MMA AI © 2025", 
-                                      variant="body2", 
-                                      sx={"color": "gray"})
-                        
-                        mui.Typography("Data source: UFC Odds Movements", 
-                                      variant="body2", 
-                                      sx={"color": "gray"})
+                # # Info footer card
+                # with mui.Card(key="info", sx={"height": "100%"}):
+                #     with mui.CardContent(sx={"display": "flex", "justifyContent": "space-between"}):
+                #         mui.Typography("Developed by Tyler Durette | MMA AI © 2025", 
+                #                       variant="body2", 
+                #                       sx={"color": "gray"})
 
     with tabs[1]:
         st.header("Odds Movement Timeline")
