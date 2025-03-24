@@ -248,11 +248,45 @@ def ufc_odds_dashboard():
                 first_record['odds_before_f2'], 
                 last_record['odds_after_f2']
             )
+            
+            # Prepare line movement data for each fighter
+            f1_movements = []
+            f2_movements = []
+            prev_f1_odds = first_record['odds_before_f1']
+            prev_f2_odds = first_record['odds_before_f2']
+            
+            # Go through all sorted records to track line movements
+            for _, row in filtered_df.iterrows():
+                # Only process if we have valid odds
+                if row['odds_after_f1'] and row['odds_after_f2']:
+                    # For Fighter 1
+                    if row['odds_after_f1'] != prev_f1_odds:
+                        move_desc, move_color = get_odds_shift_description(prev_f1_odds, row['odds_after_f1'])
+                        timestamp = row['timestamp'].strftime('%m/%d %H:%M') if row['timestamp'] else 'Unknown'
+                        f1_movements.append({
+                            'timestamp': timestamp,
+                            'description': move_desc,
+                            'color': move_color
+                        })
+                        prev_f1_odds = row['odds_after_f1']
+                    
+                    # For Fighter 2
+                    if row['odds_after_f2'] != prev_f2_odds:
+                        move_desc, move_color = get_odds_shift_description(prev_f2_odds, row['odds_after_f2'])
+                        timestamp = row['timestamp'].strftime('%m/%d %H:%M') if row['timestamp'] else 'Unknown'
+                        f2_movements.append({
+                            'timestamp': timestamp,
+                            'description': move_desc,
+                            'color': move_color
+                        })
+                        prev_f2_odds = row['odds_after_f2']
         else:
             f1_description = "Insufficient data"
             f2_description = "Insufficient data"
             f1_color = "gray"
             f2_color = "gray"
+            f1_movements = []
+            f2_movements = []
         
         # Create reactive elements container for visualization only
         with elements("ufc_odds_dashboard"):
@@ -309,11 +343,34 @@ def ufc_odds_dashboard():
                         mui.Typography(f1_description, 
                                       sx={"color": f1_color, "fontWeight": "bold", "mb": 2})
                         
-                        mui.Divider(sx={"mb": 2})
-                        
-                        mui.Typography("Stats will be available in future updates", 
-                                      variant="body2", 
-                                      sx={"color": "gray", "fontStyle": "italic"})
+                        # Show individual line movements if available
+                        if selected_sportsbook != 'All' and f1_movements:
+                            with mui.Box(sx={"mt": 1, "mb": 2, "maxHeight": 150, "overflow": "auto"}):
+                                mui.Typography("Movement Timeline:", variant="subtitle2", sx={"color": "white", "mb": 1})
+                                for move in f1_movements:
+                                    with mui.Box(sx={"display": "flex", "alignItems": "center", "mb": 1}):
+                                        mui.Typography(
+                                            move['timestamp'],
+                                            variant="caption",
+                                            sx={"minWidth": 65, "color": "lightgray"}
+                                        )
+                                        mui.Typography(
+                                            move['description'],
+                                            variant="body2",
+                                            sx={"color": move['color']}
+                                        )
+                        elif selected_sportsbook == 'All':
+                            mui.Typography(
+                                "Select a specific sportsbook to see line movements",
+                                variant="body2",
+                                sx={"color": "gray", "fontStyle": "italic", "mt": 1}
+                            )
+                        else:
+                            mui.Typography(
+                                "No line movements recorded for this fighter",
+                                variant="body2",
+                                sx={"color": "gray", "fontStyle": "italic", "mt": 1}
+                            )
                 
                 # Fighter 2 stats card
                 with mui.Card(key="fighter2", sx={"height": "100%"}):
@@ -330,11 +387,34 @@ def ufc_odds_dashboard():
                         mui.Typography(f2_description, 
                                       sx={"color": f2_color, "fontWeight": "bold", "mb": 2})
                         
-                        mui.Divider(sx={"mb": 2})
-                        
-                        mui.Typography("Stats will be available in future updates", 
-                                      variant="body2", 
-                                      sx={"color": "gray", "fontStyle": "italic"})
+                        # Show individual line movements if available
+                        if selected_sportsbook != 'All' and f2_movements:
+                            with mui.Box(sx={"mt": 1, "mb": 2, "maxHeight": 150, "overflow": "auto"}):
+                                mui.Typography("Movement Timeline:", variant="subtitle2", sx={"color": "white", "mb": 1})
+                                for move in f2_movements:
+                                    with mui.Box(sx={"display": "flex", "alignItems": "center", "mb": 1}):
+                                        mui.Typography(
+                                            move['timestamp'],
+                                            variant="caption",
+                                            sx={"minWidth": 65, "color": "lightgray"}
+                                        )
+                                        mui.Typography(
+                                            move['description'],
+                                            variant="body2",
+                                            sx={"color": move['color']}
+                                        )
+                        elif selected_sportsbook == 'All':
+                            mui.Typography(
+                                "Select a specific sportsbook to see line movements",
+                                variant="body2",
+                                sx={"color": "gray", "fontStyle": "italic", "mt": 1}
+                            )
+                        else:
+                            mui.Typography(
+                                "No line movements recorded for this fighter",
+                                variant="body2",
+                                sx={"color": "gray", "fontStyle": "italic", "mt": 1}
+                            )
                 
                 # Info footer card
                 with mui.Card(key="info", sx={"height": "100%"}):
