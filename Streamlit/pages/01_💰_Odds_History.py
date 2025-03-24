@@ -195,128 +195,85 @@ def ufc_odds_dashboard():
     with tabs[0]:
         st.header("UFC Odds Movement React Dashboard")
         
-        # Simple debug message
-        st.markdown("Loading React dashboard... If you don't see anything below, check the console for errors.")
+        # Add controls outside of elements - using Streamlit native components
+        col1, col2 = st.columns([3, 1])
         
-        # Initialize session state variables if they don't exist
-        if "selected_matchup" not in st.session_state:
-            st.session_state.selected_matchup = main_card_matchups[0]
+        with col1:
+            selected_matchup = st.selectbox(
+                "Select Fight", 
+                main_card_matchups,
+                key="react_matchup"
+            )
         
-        if "selected_sportsbook" not in st.session_state:
-            st.session_state.selected_sportsbook = "All"
+        # Get unique sportsbooks for the selected matchup
+        available_sportsbooks = ['All'] + list(main_card_df[main_card_df['matchup'] == selected_matchup]['sportsbook'].unique())
         
-        # Create reactive elements container
+        with col2:
+            selected_sportsbook = st.selectbox(
+                "Select Sportsbook", 
+                available_sportsbooks,
+                key="react_sportsbook"
+            )
+            
+        # Filter data based on selections
+        filtered_df = main_card_df[main_card_df['matchup'] == selected_matchup].copy()
+        if selected_sportsbook != 'All':
+            filtered_df = filtered_df[filtered_df['sportsbook'] == selected_sportsbook].copy()
+        
+        # Sort by timestamp
+        filtered_df = filtered_df.sort_values('timestamp')
+        
+        # Get unique sportsbooks for the selected matchup
+        available_sportsbooks = ['All'] + list(main_card_df[main_card_df['matchup'] == selected_matchup]['sportsbook'].unique())
+        
+        # Create Plotly chart
+        fig = create_odds_chart(filtered_df, selected_matchup)
+        
+        # Extract fighter names from selected matchup
+        fighters = selected_matchup.split(' vs ')
+        fighter1 = fighters[0].strip()
+        fighter2 = fighters[1].strip() if len(fighters) > 1 else ""
+        
+        # Calculate movement for selected fighters
+        if len(filtered_df) >= 2:
+            first_record = filtered_df.iloc[0]
+            last_record = filtered_df.iloc[-1]
+            
+            f1_description, f1_color = get_odds_shift_description(
+                first_record['odds_before_f1'], 
+                last_record['odds_after_f1']
+            )
+            
+            f2_description, f2_color = get_odds_shift_description(
+                first_record['odds_before_f2'], 
+                last_record['odds_after_f2']
+            )
+        else:
+            f1_description = "Insufficient data"
+            f2_description = "Insufficient data"
+            f1_color = "gray"
+            f2_color = "gray"
+        
+        # Create reactive elements container for visualization only
         with elements("ufc_odds_dashboard"):
-            # Create simplified version without sync
-            
-            # Create variables to use within the dashboard
-            current_matchup = st.session_state.selected_matchup
-            current_sportsbook = st.session_state.selected_sportsbook
-            
-            # Function to handle matchup selection change
-            def handle_matchup_change(event, value):
-                # First print to debug
-                print(f"Matchup changed to: {value}")
-                # Set the session state and force rerun
-                if value is not None and value != st.session_state.selected_matchup:
-                    st.session_state.selected_matchup = value
-                    st.experimental_rerun()
-            
-            # Function to handle sportsbook selection
-            def handle_sportsbook_change(event, value):
-                # First print to debug
-                print(f"Sportsbook changed to: {value}")
-                # Set the session state and force rerun
-                if value is not None and value != st.session_state.selected_sportsbook:
-                    st.session_state.selected_sportsbook = value
-                    st.experimental_rerun()
-            
-            # Filter data based on current selections
-            filtered_df = main_card_df[main_card_df['matchup'] == current_matchup]
-            if current_sportsbook != "All":
-                filtered_df = filtered_df[filtered_df['sportsbook'] == current_sportsbook]
-            
-            # Sort by timestamp
-            filtered_df = filtered_df.sort_values('timestamp')
-            
-            # Create Plotly chart
-            fig = create_odds_chart(filtered_df, current_matchup)
-            
-            # Get unique sportsbooks for the selected matchup
-            available_sportsbooks = ['All'] + list(main_card_df[main_card_df['matchup'] == current_matchup]['sportsbook'].unique())
-            
-            # Extract fighter names from selected matchup - using the session state value directly
-            fighters = current_matchup.split(' vs ')
-            fighter1 = fighters[0].strip()
-            fighter2 = fighters[1].strip() if len(fighters) > 1 else ""
-            
-            # Calculate movement for selected fighters
-            if len(filtered_df) >= 2:
-                first_record = filtered_df.iloc[0]
-                last_record = filtered_df.iloc[-1]
-                
-                f1_description, f1_color = get_odds_shift_description(
-                    first_record['odds_before_f1'], 
-                    last_record['odds_after_f1']
-                )
-                
-                f2_description, f2_color = get_odds_shift_description(
-                    first_record['odds_before_f2'], 
-                    last_record['odds_after_f2']
-                )
-            else:
-                f1_description = "Insufficient data"
-                f2_description = "Insufficient data"
-                f1_color = "gray"
-                f2_color = "gray"
-            
-            # Define fixed layout with better height controls
+            # Define layout
             layout = [
-                {"i": "header", "x": 0, "y": 0, "w": 12, "h": 4, "static": True},
-                {"i": "chart", "x": 0, "y": 4, "w": 12, "h": 20, "static": True},
-                {"i": "fighter1", "x": 0, "y": 24, "w": 6, "h": 7, "static": True},
-                {"i": "fighter2", "x": 6, "y": 24, "w": 6, "h": 7, "static": True},
-                {"i": "info", "x": 0, "y": 31, "w": 12, "h": 2, "static": True}
+                {"i": "header", "x": 0, "y": 0, "w": 12, "h": 2, "static": True},
+                {"i": "chart", "x": 0, "y": 2, "w": 12, "h": 20, "static": True},
+                {"i": "fighter1", "x": 0, "y": 22, "w": 6, "h": 7, "static": True},
+                {"i": "fighter2", "x": 6, "y": 22, "w": 6, "h": 7, "static": True},
+                {"i": "info", "x": 0, "y": 29, "w": 12, "h": 2, "static": True}
             ]
             
-            # Apply Material UI theme
+            # Create dashboard with material UI
             with dashboard.Grid(layout=layout, draggableHandle=".draggable", rowHeight=30, containerPadding=[10, 10]):
-                # Header card with selectors
-                with mui.Card(key="header", sx={"height": "100%", "overflow": "visible"}):
-                    with mui.CardContent(sx={"height": "100%", "overflow": "visible"}):
+                # Header card - simplified, no dropdowns
+                with mui.Card(key="header", sx={"height": "100%"}):
+                    with mui.CardContent(sx={"height": "100%"}):
                         mui.Typography("UFC Fight Night March 22 Odds Movement", 
                                       variant="h5", 
                                       className="draggable", 
-                                      sx={"mb": 2, "color": "white"})
-                        
-                        with mui.Box(sx={"display": "flex", "flexDirection": "row", "gap": 2, "mt": 2}):
-                            # Matchup selector
-                            with mui.FormControl(fullWidth=True, variant="outlined", sx={"minWidth": 300, "zIndex": 9999}):
-                                mui.InputLabel(id="matchup-label", sx={"color": "white"})("Select Fight")
-                                # Use a new structure for Select component
-                                with mui.Select(
-                                    labelId="matchup-label",
-                                    value=current_matchup,
-                                    label="Select Fight",
-                                    onChange=handle_matchup_change,
-                                    sx={"color": "white"}
-                                ):
-                                    for matchup in main_card_matchups:
-                                        mui.MenuItem(key=matchup, value=matchup)(matchup)
-                            
-                            # Sportsbook selector
-                            with mui.FormControl(fullWidth=True, variant="outlined", sx={"minWidth": 150, "zIndex": 9999}):
-                                mui.InputLabel(id="sportsbook-label", sx={"color": "white"})("Sportsbook")
-                                # Use a new structure for Select component
-                                with mui.Select(
-                                    labelId="sportsbook-label",
-                                    value=current_sportsbook,
-                                    label="Sportsbook",
-                                    onChange=handle_sportsbook_change,
-                                    sx={"color": "white"}
-                                ):
-                                    for sb in available_sportsbooks:
-                                        mui.MenuItem(key=sb, value=sb)(sb)
+                                      sx={"mb": 1, "color": "white"})
                 
                 # Chart card
                 with mui.Card(key="chart", sx={"height": "100%"}):
