@@ -85,63 +85,67 @@ def create_odds_chart(filtered_df, selected_matchup):
     fighters = selected_matchup.split(' vs ')
     fighter1 = fighters[0].strip()
     fighter2 = fighters[1].strip() if len(fighters) > 1 else ""
-    plot_data = []
-    for _, row in filtered_df.iterrows():
-        if row['odds_after_f1'] and row['odds_after_f2']:
-            try:
-                f1_odds = int(row['odds_after_f1'].replace('+', ''))
-                f2_odds = int(row['odds_after_f2'].replace('+', ''))
-                plot_data.append({
-                    'timestamp': row['timestamp'],
-                    'time': row['timestamp'].strftime('%H:%M') if row['timestamp'] else 'Unknown',
-                    'fighter1_odds': row['odds_after_f1'],
-                    'fighter2_odds': row['odds_after_f2'],
-                    'fighter1_value': f1_odds,
-                    'fighter2_value': f2_odds,
-                    'sportsbook': row['sportsbook']
-                })
-            except (ValueError, AttributeError):
-                continue
-    if not plot_data:
-        return None
-    plot_df = pd.DataFrame(plot_data)
+    
+    # Get unique sportsbooks
+    sportsbooks = filtered_df['sportsbook'].unique()
+    
     fig = go.Figure()
-    fig.add_trace(go.Scatter(
-        x=plot_df['timestamp'],
-        y=plot_df['fighter1_value'],
-        mode='lines+markers',
-        name=fighter1,
-        line=dict(color='#ff8c00'),
-        marker=dict(size=8),
-        text=plot_df['fighter1_odds'],
-        hovertemplate='%{text}<br>%{x}<br>%{text}<extra></extra>'
-    ))
-    fig.add_trace(go.Scatter(
-        x=plot_df['timestamp'],
-        y=plot_df['fighter2_value'],
-        mode='lines+markers',
-        name=fighter2,
-        line=dict(color='#00bfff'),
-        marker=dict(size=8),
-        text=plot_df['fighter2_odds'],
-        hovertemplate='%{text}<br>%{x}<br>%{text}<extra></extra>'
-    ))
+    
+    # Color maps for each sportsbook
+    colors_f1 = ['#ff8c00', '#ff4500', '#ffa500', '#ff6347', '#ff7f50']  # Orange shades
+    colors_f2 = ['#00bfff', '#1e90ff', '#87ceeb', '#4169e1', '#0000ff']  # Blue shades
+    
+    # Add lines for each sportsbook
+    for idx, sportsbook in enumerate(sportsbooks):
+        book_data = filtered_df[filtered_df['sportsbook'] == sportsbook]
+        
+        # Fighter 1
+        fig.add_trace(go.Scatter(
+            x=book_data['timestamp'],
+            y=book_data['odds_after_f1'].str.replace('+', '').astype(int),
+            mode='lines+markers',
+            name=f"{fighter1} ({sportsbook})",
+            line=dict(color=colors_f1[idx % len(colors_f1)]),
+            marker=dict(size=8),
+            text=book_data['odds_after_f1'],
+            hovertemplate='%{text}<br>%{x}<br>%{text}<extra></extra>'
+        ))
+        
+        # Fighter 2
+        fig.add_trace(go.Scatter(
+            x=book_data['timestamp'],
+            y=book_data['odds_after_f2'].str.replace('+', '').astype(int),
+            mode='lines+markers',
+            name=f"{fighter2} ({sportsbook})",
+            line=dict(color=colors_f2[idx % len(colors_f2)]),
+            marker=dict(size=8),
+            text=book_data['odds_after_f2'],
+            hovertemplate='%{text}<br>%{x}<br>%{text}<extra></extra>'
+        ))
+    
+    # Calculate dynamic y-axis range
+    all_odds = pd.concat([
+        filtered_df['odds_after_f1'].str.replace('+', '').astype(int),
+        filtered_df['odds_after_f2'].str.replace('+', '').astype(int)
+    ])
+    y_min = all_odds.min() - 50
+    y_max = all_odds.max() + 50
+    
     fig.add_shape(
         type="line",
-        x0=plot_df['timestamp'].min(),
+        x0=filtered_df['timestamp'].min(),
         y0=0,
-        x1=plot_df['timestamp'].max(),
+        x1=filtered_df['timestamp'].max(),
         y1=0,
         line=dict(color="gray", width=1, dash="dash"),
     )
-    y_min = min(plot_df['fighter1_value'].min(), plot_df['fighter2_value'].min()) - 50
-    y_max = max(plot_df['fighter1_value'].max(), plot_df['fighter2_value'].max()) + 50
+    
     fig.update_layout(
-        title=f"Odds Movement: {selected_matchup}",
+        title=f"Odds Movement: {selected_matchup} (All Sportsbooks)",
         xaxis_title="Time",
         yaxis_title="American Odds",
         yaxis=dict(range=[y_min, y_max]),
-        legend_title="Fighter",
+        legend_title="Fighter & Sportsbook",
         hovermode="closest",
         height=600,
         margin=dict(l=50, r=50, t=50, b=50),
@@ -160,9 +164,9 @@ def get_odds_shift_description(start_odds, end_odds):
         if start_odds.startswith('-'):
             if end_odds.startswith('-'):
                 if end_val > start_val:  
-                    return f"↓ Weaker Favorite ({start_odds} → {end_odds})", "green"
+                    return f"↓ Weaker Favorite ({start_odds} → {end_odds})", "red"
                 elif end_val < start_val:  
-                    return f"↑ Stronger Favorite ({start_odds} → {end_odds})", "red"
+                    return f"↑ Stronger Favorite ({start_odds} → {end_odds})", "green"
                 else:
                     return f"No Change ({start_odds} → {end_odds})", "gray"
             else:  
@@ -170,9 +174,9 @@ def get_odds_shift_description(start_odds, end_odds):
         elif start_odds.startswith('+'):
             if end_odds.startswith('+'):
                 if end_val > start_val:  
-                    return f"↑ Bigger Underdog ({start_odds} → {end_odds})", "green"
+                    return f"↑ Bigger Underdog ({start_odds} → {end_odds})", "red"
                 elif end_val < start_val:  
-                    return f"↓ Smaller Underdog ({start_odds} → {end_odds})", "red"
+                    return f"↓ Smaller Underdog ({start_odds} → {end_odds})", "green"
                 else:
                     return f"No Change ({start_odds} → {end_odds})", "gray"
             else:  
@@ -200,9 +204,13 @@ def ufc_odds_dashboard():
         with col1:
             selected_matchup = st.selectbox("Select Fight", main_card_matchups, key="timeline_matchup")
         
-        available_sportsbooks = ['All'] + list(main_card_df[main_card_df['matchup'] == selected_matchup]['sportsbook'].unique())
+        available_sportsbooks = ['Circa'] + [sb for sb in main_card_df[main_card_df['matchup'] == selected_matchup]['sportsbook'].unique() if sb != 'Circa'] + ['All']
         with col2:
-            selected_sportsbook = st.selectbox("Select Sportsbook", available_sportsbooks, key="timeline_sportsbook")
+            selected_sportsbook = st.selectbox(
+                "Select Sportsbook", 
+                available_sportsbooks,
+                key="timeline_sportsbook"
+            )
         
         # Filter data based on selections - same as React dashboard
         filtered_df = main_card_df[main_card_df['matchup'] == selected_matchup].copy()
@@ -411,7 +419,7 @@ def ufc_odds_dashboard():
                 st.markdown(f2_html, unsafe_allow_html=True)
             
             # Caption for chart
-            st.caption("The chart shows American odds movement over time. Negative values (e.g., -150) indicate favorites, while positive values (e.g., +200) indicate underdogs.")
+            # st.caption("The chart shows American odds movement over time. Negative values (e.g., -150) indicate favorites, while positive values (e.g., +200) indicate underdogs.")
         else:
             st.warning("No odds data available for this selection.")
     with tabs[1]:
