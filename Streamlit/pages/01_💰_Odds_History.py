@@ -64,62 +64,55 @@ def get_odds_shift_description(start_odds, end_odds):
     return "No change", "gray"
 
 def load_and_process_data(matchups_to_display=None):
-    # Clear existing session state to force reload with new filters
-    if 'df_odds_movements' in st.session_state:
-        del st.session_state['df_odds_movements']
+    try:
+        # Always load directly from file
+        df = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
+                                      'data/ufc_odds_movements_fightoddsio.csv'))
         
-    if 'df_odds_movements' not in st.session_state:
-        try:
-            df = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
-                                          'data/ufc_odds_movements_fightoddsio.csv'))
-            
-            # Exclude unwanted sportsbooks
-            excluded_books = ['4casters', 'cloudbet', 'jazz-sports', 'espn-bet', 'betway', 'betrivers', 'sx-bet', 'bet105', 'betanysports']
-            df = df[~df['sportsbook'].isin(excluded_books)]
-            
-            st.session_state['df_odds_movements'] = df
-        except Exception as e:
-            st.error(f"Error loading odds movement data: {e}")
-            st.info("Please ensure 'ufc_odds_movements_fightoddsio.csv' is in the data directory.")
+        # Exclude unwanted sportsbooks
+        excluded_books = ['4casters', 'cloudbet', 'jazz-sports', 'espn-bet', 'betway', 'betrivers', 'sx-bet', 'bet105', 'betanysports']
+        df = df[~df['sportsbook'].isin(excluded_books)]
+        
+        # Extract timestamps from filenames
+        df.loc[:, 'timestamp'] = df['file2'].apply(extract_timestamp)
+        
+        # Use default matchups if none provided
+        if not matchups_to_display:
+            matchups_to_display = [
+                "Steve Erceg vs Brandon Moreno",
+                "Drew Dober vs Manuel Torres",
+                "Joe Pyfer vs Kelvin Gastelum",
+                "Vince Morales vs Raul Rosas Jr.",
+                "Saimon Oliveira vs David Martinez",
+                "Kevin Borjas vs Ronaldo Rodriguez",
+                "CJ Vergara vs Edgar Chairez",
+                "Ateba Gautier vs Jose Daniel Medina",
+                "Melquizael Costa vs Christian Rodriguez",
+                "Julia Polastri vs Lupita Godinez",
+                "Vinc Pichel vs Rafa Garcia",
+                "Gabriel Miranda vs Jamall Emmers",
+                "Austin Hubbard vs Marquel Mederos"
+            ]
+        
+        # Filter fighters based on matchups
+        all_fighters = set()
+        for matchup in matchups_to_display:
+            fighters = [f.strip() for f in matchup.split(' vs ')]
+            all_fighters.update(fighters)
+        
+        # Filter dataframe for these fighters (case-insensitive)
+        filtered_df = df[df['fighter'].str.lower().isin([f.lower() for f in all_fighters])]
+        
+        if len(filtered_df) == 0:
+            st.warning("No fighters found. Please check the fighter names.")
             return None
-    
-    df = st.session_state['df_odds_movements']
-    
-    # Extract timestamps from filenames
-    df.loc[:, 'timestamp'] = df['file2'].apply(extract_timestamp)
-    
-    # Use default matchups if none provided
-    if not matchups_to_display:
-        matchups_to_display = [
-            "Steve Erceg vs Brandon Moreno",
-            "Drew Dober vs Manuel Torres",
-            "Joe Pyfer vs Kelvin Gastelum",
-            "Vince Morales vs Raul Rosas Jr.",
-            "Saimon Oliveira vs David Martinez",
-            "Kevin Borjas vs Ronaldo Rodriguez",
-            "CJ Vergara vs Edgar Chairez",
-            "Ateba Gautier vs Jose Daniel Medina",
-            "Melquizael Costa vs Christian Rodriguez",
-            "Julia Polastri vs Lupita Godinez",
-            "Vinc Pichel vs Rafa Garcia",
-            "Gabriel Miranda vs Jamall Emmers",
-            "Austin Hubbard vs Marquel Mederos"
-        ]
-    
-    # Filter fighters based on matchups
-    all_fighters = set()
-    for matchup in matchups_to_display:
-        fighters = [f.strip() for f in matchup.split(' vs ')]
-        all_fighters.update(fighters)
-    
-    # Filter dataframe for these fighters (case-insensitive)
-    filtered_df = df[df['fighter'].str.lower().isin([f.lower() for f in all_fighters])]
-    
-    if len(filtered_df) == 0:
-        st.warning("No fighters found. Please check the fighter names.")
+        
+        return filtered_df, matchups_to_display
+        
+    except Exception as e:
+        st.error(f"Error loading odds movement data: {e}")
+        st.info("Please ensure 'ufc_odds_movements_fightoddsio.csv' is in the data directory.")
         return None
-    
-    return filtered_df, matchups_to_display
 
 def create_odds_chart(filtered_df, selected_matchup):
     if filtered_df.empty:
