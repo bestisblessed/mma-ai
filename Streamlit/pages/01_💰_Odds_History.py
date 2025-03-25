@@ -69,11 +69,11 @@ def load_and_process_data(matchups_to_display=None):
         df = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
                                       'data/ufc_odds_movements_fightoddsio.csv'))
         
-        # Exclude unwanted sportsbooks
-        excluded_books = ['4casters', 'cloudbet', 'jazz-sports', 'espn-bet', 'betway', 'betrivers', 'sx-bet', 'bet105', 'betanysports']
-        df = df[~df['sportsbook'].isin(excluded_books)]
+        # Exclude unwanted sportsbooks - create a new DataFrame instead of modifying
+        excluded_books = ['4casters', 'cloudbet', 'jazz-sports', 'espn-bet', 'betway', 'betrivers', 'sx-bet', 'bet105', 'betanysports', 'betmgm']
+        df = df[~df['sportsbook'].isin(excluded_books)].copy()
         
-        # Extract timestamps from filenames
+        # Extract timestamps from filenames - using proper loc assignment
         df.loc[:, 'timestamp'] = df['file2'].apply(extract_timestamp)
         
         # Use default matchups if none provided
@@ -100,8 +100,8 @@ def load_and_process_data(matchups_to_display=None):
             fighters = [f.strip() for f in matchup.split(' vs ')]
             all_fighters.update(fighters)
         
-        # Filter dataframe for these fighters (case-insensitive)
-        filtered_df = df[df['fighter'].str.lower().isin([f.lower() for f in all_fighters])]
+        # Filter dataframe for these fighters (case-insensitive) - create a new DataFrame
+        filtered_df = df[df['fighter'].str.lower().isin([f.lower() for f in all_fighters])].copy()
         
         if len(filtered_df) == 0:
             st.warning("No fighters found. Please check the fighter names.")
@@ -123,13 +123,13 @@ def create_odds_chart(filtered_df, selected_matchup):
     fighter1 = fighters[0].strip()
     fighter2 = fighters[1].strip() if len(fighters) > 1 else ""
     
-    # Filter data for the selected fighters
-    f1_data = filtered_df[filtered_df['fighter'] == fighter1]
-    f2_data = filtered_df[filtered_df['fighter'] == fighter2]
+    # Filter data for the selected fighters and create copies
+    f1_data = filtered_df[filtered_df['fighter'] == fighter1].copy()
+    f2_data = filtered_df[filtered_df['fighter'] == fighter2].copy()
     
-    # Convert odds to numeric, handling empty values
-    f1_data['odds_after'] = pd.to_numeric(f1_data['odds_after'], errors='coerce')
-    f2_data['odds_after'] = pd.to_numeric(f2_data['odds_after'], errors='coerce')
+    # Convert odds to numeric, handling empty values using loc
+    f1_data.loc[:, 'odds_after'] = pd.to_numeric(f1_data['odds_after'], errors='coerce')
+    f2_data.loc[:, 'odds_after'] = pd.to_numeric(f2_data['odds_after'], errors='coerce')
     
     # Get unique sportsbooks
     sportsbooks = list(set(f1_data['sportsbook'].unique().tolist() + f2_data['sportsbook'].unique().tolist()))
