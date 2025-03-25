@@ -35,40 +35,55 @@ def parse_odds(odds_string):
         return parts[0].strip(), parts[1].strip()
     except:
         return None, None
-def load_and_process_data():
+def load_and_process_data(matchups_to_display=None):
     if 'df_odds_movements' not in st.session_state:
         try:
-            # Adjust the path to point to the correct location of the CSV file
             df = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/ufc_odds_movements.csv'))
             st.session_state['df_odds_movements'] = df
         except Exception as e:
             st.error(f"Error loading odds movement data: {e}")
             st.info("Please ensure 'ufc_odds_movements.csv' is in the data directory.")
             return None
+    
     df = st.session_state['df_odds_movements']
-    march22_fights = df[df['game_date'].str.contains('March 22', na=False, case=False)]
-    if len(march22_fights) == 0:
-        st.warning("No March 22 fights found in the data. Check the 'game_date' column format.")
-        return None
-    march22_fights = march22_fights.copy()  # Create a copy to avoid SettingWithCopyWarning
-    march22_fights.loc[:, 'timestamp'] = march22_fights['file2'].apply(extract_timestamp)
-    march22_fights.loc[:, ['odds_before_f1', 'odds_before_f2']] = march22_fights['odds_before'].apply(parse_odds).tolist()
-    march22_fights.loc[:, ['odds_after_f1', 'odds_after_f2']] = march22_fights['odds_after'].apply(parse_odds).tolist()
-    main_card_matchups = [
-        "Sean Brady vs  Leon Edwards",  
-        "Carlos Ulberg vs  Jan Blachowicz",
-        "Kevin Holland vs  Gunnar Nelson",
-        "Mick Parkin vs  Marcin Tybura",
-        "Morgan Charriere vs  Nathaniel Wood"
-    ]
-    main_card_df = march22_fights[march22_fights['matchup'].isin(main_card_matchups)]
-    if len(main_card_df) == 0:
-        main_card_df = march22_fights[march22_fights['matchup'].str.lower().isin([m.lower() for m in main_card_matchups])]
-        if len(main_card_df) == 0:
-            st.warning("No main card fights found. Showing all March 22 fights instead.")
-            main_card_matchups = march22_fights['matchup'].unique().tolist()
-            main_card_df = march22_fights
-    return main_card_df, main_card_matchups
+    
+    # Use default matchups if none provided
+    if not matchups_to_display:
+        matchups_to_display = [
+            "Steve Erceg vs  Brandon Moreno",
+            "Drew Dober vs  Manuel Torres",
+            "Joe Pyfer vs  Kelvin Gastelum",
+            "Vince Morales vs  Raul Rosas Jr.",
+            "Saimon Oliveira vs  David Martinez",
+            "Kevin Borjas vs  Ronaldo Rodriguez",
+            "CJ Vergara vs  Edgar Chairez",
+            "Ateba Gautier vs  Jose Medina",
+            "Melquizael Costa vs  Christian Rodriguez",
+            "Julia Polastri vs  Loopy Godinez",
+            "Vinc Pichel vs  Rafa Garcia",
+            "Gabriel Miranda vs  Jamall Emmers",
+            "Austin Hubbard vs  Marquel Mederos"
+        ]
+    
+    # Filter dataframe by matchups instead of by date
+    filtered_df = df[df['matchup'].isin(matchups_to_display)]
+    
+    # If none found, try case-insensitive matching
+    if len(filtered_df) == 0:
+        filtered_df = df[df['matchup'].str.lower().isin([m.lower() for m in matchups_to_display])]
+        if len(filtered_df) == 0:
+            st.warning("No matchups found. Please check the matchup names.")
+            return None
+    
+    # Create a copy to avoid SettingWithCopyWarning
+    filtered_df = filtered_df.copy()
+    
+    # Process the data as before
+    filtered_df.loc[:, 'timestamp'] = filtered_df['file2'].apply(extract_timestamp)
+    filtered_df.loc[:, ['odds_before_f1', 'odds_before_f2']] = filtered_df['odds_before'].apply(parse_odds).tolist()
+    filtered_df.loc[:, ['odds_after_f1', 'odds_after_f2']] = filtered_df['odds_after'].apply(parse_odds).tolist()
+    
+    return filtered_df, matchups_to_display
 def create_odds_chart(filtered_df, selected_matchup):
     if filtered_df.empty:
         return None
@@ -196,11 +211,28 @@ def get_odds_shift_description(start_odds, end_odds):
 def ufc_odds_dashboard():
     st.title("Odds Tracking & Movement Dashboard")
     
-    data = load_and_process_data()
+    # Define the matchups you want to display
+    matchups_to_display = [
+        "Steve Erceg vs  Brandon Moreno",
+        "Drew Dober vs  Manuel Torres",
+        "Joe Pyfer vs  Kelvin Gastelum",
+        "Vince Morales vs  Raul Rosas Jr",
+        "Saimon Oliveira vs  David Martinez",
+        "Kevin Borjas vs  Ronaldo Rodriguez",
+        "CJ Vergara vs  Edgar Chairez",
+        "Ateba Gautier vs  Jose Daniel Medina",
+        "Melquizael Costa vs  Christian Rodriguez",
+        "Julia Polastri vs  Lupita Godinez",
+        "Vinc Pichel vs  Rafa Garcia",
+        "Gabriel Miranda vs  Jamall Emmers",
+        "Austin Hubbard vs  Marquel Mederos"
+    ]
+        
+    data = load_and_process_data(matchups_to_display)
     if data is None:
         return
     
-    main_card_df, main_card_matchups = data
+    filtered_df, available_matchups = data
     
     # Create tabs for the dashboard
     tabs = st.tabs(["Odds Timeline", "Raw Data"])
@@ -211,9 +243,9 @@ def ufc_odds_dashboard():
         # Controls - same as React dashboard
         col1, col2 = st.columns([3, 1])
         with col1:
-            selected_matchup = st.selectbox("Select Fight", main_card_matchups, key="timeline_matchup")
+            selected_matchup = st.selectbox("Select Fight", available_matchups, key="timeline_matchup")
         
-        available_sportsbooks = ['Circa'] + [sb for sb in main_card_df[main_card_df['matchup'] == selected_matchup]['sportsbook'].unique() if sb != 'Circa'] + ['All']
+        available_sportsbooks = ['Circa'] + [sb for sb in filtered_df[filtered_df['matchup'] == selected_matchup]['sportsbook'].unique() if sb != 'Circa'] + ['All']
         with col2:
             selected_sportsbook = st.selectbox(
                 "Select Sportsbook", 
@@ -222,7 +254,7 @@ def ufc_odds_dashboard():
             )
         
         # Filter data based on selections - same as React dashboard
-        filtered_df = main_card_df[main_card_df['matchup'] == selected_matchup].copy()
+        filtered_df = filtered_df[filtered_df['matchup'] == selected_matchup].copy()
         if selected_sportsbook != 'All':
             filtered_df = filtered_df[filtered_df['sportsbook'] == selected_sportsbook].copy()
         
@@ -434,6 +466,6 @@ def ufc_odds_dashboard():
     with tabs[1]:
         st.header("Raw Data")
         st.write("March 22 Fight Data")
-        st.dataframe(main_card_df)
+        st.dataframe(filtered_df)
 if __name__ == "__main__":
     ufc_odds_dashboard()
