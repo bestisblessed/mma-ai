@@ -17,6 +17,8 @@ os.system('cp "../Scrapers/data/event_data_sherdog.csv" "data/"')
 os.system('cp "../Scrapers/data/fighter_info.csv" "data/"')
 os.system('cp "../Scrapers/data/event_data_sherdog.csv" "Streamlit/data/"')
 os.system('cp "../Scrapers/data/fighter_info.csv" "Streamlit/data/"')
+os.system('cp "/Users/td/Code/odds-monitoring/UFC/Analysis/data/ufc_odds_movements_fightoddsio.csv" "data/"')
+os.system('cp "/Users/td/Code/odds-monitoring/UFC/Analysis/data/ufc_odds_movements.csv" "data/"')
 # shutil.make_archive("data/fighters_data", 'zip', "../Scrapers/data", "fighters") # The zip file "fighters_data.zip" will be created in the "data" directory
 # shutil.make_archive("data/fighters", 'zip', "../Scrapers/data/fighters")
 
