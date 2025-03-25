@@ -134,6 +134,10 @@ def create_odds_chart(filtered_df, selected_matchup):
     f1_data = filtered_df[filtered_df['fighter'] == fighter1]
     f2_data = filtered_df[filtered_df['fighter'] == fighter2]
     
+    # Convert odds to numeric, handling empty values
+    f1_data['odds_after'] = pd.to_numeric(f1_data['odds_after'], errors='coerce')
+    f2_data['odds_after'] = pd.to_numeric(f2_data['odds_after'], errors='coerce')
+    
     # Get unique sportsbooks
     sportsbooks = list(set(f1_data['sportsbook'].unique().tolist() + f2_data['sportsbook'].unique().tolist()))
     
@@ -149,34 +153,44 @@ def create_odds_chart(filtered_df, selected_matchup):
         book_f1_data = f1_data[f1_data['sportsbook'] == sportsbook]
         if not book_f1_data.empty:
             try:
-                fig.add_trace(go.Scatter(
-                    x=book_f1_data['timestamp'],
-                    y=book_f1_data['odds_after'],
-                    mode='lines+markers',
-                    name=f"{fighter1} ({sportsbook})",
-                    line=dict(color=colors_f1[idx % len(colors_f1)]),
-                    marker=dict(size=8),
-                    text=[f"+{odds}" if odds > 0 else str(odds) for odds in book_f1_data['odds_after']],
-                    hovertemplate='%{text}<br>%{x}<br>%{text}<extra></extra>'
-                ))
-            except:
+                # Remove rows with NaN odds_after
+                valid_f1_data = book_f1_data.dropna(subset=['odds_after', 'timestamp'])
+                
+                if not valid_f1_data.empty:
+                    fig.add_trace(go.Scatter(
+                        x=valid_f1_data['timestamp'],
+                        y=valid_f1_data['odds_after'],
+                        mode='lines+markers',
+                        name=f"{fighter1} ({sportsbook})",
+                        line=dict(color=colors_f1[idx % len(colors_f1)]),
+                        marker=dict(size=8),
+                        text=[f"+{odds}" if odds > 0 else str(odds) for odds in valid_f1_data['odds_after']],
+                        hovertemplate='%{text}<br>%{x}<br>%{text}<extra></extra>'
+                    ))
+            except Exception as e:
+                st.error(f"Error plotting data for {fighter1} ({sportsbook}): {e}")
                 continue
                 
         # Fighter 2
         book_f2_data = f2_data[f2_data['sportsbook'] == sportsbook]
         if not book_f2_data.empty:
             try:
-                fig.add_trace(go.Scatter(
-                    x=book_f2_data['timestamp'],
-                    y=book_f2_data['odds_after'],
-                    mode='lines+markers',
-                    name=f"{fighter2} ({sportsbook})",
-                    line=dict(color=colors_f2[idx % len(colors_f2)]),
-                    marker=dict(size=8),
-                    text=[f"+{odds}" if odds > 0 else str(odds) for odds in book_f2_data['odds_after']],
-                    hovertemplate='%{text}<br>%{x}<br>%{text}<extra></extra>'
-                ))
-            except:
+                # Remove rows with NaN odds_after
+                valid_f2_data = book_f2_data.dropna(subset=['odds_after', 'timestamp'])
+                
+                if not valid_f2_data.empty:
+                    fig.add_trace(go.Scatter(
+                        x=valid_f2_data['timestamp'],
+                        y=valid_f2_data['odds_after'],
+                        mode='lines+markers',
+                        name=f"{fighter2} ({sportsbook})",
+                        line=dict(color=colors_f2[idx % len(colors_f2)]),
+                        marker=dict(size=8),
+                        text=[f"+{odds}" if odds > 0 else str(odds) for odds in valid_f2_data['odds_after']],
+                        hovertemplate='%{text}<br>%{x}<br>%{text}<extra></extra>'
+                    ))
+            except Exception as e:
+                st.error(f"Error plotting data for {fighter2} ({sportsbook}): {e}")
                 continue
     
     # If no valid data was plotted, return None
@@ -237,16 +251,6 @@ def ufc_odds_dashboard():
         "Jamall Emmers vs Gabriel Miranda",
         "Marquel Mederos vs Austin Hubbard"  # Regular "q" not "Q", names reversed
     ]
-    #     "Saimon Oliveira vs David Martinez",
-    #     "Kevin Borjas vs Ronaldo Rodriguez",
-    #     "CJ Vergara vs Edgar Chairez",
-    #     "Ateba Gautier vs Jose Daniel Medina",
-    #     "Melquizael Costa vs Christian Rodriguez",
-    #     "Julia Polastri vs Lupita Godinez",
-    #     "Vinc Pichel vs Rafa Garcia",
-    #     "Gabriel Miranda vs Jamall Emmers",
-    #     "Austin Hubbard vs Marquel Mederos"
-    # ]
         
     data = load_and_process_data(matchups_to_display)
     if data is None:
@@ -296,6 +300,12 @@ def ufc_odds_dashboard():
         f1_data = filtered_df[filtered_df['fighter'] == fighter1].copy()
         f2_data = filtered_df[filtered_df['fighter'] == fighter2].copy()
         
+        # Make sure odds are numeric with NaN for empty values
+        f1_data['odds_before'] = pd.to_numeric(f1_data['odds_before'], errors='coerce')
+        f1_data['odds_after'] = pd.to_numeric(f1_data['odds_after'], errors='coerce')
+        f2_data['odds_before'] = pd.to_numeric(f2_data['odds_before'], errors='coerce')
+        f2_data['odds_after'] = pd.to_numeric(f2_data['odds_after'], errors='coerce')
+        
         # Further filter by sportsbook if not 'All'
         if selected_sportsbook != 'All':
             f1_data = f1_data[f1_data['sportsbook'] == selected_sportsbook].copy()
@@ -326,6 +336,12 @@ def ufc_odds_dashboard():
                 # Sort by timestamp
                 group = group.sort_values('timestamp')
                 
+                # Filter out rows with NaN odds
+                group = group.dropna(subset=['odds_after'])
+                
+                if group.empty:
+                    continue
+                
                 # Update first/last odds
                 if first_odds is None and not group.empty:
                     first_odds = group['odds_after'].iloc[0]
@@ -336,6 +352,10 @@ def ufc_odds_dashboard():
                 # Track movements within this sportsbook
                 prev_odds = None
                 for _, row in group.iterrows():
+                    # Skip invalid odds
+                    if pd.isna(row['odds_after']):
+                        continue
+                        
                     if prev_odds is not None and row['odds_after'] != prev_odds:
                         move_desc, move_color = get_odds_shift_description(prev_odds, row['odds_after'])
                         timestamp = row['timestamp'].strftime('%m/%d %H:%M') if row['timestamp'] else 'Unknown'
