@@ -8,6 +8,7 @@ import numpy as np
 
 
 st.set_page_config(page_title="UFC Odds Movement", page_icon="🥊", layout="wide")
+
 def extract_timestamp(filename):
     if not isinstance(filename, str):
         return None
@@ -25,74 +26,116 @@ def extract_timestamp(filename):
         return datetime(int(year), int(month), int(day), int(hour), int(minute))
     except (IndexError, ValueError):
         return None
-def parse_odds(odds_string):
-    if not isinstance(odds_string, str):
-        return None, None
-    if '|' not in odds_string or odds_string == "- | -":
-        return None, None
+
+def get_odds_shift_description(start_odds, end_odds):
+    if not start_odds or not end_odds:
+        return "No data", "gray"
     try:
-        parts = odds_string.split('|')
-        return parts[0].strip(), parts[1].strip()
+        # Note: odds are now numeric values, not strings
+        start_val = start_odds
+        end_val = end_odds
+        
+        # Format for display (add + for positive values)
+        start_display = f"+{start_val}" if start_val > 0 else str(start_val)
+        end_display = f"+{end_val}" if end_val > 0 else str(end_val)
+        
+        if start_val < 0:  # Fighter was favorite
+            if end_val < 0:  # Still favorite
+                if end_val > start_val:  # e.g., -200 to -180
+                    return f"↓ Weaker Favorite ({start_display} → {end_display})", "red"
+                elif end_val < start_val:  # e.g., -180 to -200
+                    return f"↑ Stronger Favorite ({start_display} → {end_display})", "green"
+                else:
+                    return f"No Change ({start_display} → {end_display})", "gray"
+            else:  # Changed to underdog
+                return f"↔ Changed to Underdog ({start_display} → {end_display})", "orange"
+        elif start_val > 0:  # Fighter was underdog
+            if end_val > 0:  # Still underdog
+                if end_val > start_val:  # e.g., +180 to +200
+                    return f"↑ Bigger Underdog ({start_display} → {end_display})", "red"
+                elif end_val < start_val:  # e.g., +200 to +180
+                    return f"↓ Smaller Underdog ({start_display} → {end_display})", "green"
+                else:
+                    return f"No Change ({start_display} → {end_display})", "gray"
+            else:  # Changed to favorite
+                return f"↔ Changed to Favorite ({start_display} → {end_display})", "orange"
     except:
-        return None, None
+        return "Invalid odds format", "gray"
+    return "No change", "gray"
+
 def load_and_process_data(matchups_to_display=None):
+    # Clear existing session state to force reload with new filters
+    if 'df_odds_movements' in st.session_state:
+        del st.session_state['df_odds_movements']
+        
     if 'df_odds_movements' not in st.session_state:
         try:
-            df = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/ufc_odds_movements.csv'))
+            df = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
+                                          'data/ufc_odds_movements_fightoddsio.csv'))
+            
+            # Exclude unwanted sportsbooks
+            excluded_books = ['4casters', 'cloudbet', 'jazz-sports', 'espn-bet', 'betway', 'betrivers', 'sx-bet', 'bet105', 'betanysports']
+            df = df[~df['sportsbook'].isin(excluded_books)]
+            
             st.session_state['df_odds_movements'] = df
         except Exception as e:
             st.error(f"Error loading odds movement data: {e}")
-            st.info("Please ensure 'ufc_odds_movements.csv' is in the data directory.")
+            st.info("Please ensure 'ufc_odds_movements_fightoddsio.csv' is in the data directory.")
             return None
     
     df = st.session_state['df_odds_movements']
     
+    # Extract timestamps from filenames
+    df.loc[:, 'timestamp'] = df['file2'].apply(extract_timestamp)
+    
     # Use default matchups if none provided
     if not matchups_to_display:
         matchups_to_display = [
-            "Steve Erceg vs  Brandon Moreno",
-            "Drew Dober vs  Manuel Torres",
-            "Joe Pyfer vs  Kelvin Gastelum",
-            "Vince Morales vs  Raul Rosas Jr.",
-            "Saimon Oliveira vs  David Martinez",
-            "Kevin Borjas vs  Ronaldo Rodriguez",
-            "CJ Vergara vs  Edgar Chairez",
-            "Ateba Gautier vs  Jose Medina",
-            "Melquizael Costa vs  Christian Rodriguez",
-            "Julia Polastri vs  Loopy Godinez",
-            "Vinc Pichel vs  Rafa Garcia",
-            "Gabriel Miranda vs  Jamall Emmers",
-            "Austin Hubbard vs  Marquel Mederos"
+            "Steve Erceg vs Brandon Moreno",
+            "Drew Dober vs Manuel Torres",
+            "Joe Pyfer vs Kelvin Gastelum",
+            "Vince Morales vs Raul Rosas Jr.",
+            "Saimon Oliveira vs David Martinez",
+            "Kevin Borjas vs Ronaldo Rodriguez",
+            "CJ Vergara vs Edgar Chairez",
+            "Ateba Gautier vs Jose Daniel Medina",
+            "Melquizael Costa vs Christian Rodriguez",
+            "Julia Polastri vs Lupita Godinez",
+            "Vinc Pichel vs Rafa Garcia",
+            "Gabriel Miranda vs Jamall Emmers",
+            "Austin Hubbard vs Marquel Mederos"
         ]
     
-    # Filter dataframe by matchups instead of by date
-    filtered_df = df[df['matchup'].isin(matchups_to_display)]
+    # Filter fighters based on matchups
+    all_fighters = set()
+    for matchup in matchups_to_display:
+        fighters = [f.strip() for f in matchup.split(' vs ')]
+        all_fighters.update(fighters)
     
-    # If none found, try case-insensitive matching
+    # Filter dataframe for these fighters (case-insensitive)
+    filtered_df = df[df['fighter'].str.lower().isin([f.lower() for f in all_fighters])]
+    
     if len(filtered_df) == 0:
-        filtered_df = df[df['matchup'].str.lower().isin([m.lower() for m in matchups_to_display])]
-        if len(filtered_df) == 0:
-            st.warning("No matchups found. Please check the matchup names.")
-            return None
-    
-    # Create a copy to avoid SettingWithCopyWarning
-    filtered_df = filtered_df.copy()
-    
-    # Process the data as before
-    filtered_df.loc[:, 'timestamp'] = filtered_df['file2'].apply(extract_timestamp)
-    filtered_df.loc[:, ['odds_before_f1', 'odds_before_f2']] = filtered_df['odds_before'].apply(parse_odds).tolist()
-    filtered_df.loc[:, ['odds_after_f1', 'odds_after_f2']] = filtered_df['odds_after'].apply(parse_odds).tolist()
+        st.warning("No fighters found. Please check the fighter names.")
+        return None
     
     return filtered_df, matchups_to_display
+
 def create_odds_chart(filtered_df, selected_matchup):
     if filtered_df.empty:
         return None
+    
+    # Extract fighter names from the matchup
     fighters = selected_matchup.split(' vs ')
     fighter1 = fighters[0].strip()
     fighter2 = fighters[1].strip() if len(fighters) > 1 else ""
     
+    # Filter data for the selected fighters
+    f1_data = filtered_df[filtered_df['fighter'] == fighter1]
+    f2_data = filtered_df[filtered_df['fighter'] == fighter2]
+    
     # Get unique sportsbooks
-    sportsbooks = filtered_df['sportsbook'].unique()
+    sportsbooks = list(set(f1_data['sportsbook'].unique().tolist() + f2_data['sportsbook'].unique().tolist()))
     
     fig = go.Figure()
     
@@ -102,44 +145,39 @@ def create_odds_chart(filtered_df, selected_matchup):
     
     # Add lines for each sportsbook
     for idx, sportsbook in enumerate(sportsbooks):
-        book_data = filtered_df[filtered_df['sportsbook'] == sportsbook]
-        
-        # Skip this sportsbook if either fighter has no valid odds
-        if book_data['odds_after_f1'].isna().all() or book_data['odds_after_f2'].isna().all():
-            continue
-            
-        # Filter out rows where either fighter has no odds
-        book_data = book_data.dropna(subset=['odds_after_f1', 'odds_after_f2'])
-        
-        if len(book_data) == 0:
-            continue
-            
         # Fighter 1
-        try:
-            fig.add_trace(go.Scatter(
-                x=book_data['timestamp'],
-                y=book_data['odds_after_f1'].str.replace('+', '').astype(int),
-                mode='lines+markers',
-                name=f"{fighter1} ({sportsbook})",
-                line=dict(color=colors_f1[idx % len(colors_f1)]),
-                marker=dict(size=8),
-                text=book_data['odds_after_f1'],
-                hovertemplate='%{text}<br>%{x}<br>%{text}<extra></extra>'
-            ))
-            
-            # Fighter 2
-            fig.add_trace(go.Scatter(
-                x=book_data['timestamp'],
-                y=book_data['odds_after_f2'].str.replace('+', '').astype(int),
-                mode='lines+markers',
-                name=f"{fighter2} ({sportsbook})",
-                line=dict(color=colors_f2[idx % len(colors_f2)]),
-                marker=dict(size=8),
-                text=book_data['odds_after_f2'],
-                hovertemplate='%{text}<br>%{x}<br>%{text}<extra></extra>'
-            ))
-        except:
-            continue
+        book_f1_data = f1_data[f1_data['sportsbook'] == sportsbook]
+        if not book_f1_data.empty:
+            try:
+                fig.add_trace(go.Scatter(
+                    x=book_f1_data['timestamp'],
+                    y=book_f1_data['odds_after'],
+                    mode='lines+markers',
+                    name=f"{fighter1} ({sportsbook})",
+                    line=dict(color=colors_f1[idx % len(colors_f1)]),
+                    marker=dict(size=8),
+                    text=[f"+{odds}" if odds > 0 else str(odds) for odds in book_f1_data['odds_after']],
+                    hovertemplate='%{text}<br>%{x}<br>%{text}<extra></extra>'
+                ))
+            except:
+                continue
+                
+        # Fighter 2
+        book_f2_data = f2_data[f2_data['sportsbook'] == sportsbook]
+        if not book_f2_data.empty:
+            try:
+                fig.add_trace(go.Scatter(
+                    x=book_f2_data['timestamp'],
+                    y=book_f2_data['odds_after'],
+                    mode='lines+markers',
+                    name=f"{fighter2} ({sportsbook})",
+                    line=dict(color=colors_f2[idx % len(colors_f2)]),
+                    marker=dict(size=8),
+                    text=[f"+{odds}" if odds > 0 else str(odds) for odds in book_f2_data['odds_after']],
+                    hovertemplate='%{text}<br>%{x}<br>%{text}<extra></extra>'
+                ))
+            except:
+                continue
     
     # If no valid data was plotted, return None
     if not fig.data:
@@ -164,7 +202,7 @@ def create_odds_chart(filtered_df, selected_matchup):
         )
         
         fig.update_layout(
-            title=f"Odds Movement: {selected_matchup} (All Sportsbooks)",
+            # title=f"  {selected_matchup}",
             xaxis_title="Time",
             yaxis_title="American Odds",
             yaxis=dict(range=[y_min, y_max]),
@@ -179,54 +217,36 @@ def create_odds_chart(filtered_df, selected_matchup):
         )
         return fig
     return None
-def get_odds_shift_description(start_odds, end_odds):
-    if not start_odds or not end_odds:
-        return "No data", "gray"
-    try:
-        start_val = int(start_odds.replace('+', ''))
-        end_val = int(end_odds.replace('+', ''))
-        if start_odds.startswith('-'):
-            if end_odds.startswith('-'):
-                if end_val > start_val:  
-                    return f"↓ Weaker Favorite ({start_odds} → {end_odds})", "red"
-                elif end_val < start_val:  
-                    return f"↑ Stronger Favorite ({start_odds} → {end_odds})", "green"
-                else:
-                    return f"No Change ({start_odds} → {end_odds})", "gray"
-            else:  
-                return f"↔ Changed to Underdog ({start_odds} → {end_odds})", "orange"
-        elif start_odds.startswith('+'):
-            if end_odds.startswith('+'):
-                if end_val > start_val:  
-                    return f"↑ Bigger Underdog ({start_odds} → {end_odds})", "red"
-                elif end_val < start_val:  
-                    return f"↓ Smaller Underdog ({start_odds} → {end_odds})", "green"
-                else:
-                    return f"No Change ({start_odds} → {end_odds})", "gray"
-            else:  
-                return f"↔ Changed to Favorite ({start_odds} → {end_odds})", "orange"
-    except:
-        return "Invalid odds format", "gray"
-    return "No change", "gray"
+
 def ufc_odds_dashboard():
     st.title("Odds Tracking & Movement Dashboard")
     
     # Define the matchups you want to display
     matchups_to_display = [
-        "Steve Erceg vs  Brandon Moreno",
-        "Drew Dober vs  Manuel Torres",
-        "Joe Pyfer vs  Kelvin Gastelum",
-        "Vince Morales vs  Raul Rosas Jr",
-        "Saimon Oliveira vs  David Martinez",
-        "Kevin Borjas vs  Ronaldo Rodriguez",
-        "CJ Vergara vs  Edgar Chairez",
-        "Ateba Gautier vs  Jose Daniel Medina",
-        "Melquizael Costa vs  Christian Rodriguez",
-        "Julia Polastri vs  Lupita Godinez",
-        "Vinc Pichel vs  Rafa Garcia",
-        "Gabriel Miranda vs  Jamall Emmers",
-        "Austin Hubbard vs  Marquel Mederos"
+        "Steve Erceg vs Brandon Moreno",
+        "Drew Dober vs Manuel Torres",
+        "Joseph Pyfer vs Kelvin Gastelum",
+        "Vince Morales vs Raul Rosas Jr.",
+        "David Martinez vs Saimon Oliveira",  # Fighters reversed from original order
+        "Luis Rodríguez vs Kevin Borjas",  # "Luis" not "Ronaldo"
+        "Edgar Chairez vs Carlos Vergara",  # "Carlos" not "CJ"
+        "Ateba Abega Gautier vs José Daniel Medina",  # Full name with accents
+        "Christian Rodriguez vs Melquizael Costa",
+        "Lupita Godinez vs Julia Polastri",  # "Lupita" not "Loopy"
+        "Rafa Garcia vs Vinc Pichel",
+        "Jamall Emmers vs Gabriel Miranda",
+        "Marquel Mederos vs Austin Hubbard"  # Regular "q" not "Q", names reversed
     ]
+    #     "Saimon Oliveira vs David Martinez",
+    #     "Kevin Borjas vs Ronaldo Rodriguez",
+    #     "CJ Vergara vs Edgar Chairez",
+    #     "Ateba Gautier vs Jose Daniel Medina",
+    #     "Melquizael Costa vs Christian Rodriguez",
+    #     "Julia Polastri vs Lupita Godinez",
+    #     "Vinc Pichel vs Rafa Garcia",
+    #     "Gabriel Miranda vs Jamall Emmers",
+    #     "Austin Hubbard vs Marquel Mederos"
+    # ]
         
     data = load_and_process_data(matchups_to_display)
     if data is None:
@@ -238,14 +258,33 @@ def ufc_odds_dashboard():
     tabs = st.tabs(["Odds Timeline", "Raw Data"])
     
     with tabs[0]:
-        st.header("UFC Fight Night 255 - Edwards vs. Brady")
+        st.header("UFC Fight Night - Moreno vs. Erceg - Mexico City")
         
         # Controls - same as React dashboard
         col1, col2 = st.columns([3, 1])
         with col1:
             selected_matchup = st.selectbox("Select Fight", available_matchups, key="timeline_matchup")
         
-        available_sportsbooks = ['Circa'] + [sb for sb in filtered_df[filtered_df['matchup'] == selected_matchup]['sportsbook'].unique() if sb != 'Circa'] + ['All']
+        # Extract fighter names from the matchup
+        fighters = selected_matchup.split(' vs ')
+        fighter1 = fighters[0].strip()
+        fighter2 = fighters[1].strip() if len(fighters) > 1 else ""
+        
+        # Get available sportsbooks for these fighters
+        f1_data = filtered_df[filtered_df['fighter'] == fighter1]
+        f2_data = filtered_df[filtered_df['fighter'] == fighter2]
+        
+        all_sportsbooks = set(f1_data['sportsbook'].unique().tolist() + f2_data['sportsbook'].unique().tolist())
+        
+        # Put Circa first if available, then others, then All
+        available_sportsbooks = []
+        if 'Circa' in all_sportsbooks:
+            available_sportsbooks.append('Circa')
+            all_sportsbooks.remove('Circa')
+        
+        available_sportsbooks.extend(sorted(all_sportsbooks))
+        available_sportsbooks.append('All')
+        
         with col2:
             selected_sportsbook = st.selectbox(
                 "Select Sportsbook", 
@@ -253,89 +292,72 @@ def ufc_odds_dashboard():
                 key="timeline_sportsbook"
             )
         
-        # Filter data based on selections - same as React dashboard
-        filtered_df = filtered_df[filtered_df['matchup'] == selected_matchup].copy()
+        # Filter data based on selected fighters
+        f1_data = filtered_df[filtered_df['fighter'] == fighter1].copy()
+        f2_data = filtered_df[filtered_df['fighter'] == fighter2].copy()
+        
+        # Further filter by sportsbook if not 'All'
         if selected_sportsbook != 'All':
-            filtered_df = filtered_df[filtered_df['sportsbook'] == selected_sportsbook].copy()
+            f1_data = f1_data[f1_data['sportsbook'] == selected_sportsbook].copy()
+            f2_data = f2_data[f2_data['sportsbook'] == selected_sportsbook].copy()
         
         # Sort by timestamp
-        filtered_df = filtered_df.sort_values('timestamp')
+        f1_data = f1_data.sort_values('timestamp')
+        f2_data = f2_data.sort_values('timestamp')
         
         # Create Plotly chart
-        fig = create_odds_chart(filtered_df, selected_matchup)
+        matchup_df = pd.concat([f1_data, f2_data])
+        fig = create_odds_chart(matchup_df, selected_matchup)
         
-        # Extract fighter names
-        fighters = selected_matchup.split(' vs ')
-        fighter1 = fighters[0].strip()
-        fighter2 = fighters[1].strip() if len(fighters) > 1 else ""
-        
-        # Calculate movement for selected fighters - same as React dashboard
-        if len(filtered_df) >= 2:
-            # Initialize movements lists
-            f1_movements = []
-            f2_movements = []
-            prev_f1_odds = None
-            prev_f2_odds = None
-            first_f1_odds = None
-            first_f2_odds = None
-            last_f1_odds = None
-            last_f2_odds = None
+        # Calculate movement for both fighters
+        def calculate_fighter_movements(fighter_data):
+            if len(fighter_data) < 2:
+                return [], None, None, "Insufficient data", "gray"
+                
+            # Group by sportsbook to track movements
+            movements = []
             
-            # Go through all sorted records to track line movements
-            for _, row in filtered_df.iterrows():
-                if row['odds_after_f1'] and row['odds_after_f2']:
-                    # Track first valid odds
-                    if first_f1_odds is None:
-                        first_f1_odds = row['odds_after_f1']
-                        first_f2_odds = row['odds_after_f2']
-                    
-                    # Update last valid odds
-                    last_f1_odds = row['odds_after_f1']
-                    last_f2_odds = row['odds_after_f2']
-                    
-                    # For Fighter 1
-                    if prev_f1_odds is None:
-                        prev_f1_odds = row['odds_after_f1']
-                    elif row['odds_after_f1'] != prev_f1_odds:
-                        move_desc, move_color = get_odds_shift_description(prev_f1_odds, row['odds_after_f1'])
+            # Track first and last valid odds for overall movement
+            first_odds = None
+            last_odds = None
+            
+            # Process each sportsbook separately
+            for sportsbook, group in fighter_data.groupby('sportsbook'):
+                # Sort by timestamp
+                group = group.sort_values('timestamp')
+                
+                # Update first/last odds
+                if first_odds is None and not group.empty:
+                    first_odds = group['odds_after'].iloc[0]
+                
+                if not group.empty:
+                    last_odds = group['odds_after'].iloc[-1]
+                
+                # Track movements within this sportsbook
+                prev_odds = None
+                for _, row in group.iterrows():
+                    if prev_odds is not None and row['odds_after'] != prev_odds:
+                        move_desc, move_color = get_odds_shift_description(prev_odds, row['odds_after'])
                         timestamp = row['timestamp'].strftime('%m/%d %H:%M') if row['timestamp'] else 'Unknown'
-                        f1_movements.append({
+                        movements.append({
                             'timestamp': timestamp,
+                            'sportsbook': sportsbook,
                             'description': move_desc,
                             'color': move_color
                         })
-                        prev_f1_odds = row['odds_after_f1']
-                    
-                    # For Fighter 2
-                    if prev_f2_odds is None:
-                        prev_f2_odds = row['odds_after_f2']
-                    elif row['odds_after_f2'] != prev_f2_odds:
-                        move_desc, move_color = get_odds_shift_description(prev_f2_odds, row['odds_after_f2'])
-                        timestamp = row['timestamp'].strftime('%m/%d %H:%M') if row['timestamp'] else 'Unknown'
-                        f2_movements.append({
-                            'timestamp': timestamp,
-                            'description': move_desc,
-                            'color': move_color
-                        })
-                        prev_f2_odds = row['odds_after_f2']
+                    prev_odds = row['odds_after']
             
-            # Calculate overall movement using first and last valid odds
-            if first_f1_odds and last_f1_odds:
-                f1_description, f1_color = get_odds_shift_description(first_f1_odds, last_f1_odds)
+            # Calculate overall movement
+            if first_odds is not None and last_odds is not None:
+                overall_desc, overall_color = get_odds_shift_description(first_odds, last_odds)
             else:
-                f1_description, f1_color = "No data", "gray"
-            
-            if first_f2_odds and last_f2_odds:
-                f2_description, f2_color = get_odds_shift_description(first_f2_odds, last_f2_odds)
-            else:
-                f2_description, f2_color = "No data", "gray"
-        else:
-            f1_description = "Insufficient data"
-            f2_description = "Insufficient data"
-            f1_color = "gray"
-            f2_color = "gray"
-            f1_movements = []
-            f2_movements = []
+                overall_desc, overall_color = "No data", "gray"
+                
+            return movements, first_odds, last_odds, overall_desc, overall_color
+        
+        # Calculate movements for both fighters
+        f1_movements, f1_first, f1_last, f1_description, f1_color = calculate_fighter_movements(f1_data)
+        f2_movements, f2_first, f2_last, f2_description, f2_color = calculate_fighter_movements(f2_data)
         
         # Display chart
         if fig:
@@ -379,6 +401,11 @@ def ufc_odds_dashboard():
                 font-size: 13px;
                 color: #aaaaaa;
             }
+            .sportsbook {
+                min-width: 80px;
+                font-size: 13px;
+                color: #cccccc;
+            }
             .description {
                 font-size: 14px;
             }
@@ -402,7 +429,7 @@ def ufc_odds_dashboard():
             # Create fighter cards
             fighter_cols = st.columns(2)
             
-            # Fighter 1 card - Build the complete HTML string without extra indentation
+            # Fighter 1 card
             f1_html = f"""<div class="fighter-card">
 <div class="fighter-name fighter-1-name">{fighter1}</div>
 <div class="movement-label">Odds Movement:</div>
@@ -410,11 +437,18 @@ def ufc_odds_dashboard():
 <div class="section-title">Movement Timeline:</div>
 <div class="scrollable">"""
             
-            # Add movement timeline without extra indentation
+            # Add movement timeline
             if selected_sportsbook != 'All' and f1_movements:
                 for move in f1_movements:
                     f1_html += f"""<div class="timeline-item">
 <div class="timestamp">{move['timestamp']}</div>
+<div class="description" style="color: {move['color']};">{move['description']}</div>
+</div>"""
+            elif selected_sportsbook == 'All' and f1_movements:
+                for move in f1_movements:
+                    f1_html += f"""<div class="timeline-item">
+<div class="timestamp">{move['timestamp']}</div>
+<div class="sportsbook">{move['sportsbook']}</div>
 <div class="description" style="color: {move['color']};">{move['description']}</div>
 </div>"""
             elif selected_sportsbook == 'All':
@@ -428,44 +462,46 @@ def ufc_odds_dashboard():
             with fighter_cols[0]:
                 st.markdown(f1_html, unsafe_allow_html=True)
             
-            # Fighter 2 card - Build the complete HTML string
-            f2_html = f"""
-<div class="fighter-card">
-    <div class="fighter-name fighter-2-name">{fighter2}</div>
-    <div class="movement-label">Odds Movement:</div>
-    <div class="movement-value" style="color: {f2_color};">{f2_description}</div>
-    <div class="section-title">Movement Timeline:</div>
-    <div class="scrollable">
-"""
+            # Fighter 2 card
+            f2_html = f"""<div class="fighter-card">
+<div class="fighter-name fighter-2-name">{fighter2}</div>
+<div class="movement-label">Odds Movement:</div>
+<div class="movement-value" style="color: {f2_color};">{f2_description}</div>
+<div class="section-title">Movement Timeline:</div>
+<div class="scrollable">"""
             
-            # Add movement timeline to the HTML string
+            # Add movement timeline
             if selected_sportsbook != 'All' and f2_movements:
                 for move in f2_movements:
-                    f2_html += f"""
-<div class="timeline-item">
-    <div class="timestamp">{move['timestamp']}</div>
-    <div class="description" style="color: {move['color']};">{move['description']}</div>
-</div>
-                    """
+                    f2_html += f"""<div class="timeline-item">
+<div class="timestamp">{move['timestamp']}</div>
+<div class="description" style="color: {move['color']};">{move['description']}</div>
+</div>"""
+            elif selected_sportsbook == 'All' and f2_movements:
+                for move in f2_movements:
+                    f2_html += f"""<div class="timeline-item">
+<div class="timestamp">{move['timestamp']}</div>
+<div class="sportsbook">{move['sportsbook']}</div>
+<div class="description" style="color: {move['color']};">{move['description']}</div>
+</div>"""
             elif selected_sportsbook == 'All':
                 f2_html += '<div class="message">Select a specific sportsbook to see line movements</div>'
             else:
                 f2_html += '<div class="message">No line movements recorded for this fighter</div>'
             
-            # Close the HTML tags
             f2_html += '</div></div>'
             
-            # Render complete HTML strings
+            # Render complete HTML string
             with fighter_cols[1]:
                 st.markdown(f2_html, unsafe_allow_html=True)
             
-            # Caption for chart
-            # st.caption("The chart shows American odds movement over time. Negative values (e.g., -150) indicate favorites, while positive values (e.g., +200) indicate underdogs.")
         else:
             st.warning("No odds data available for this selection.")
+    
     with tabs[1]:
         st.header("Raw Data")
-        st.write("March 22 Fight Data")
+        st.write("Fighter Odds Data")
         st.dataframe(filtered_df)
+
 if __name__ == "__main__":
     ufc_odds_dashboard()

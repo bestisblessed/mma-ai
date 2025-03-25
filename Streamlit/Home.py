@@ -26,7 +26,8 @@ df_event_data = pd.read_csv(os.path.join(base_dir, 'data/event_data_sherdog.csv'
 df_fighter_data = pd.read_csv(os.path.join(base_dir, 'data/fighter_info.csv'))
 # df_fighter_data_chatbot = pd.read_csv(os.path.join(base_dir, 'data/fighter_info_chatbot.csv'))
 df_fighter_data_chatbot = pd.read_csv(os.path.join(base_dir, 'data/fighter_info.csv'))
-df_odds_movements = pd.read_csv(os.path.join(base_dir, 'data/ufc_odds_movements.csv'))
+# df_odds_movements = pd.read_csv(os.path.join(base_dir, 'data/ufc_odds_movements.csv'))
+df_odds_movements = pd.read_csv(os.path.join(base_dir, 'data/ufc_odds_movements_fightoddsio.csv'))
 
 dataframes = [df_event_data, df_fighter_data]
 st.session_state['df_event_data'] = df_event_data
