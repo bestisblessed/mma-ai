@@ -1,7 +1,4 @@
 file1,file2,game_date,game_time,matchup,sportsbook,odds_before,odds_after
-ufc_odds_vsin_20250227_1403.json,ufc_odds_vsin_20250227_1406.json,"Sat,March 22nd",11:00 PM,Chordale Booker vs  Sebastian Fundora,GLD Nugget,- | -,+750 | -1200
-ufc_odds_vsin_20250227_1403.json,ufc_odds_vsin_20250227_1406.json,"Sat,March 29th",11:00 PM,Sandy Ryan vs  Mikaela Mayer,GLD Nugget,- | -,-115 | -105
-ufc_odds_vsin_20250227_1403.json,ufc_odds_vsin_20250227_1406.json,"Sat,March 29th",10:00 PM,Derrick Cuevas vs  Brian Norman Jr,GLD Nugget,- | -,+350 | -420
 ufc_odds_vsin_20250313_1815.json,ufc_odds_vsin_20250313_1821.json,"Sat,March 22nd",04:00 PM,Sean Brady vs  Leon Edwards,Circa,- | -,-150 | +130
 ufc_odds_vsin_20250313_1815.json,ufc_odds_vsin_20250313_1821.json,"Sat,March 22nd",04:00 PM,Carlos Ulberg vs  Jan Blachowicz,Circa,- | -,-235 | +200
 ufc_odds_vsin_20250313_1815.json,ufc_odds_vsin_20250313_1821.json,"Sat,March 22nd",04:00 PM,Kevin Holland vs  Gunnar Nelson,Circa,- | -,+125 | -145
@@ -232,3 +229,80 @@ ufc_odds_vsin_20250323_2152.json,ufc_odds_vsin_20250323_2155.json,"Sat,March 29t
 ufc_odds_vsin_20250323_2340.json,ufc_odds_vsin_20250323_2343.json,"Sat,March 29th",07:00 PM,Austin Hubbard vs  Marquel Mederos,BetMGM,- | -,+165 | -200
 ufc_odds_vsin_20250324_0004.json,ufc_odds_vsin_20250324_0007.json,"Sat,March 29th",07:00 PM,Austin Hubbard vs  Marquel Mederos,Westgate,- | -,+170 | -200
 ufc_odds_vsin_20250324_0252.json,ufc_odds_vsin_20250324_0255.json,"Sat,March 29th",07:00 PM,Steve Erceg vs  Brandon Moreno,Circa,+165 | -190,+175 | -200
+ufc_odds_vsin_20250324_0952.json,ufc_odds_vsin_20250324_0955.json,"Sat,March 29th",07:00 PM,Joe Pyfer vs  Kelvin Gastelum,BetMGM,-370 | +290,-325 | +255
+ufc_odds_vsin_20250324_0952.json,ufc_odds_vsin_20250324_0955.json,"Sat,March 29th",07:00 PM,Melquizael Costa vs  Christian Rodriguez,Stations,+120 | -150,-105 | -125
+ufc_odds_vsin_20250324_0952.json,ufc_odds_vsin_20250324_0955.json,"Sat,March 29th",07:00 PM,Vince Morales vs  Raul Rosas Jr,Westgate,+280 | -340,+290 | -350
+ufc_odds_vsin_20250324_0952.json,ufc_odds_vsin_20250324_0955.json,"Sat,March 29th",07:00 PM,Gabriel Miranda vs  Jamall Emmers,Westgate,+270 | -330,+290 | -350
+ufc_odds_vsin_20250324_1052.json,ufc_odds_vsin_20250324_1055.json,"Sat,March 29th",07:00 PM,Melquizael Costa vs  Christian Rodriguez,Circa,+115 | -135,+120 | -140
+ufc_odds_vsin_20250324_1052.json,ufc_odds_vsin_20250324_1055.json,"Sat,March 29th",07:00 PM,Vince Morales vs  Raul Rosas Jr,Stations,+250 | -330,+260 | -350
+ufc_odds_vsin_20250324_1052.json,ufc_odds_vsin_20250324_1055.json,"Sat,March 29th",07:00 PM,Gabriel Miranda vs  Jamall Emmers,Stations,+250 | -330,+260 | -350
+ufc_odds_vsin_20250324_1128.json,ufc_odds_vsin_20250324_1131.json,"Sat,March 29th",07:00 PM,Joe Pyfer vs  Kelvin Gastelum,Westgate,-350 | +290,-330 | +270
+ufc_odds_vsin_20250324_1128.json,ufc_odds_vsin_20250324_1131.json,"Sat,March 29th",07:00 PM,Kevin Borjas vs  Ronaldo Rodriguez,Westgate,+125 | -145,+135 | -155
+ufc_odds_vsin_20250324_1140.json,ufc_odds_vsin_20250324_1143.json,"Sat,March 29th",07:00 PM,Joe Pyfer vs  Kelvin Gastelum,Wynn,-360 | +290,-330 | +260
+ufc_odds_vsin_20250324_1140.json,ufc_odds_vsin_20250324_1143.json,"Sat,March 29th",07:00 PM,Kevin Borjas vs  Ronaldo Rodriguez,Wynn,+125 | -145,+135 | -155
+ufc_odds_vsin_20250324_1140.json,ufc_odds_vsin_20250324_1143.json,"Sat,March 29th",07:00 PM,Kevin Borjas vs  Ronaldo Rodriguez,BetMGM,+120 | -145,+135 | -160
+ufc_odds_vsin_20250324_1140.json,ufc_odds_vsin_20250324_1143.json,"Sat,March 29th",07:00 PM,Melquizael Costa vs  Christian Rodriguez,Stations,-105 | -125,+120 | -150
+ufc_odds_vsin_20250324_1140.json,ufc_odds_vsin_20250324_1143.json,"Sat,March 29th",07:00 PM,Vince Morales vs  Raul Rosas Jr,Wynn,+270 | -340,+280 | -350
+ufc_odds_vsin_20250324_1140.json,ufc_odds_vsin_20250324_1143.json,"Sat,March 29th",07:00 PM,Gabriel Miranda vs  Jamall Emmers,Wynn,+255 | -320,+280 | -350
+ufc_odds_vsin_20250324_1140.json,ufc_odds_vsin_20250324_1143.json,"Sat,March 29th",07:00 PM,Austin Hubbard vs  Marquel Mederos,Wynn,- | -,+170 | -200
+ufc_odds_vsin_20250324_1152.json,ufc_odds_vsin_20250324_1155.json,"Sat,March 29th",07:00 PM,Kevin Borjas vs  Ronaldo Rodriguez,Stations,+115 | -145,+125 | -155
+ufc_odds_vsin_20250324_1216.json,ufc_odds_vsin_20250324_1219.json,"Sat,March 29th",07:00 PM,Steve Erceg vs  Brandon Moreno,Westgate,+165 | -190,+170 | -200
+ufc_odds_vsin_20250324_1216.json,ufc_odds_vsin_20250324_1219.json,"Sat,March 29th",07:00 PM,Joe Pyfer vs  Kelvin Gastelum,Westgate,-330 | +270,-310 | +260
+ufc_odds_vsin_20250324_1216.json,ufc_odds_vsin_20250324_1219.json,"Sat,March 29th",07:00 PM,Melquizael Costa vs  Christian Rodriguez,Westgate,+105 | -125,+110 | -130
+ufc_odds_vsin_20250324_1328.json,ufc_odds_vsin_20250324_1331.json,"Sat,March 29th",07:00 PM,Gabriel Miranda vs  Jamall Emmers,BetMGM,- | -,+275 | -350
+ufc_odds_vsin_20250324_1516.json,ufc_odds_vsin_20250324_1519.json,"Sat,March 29th",07:00 PM,Kevin Borjas vs  Ronaldo Rodriguez,Circa,+125 | -145,+135 | -155
+ufc_odds_vsin_20250324_1616.json,ufc_odds_vsin_20250324_1619.json,"Sat,March 29th",07:00 PM,Joe Pyfer vs  Kelvin Gastelum,Circa,-360 | +295,-330 | +275
+ufc_odds_vsin_20250324_1628.json,ufc_odds_vsin_20250324_1631.json,"Sat,March 29th",07:00 PM,Steve Erceg vs  Brandon Moreno,Circa,+175 | -200,+180 | -210
+ufc_odds_vsin_20250324_1628.json,ufc_odds_vsin_20250324_1631.json,"Sat,March 29th",07:00 PM,Drew Dober vs  Manuel Torres,Circa,+112 | -132,+110 | -130
+ufc_odds_vsin_20250324_1628.json,ufc_odds_vsin_20250324_1631.json,"Sat,March 29th",07:00 PM,Joe Pyfer vs  Kelvin Gastelum,Circa,-330 | +275,-320 | +265
+ufc_odds_vsin_20250324_1628.json,ufc_odds_vsin_20250324_1631.json,"Sat,March 29th",07:00 PM,Ateba Gautier vs  Jose Daniel Medina,Circa,-450 | +360,-435 | +350
+ufc_odds_vsin_20250324_1640.json,ufc_odds_vsin_20250324_1643.json,"Sat,March 29th",07:00 PM,CJ Vergara vs  Edgar Chairez,Circa,+230 | -270,+225 | -265
+ufc_odds_vsin_20250324_1640.json,ufc_odds_vsin_20250324_1643.json,"Sat,March 29th",07:00 PM,Julia Polastri vs  Lupita Godinez,Circa,+190 | -220,+200 | -235
+ufc_odds_vsin_20250324_1640.json,ufc_odds_vsin_20250324_1643.json,"Sat,March 29th",07:00 PM,Melquizael Costa vs  Christian Rodriguez,Circa,+120 | -140,+130 | -150
+ufc_odds_vsin_20250324_1640.json,ufc_odds_vsin_20250324_1643.json,"Sat,March 29th",07:00 PM,Melquizael Costa vs  Christian Rodriguez,Westgate,+110 | -130,+130 | -150
+ufc_odds_vsin_20250324_1640.json,ufc_odds_vsin_20250324_1643.json,"Sat,March 29th",07:00 PM,Vince Morales vs  Raul Rosas Jr,Circa,+280 | -340,+290 | -350
+ufc_odds_vsin_20250324_1652.json,ufc_odds_vsin_20250324_1655.json,"Sat,March 29th",07:00 PM,Steve Erceg vs  Brandon Moreno,Westgate,+170 | -200,+180 | -210
+ufc_odds_vsin_20250324_1652.json,ufc_odds_vsin_20250324_1655.json,"Sat,March 29th",07:00 PM,Drew Dober vs  Manuel Torres,Circa,+110 | -130,+100 | -120
+ufc_odds_vsin_20250324_1652.json,ufc_odds_vsin_20250324_1655.json,"Sat,March 29th",07:00 PM,Drew Dober vs  Manuel Torres,Westgate,+110 | -130,+100 | -120
+ufc_odds_vsin_20250324_1652.json,ufc_odds_vsin_20250324_1655.json,"Sat,March 29th",07:00 PM,Joe Pyfer vs  Kelvin Gastelum,Circa,-320 | +265,-310 | +260
+ufc_odds_vsin_20250324_1652.json,ufc_odds_vsin_20250324_1655.json,"Sat,March 29th",07:00 PM,Kevin Borjas vs  Ronaldo Rodriguez,Circa,+135 | -155,+130 | -150
+ufc_odds_vsin_20250324_1652.json,ufc_odds_vsin_20250324_1655.json,"Sat,March 29th",07:00 PM,Saimon Oliveira vs  David Martinez,Circa,+335 | -410,+280 | -340
+ufc_odds_vsin_20250324_1652.json,ufc_odds_vsin_20250324_1655.json,"Sat,March 29th",07:00 PM,Saimon Oliveira vs  David Martinez,Westgate,+330 | -400,+280 | -340
+ufc_odds_vsin_20250324_1652.json,ufc_odds_vsin_20250324_1655.json,"Sat,March 29th",07:00 PM,CJ Vergara vs  Edgar Chairez,Circa,+225 | -265,+215 | -250
+ufc_odds_vsin_20250324_1652.json,ufc_odds_vsin_20250324_1655.json,"Sat,March 29th",07:00 PM,CJ Vergara vs  Edgar Chairez,Westgate,+235 | -275,+210 | -250
+ufc_odds_vsin_20250324_1652.json,ufc_odds_vsin_20250324_1655.json,"Sat,March 29th",07:00 PM,Julia Polastri vs  Lupita Godinez,Westgate,+185 | -215,+200 | -240
+ufc_odds_vsin_20250324_1652.json,ufc_odds_vsin_20250324_1655.json,"Sat,March 29th",07:00 PM,Melquizael Costa vs  Christian Rodriguez,Westgate,+130 | -150,+145 | -165
+ufc_odds_vsin_20250324_1652.json,ufc_odds_vsin_20250324_1655.json,"Sat,March 29th",07:00 PM,Melquizael Costa vs  Christian Rodriguez,Wynn,+110 | -130,+135 | -155
+ufc_odds_vsin_20250324_1652.json,ufc_odds_vsin_20250324_1655.json,"Sat,March 29th",07:00 PM,Gabriel Miranda vs  Jamall Emmers,Circa,- | -,+265 | -320
+ufc_odds_vsin_20250324_1652.json,ufc_odds_vsin_20250324_1655.json,"Sat,March 29th",07:00 PM,Austin Hubbard vs  Marquel Mederos,Circa,- | -,+160 | -185
+ufc_odds_vsin_20250324_1652.json,ufc_odds_vsin_20250324_1655.json,"Sat,March 29th",07:00 PM,Austin Hubbard vs  Marquel Mederos,Westgate,+170 | -200,+165 | -190
+ufc_odds_vsin_20250324_1704.json,ufc_odds_vsin_20250324_1707.json,"Sat,March 29th",07:00 PM,Kevin Borjas vs  Ronaldo Rodriguez,Circa,+130 | -150,+140 | -160
+ufc_odds_vsin_20250324_1704.json,ufc_odds_vsin_20250324_1707.json,"Sat,March 29th",07:00 PM,Kevin Borjas vs  Ronaldo Rodriguez,Westgate,+135 | -155,+145 | -165
+ufc_odds_vsin_20250324_1704.json,ufc_odds_vsin_20250324_1707.json,"Sat,March 29th",07:00 PM,Kevin Borjas vs  Ronaldo Rodriguez,Wynn,+135 | -155,+140 | -160
+ufc_odds_vsin_20250324_1716.json,ufc_odds_vsin_20250324_1719.json,"Sat,March 29th",07:00 PM,Ateba Gautier vs  Jose Daniel Medina,BetMGM,-500 | +375,-420 | +325
+ufc_odds_vsin_20250324_1716.json,ufc_odds_vsin_20250324_1719.json,"Sat,March 29th",07:00 PM,Vince Morales vs  Raul Rosas Jr,BetMGM,+270 | -340,+305 | -385
+ufc_odds_vsin_20250324_1728.json,ufc_odds_vsin_20250324_1731.json,"Sat,March 29th",07:00 PM,Steve Erceg vs  Brandon Moreno,BetMGM,+165 | -200,+185 | -225
+ufc_odds_vsin_20250324_1728.json,ufc_odds_vsin_20250324_1731.json,"Sat,March 29th",07:00 PM,Melquizael Costa vs  Christian Rodriguez,BetMGM,+120 | -145,+125 | -150
+ufc_odds_vsin_20250324_1740.json,ufc_odds_vsin_20250324_1743.json,"Sat,March 29th",07:00 PM,Steve Erceg vs  Brandon Moreno,Circa,+180 | -210,+195 | -225
+ufc_odds_vsin_20250324_1752.json,ufc_odds_vsin_20250324_1755.json,"Sat,March 29th",07:00 PM,Steve Erceg vs  Brandon Moreno,Circa,+195 | -225,+200 | -235
+ufc_odds_vsin_20250324_1804.json,ufc_odds_vsin_20250324_1807.json,"Sat,March 29th",07:00 PM,Steve Erceg vs  Brandon Moreno,Wynn,+165 | -185,+170 | -200
+ufc_odds_vsin_20250324_1804.json,ufc_odds_vsin_20250324_1807.json,"Sat,March 29th",07:00 PM,CJ Vergara vs  Edgar Chairez,Circa,+215 | -250,+220 | -260
+ufc_odds_vsin_20250324_1940.json,ufc_odds_vsin_20250324_1943.json,"Sat,March 29th",07:00 PM,Steve Erceg vs  Brandon Moreno,Westgate,+180 | -210,+200 | -240
+ufc_odds_vsin_20250324_1940.json,ufc_odds_vsin_20250324_1943.json,"Sat,March 29th",07:00 PM,Drew Dober vs  Manuel Torres,Westgate,+100 | -120,-105 | -115
+ufc_odds_vsin_20250324_1940.json,ufc_odds_vsin_20250324_1943.json,"Sat,March 29th",07:00 PM,Joe Pyfer vs  Kelvin Gastelum,Westgate,-310 | +260,-300 | +250
+ufc_odds_vsin_20250324_1940.json,ufc_odds_vsin_20250324_1943.json,"Sat,March 29th",07:00 PM,Kevin Borjas vs  Ronaldo Rodriguez,Westgate,+145 | -165,+150 | -170
+ufc_odds_vsin_20250324_1940.json,ufc_odds_vsin_20250324_1943.json,"Sat,March 29th",07:00 PM,Saimon Oliveira vs  David Martinez,Westgate,+280 | -340,+275 | -335
+ufc_odds_vsin_20250324_1940.json,ufc_odds_vsin_20250324_1943.json,"Sat,March 29th",07:00 PM,CJ Vergara vs  Edgar Chairez,Westgate,+210 | -250,+220 | -260
+ufc_odds_vsin_20250324_1952.json,ufc_odds_vsin_20250324_1955.json,"Sat,March 29th",07:00 PM,Steve Erceg vs  Brandon Moreno,Stations,+170 | -190,+200 | -240
+ufc_odds_vsin_20250324_1952.json,ufc_odds_vsin_20250324_1955.json,"Sat,March 29th",07:00 PM,Joe Pyfer vs  Kelvin Gastelum,Stations,-360 | +270,-350 | +260
+ufc_odds_vsin_20250324_1952.json,ufc_odds_vsin_20250324_1955.json,"Sat,March 29th",07:00 PM,Kevin Borjas vs  Ronaldo Rodriguez,Stations,+125 | -155,+140 | -170
+ufc_odds_vsin_20250324_1952.json,ufc_odds_vsin_20250324_1955.json,"Sat,March 29th",07:00 PM,Julia Polastri vs  Lupita Godinez,Stations,+180 | -230,+190 | -240
+ufc_odds_vsin_20250324_1952.json,ufc_odds_vsin_20250324_1955.json,"Sat,March 29th",07:00 PM,Vince Morales vs  Raul Rosas Jr,Stations,+260 | -350,+275 | -365
+ufc_odds_vsin_20250324_1952.json,ufc_odds_vsin_20250324_1955.json,"Sat,March 29th",07:00 PM,Gabriel Miranda vs  Jamall Emmers,Stations,+260 | -350,+275 | -365
+ufc_odds_vsin_20250324_2028.json,ufc_odds_vsin_20250324_2031.json,"Sat,March 29th",07:00 PM,Steve Erceg vs  Brandon Moreno,Wynn,+170 | -200,+190 | -240
+ufc_odds_vsin_20250324_2252.json,ufc_odds_vsin_20250324_2255.json,"Sat,March 29th",07:00 PM,Vince Morales vs  Raul Rosas Jr,Circa,+290 | -350,+320 | -390
+ufc_odds_vsin_20250325_0028.json,ufc_odds_vsin_20250325_0031.json,"Sat,March 29th",10:00 PM,Derrick Cuevas vs  Brian Norman Jr,Westgate,+350 | -420,+375 | -450
+ufc_odds_vsin_20250325_0252.json,ufc_odds_vsin_20250325_0255.json,"Sat,March 29th",07:00 PM,Steve Erceg vs  Brandon Moreno,Circa,+200 | -235,+195 | -225
+ufc_odds_vsin_20250325_0252.json,ufc_odds_vsin_20250325_0255.json,"Sat,March 29th",11:00 PM,Sandy Ryan vs  Mikaela Mayer,Circa,- | -,-115 | -105
+ufc_odds_vsin_20250325_0252.json,ufc_odds_vsin_20250325_0255.json,"Sat,March 29th",10:00 PM,Derrick Cuevas vs  Brian Norman Jr,Circa,- | -,+380 | -475
+ufc_odds_vsin_20250325_0252.json,ufc_odds_vsin_20250325_0255.json,"Sat,March 29th",10:00 PM,Tevin Farmer vs  William Zepeda,Circa,- | -,+550 | -750
