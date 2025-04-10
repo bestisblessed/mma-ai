@@ -217,9 +217,9 @@ def ufc_odds_dashboard():
     st.title("Odds Tracking & Movement Dashboard")
     
     # df = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/upcoming_event_data_sherdog.csv'))
-    df = pd.read_csv(os.path.join(os.path.dirname(__file__), '../data/upcoming_event_data_sherdog.csv'))
+    df2 = pd.read_csv(os.path.join(os.path.dirname(__file__), '../data/upcoming_event_data_sherdog.csv'))
         
-    matchups_to_display = df[['Fighter 1', 'Fighter 2']].apply(lambda x: f"{x['Fighter 1']} vs {x['Fighter 2']}", axis=1).tolist()
+    matchups_to_display = df2[['Fighter 1', 'Fighter 2']].apply(lambda x: f"{x['Fighter 1']} vs {x['Fighter 2']}", axis=1).tolist()
     data = load_and_process_data(matchups_to_display)
     if data is None:
         return
