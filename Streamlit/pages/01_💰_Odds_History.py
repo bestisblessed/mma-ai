@@ -66,8 +66,7 @@ def get_odds_shift_description(start_odds, end_odds):
 def load_and_process_data(matchups_to_display=None):
     try:
         # Always load directly from file
-        df = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
-                                      'data/ufc_odds_movements_fightoddsio.csv'))
+        df = pd.read_csv(os.path.join(os.path.dirname(__file__), '../data/ufc_odds_movements_fightoddsio.csv'))
         
         # Exclude unwanted sportsbooks - create a new DataFrame instead of modifying
         excluded_books = ['4casters', 'cloudbet', 'jazz-sports', 'espn-bet', 'betway', 'betrivers', 'sx-bet', 'bet105', 'betanysports', 'betmgm']
@@ -217,8 +216,7 @@ def create_odds_chart(filtered_df, selected_matchup):
 def ufc_odds_dashboard():
     st.title("Odds Tracking & Movement Dashboard")
     
-    df = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
-                             'data/upcoming_event_data_sherdog.csv'))
+    df = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data/upcoming_event_data_sherdog.csv'))
 
     matchups_to_display = df[['Fighter 1', 'Fighter 2']].apply(lambda x: f"{x['Fighter 1']} vs {x['Fighter 2']}", axis=1).tolist()
     data = load_and_process_data(matchups_to_display)
