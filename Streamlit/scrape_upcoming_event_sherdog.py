@@ -460,3 +460,7 @@ if __name__ == "__main__":
     # event_url = input("Enter the Sherdog event URL: ")
     event_url = 'https://www.sherdog.com/events/UFC-314-Volkanovski-vs-Lopes-106606'
     scrape_single_event(event_url)
+    
+
+if os.path.exists("sherdog_event_page.html"):
+    os.remove("sherdog_event_page.html")
