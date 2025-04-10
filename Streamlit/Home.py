@@ -28,14 +28,14 @@ df_fighter_data = pd.read_csv(os.path.join(base_dir, 'data/fighter_info.csv'))
 df_fighter_data_chatbot = pd.read_csv(os.path.join(base_dir, 'data/fighter_info.csv'))
 # df_odds_movements = pd.read_csv(os.path.join(base_dir, 'data/ufc_odds_movements.csv'))
 df_odds_movements = pd.read_csv(os.path.join(base_dir, 'data/ufc_odds_movements_fightoddsio.csv'))
-# df_upcoming_event_data = pd.read_csv(os.path.join(base_dir, 'data/upcoming_event_data_sherdog.csv'))
+df_upcoming_event_data = pd.read_csv(os.path.join(base_dir, 'data/upcoming_event_data_sherdog.csv'))
 
 dataframes = [df_event_data, df_fighter_data]
 st.session_state['df_event_data'] = df_event_data
 st.session_state['df_fighter_data'] = df_fighter_data
 st.session_state['df_fighter_data_chatbot'] = df_fighter_data_chatbot
 st.session_state['df_odds_movements'] = df_odds_movements
-# st.session_state['df_upcoming_event_data'] = df_upcoming_event_data
+st.session_state['df_upcoming_event_data'] = df_upcoming_event_data
 # Streamlit/Streamlit/
 # ---- Loading Data from GitHub URLs ---- #
 # event_data_url = 'https://raw.githubusercontent.com/bestisblessed/mma-ai/main/Streamlit/data/event_data_sherdog.csv'
