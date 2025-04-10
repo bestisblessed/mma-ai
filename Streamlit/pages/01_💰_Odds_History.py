@@ -80,18 +80,7 @@ def load_and_process_data(matchups_to_display=None):
         if not matchups_to_display:
             matchups_to_display = [
                 "Steve Erceg vs Brandon Moreno",
-                "Drew Dober vs Manuel Torres",
-                "Joe Pyfer vs Kelvin Gastelum",
-                "Vince Morales vs Raul Rosas Jr.",
-                "Saimon Oliveira vs David Martinez",
-                "Kevin Borjas vs Ronaldo Rodriguez",
-                "CJ Vergara vs Edgar Chairez",
-                "Ateba Gautier vs Jose Daniel Medina",
-                "Melquizael Costa vs Christian Rodriguez",
-                "Julia Polastri vs Lupita Godinez",
-                "Vinc Pichel vs Rafa Garcia",
-                "Gabriel Miranda vs Jamall Emmers",
-                "Austin Hubbard vs Marquel Mederos"
+                "Drew Dober vs Manuel Torres"
             ]
         
         # Filter fighters based on matchups
@@ -228,22 +217,13 @@ def create_odds_chart(filtered_df, selected_matchup):
 def ufc_odds_dashboard():
     st.title("Odds Tracking & Movement Dashboard")
     
-    # Define the matchups you want to display
-    matchups_to_display = [
-        "Steve Erceg vs Brandon Moreno",
-        "Drew Dober vs Manuel Torres",
-        "Joseph Pyfer vs Kelvin Gastelum",
-        "Vince Morales vs Raul Rosas Jr.",
-        "David Martinez vs Saimon Oliveira",  # Fighters reversed from original order
-        "Luis Rodríguez vs Kevin Borjas",  # "Luis" not "Ronaldo"
-        "Edgar Chairez vs Carlos Vergara",  # "Carlos" not "CJ"
-        "Ateba Abega Gautier vs José Daniel Medina",  # Full name with accents
-        "Christian Rodriguez vs Melquizael Costa",
-        "Lupita Godinez vs Julia Polastri",  # "Lupita" not "Loopy"
-        "Rafa Garcia vs Vinc Pichel",
-        "Jamall Emmers vs Gabriel Miranda",
-        "Marquel Mederos vs Austin Hubbard"  # Regular "q" not "Q", names reversed
-    ]
+    import pandas as pd
+
+    # Load the upcoming event data
+    df = pd.read_csv('data/upcoming_event_data_sherdog.csv')
+
+    # Define the matchups you want to display from the DataFrame
+    matchups_to_display = df[['Fighter 1', 'Fighter 2']].apply(lambda x: f"{x['Fighter 1']} vs {x['Fighter 2']}", axis=1).tolist()
         
     data = load_and_process_data(matchups_to_display)
     if data is None:
@@ -255,7 +235,7 @@ def ufc_odds_dashboard():
     tabs = st.tabs(["Odds Timeline", "Raw Data"])
     
     with tabs[0]:
-        st.header("UFC Fight Night - Moreno vs. Erceg - Mexico City")
+        st.header("UFC 314 - Volkanovski vs Lopes")
         
         # Controls - same as React dashboard
         col1, col2 = st.columns([3, 1])
