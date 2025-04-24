@@ -1,0 +1,27 @@
+name: Sync commits to Notion
+
+on: [push]
+
+jobs:
+  notion_hook_job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0        # keep full history
+
+      - name: Send commit info to Notion
+        uses: alessandrobelli/NotionHook@1.1
+        with:
+          notion_secret:   ${{ secrets.NOTION_SECRET }}   # integration token
+          notion_database: ${{ secrets.NOTION_DATABASE }} # database ID
+
+          # --- map GitHub fields → your Notion columns ---
+          commit_description: "Description"   # rich-text
+          commit_url:        "Url"            # URL
+          commit_id:         "Id"             # plain text
+          commit_project:    "Project"        # multi-select
+
+          # optional helpers
+          files_format: 'text-list'
+          token:        ${{ github.token }}
