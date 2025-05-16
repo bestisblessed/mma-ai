@@ -1,1 +1,0 @@
-The comprehensive statistical report on Michael Page includes his career overview, detailed striking and grappling statistics, notable fights, and additional background information. This data is sourced from reliable MMA platforms like ESPN, UFC Stats, Sherdog, and Tapology.

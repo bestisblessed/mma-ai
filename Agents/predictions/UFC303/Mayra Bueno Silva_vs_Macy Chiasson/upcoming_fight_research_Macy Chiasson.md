@@ -1,1 +1,0 @@
-The comprehensive statistical and historical performance information for Macy Chiasson is detailed above.

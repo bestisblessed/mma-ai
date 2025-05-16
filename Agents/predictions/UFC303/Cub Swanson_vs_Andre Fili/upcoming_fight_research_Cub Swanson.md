@@ -1,1 +1,0 @@
-Comprehensive report on Cub Swanson including personal information, detailed fight record, recent fights, career highlights, fighting style, and future outlook.

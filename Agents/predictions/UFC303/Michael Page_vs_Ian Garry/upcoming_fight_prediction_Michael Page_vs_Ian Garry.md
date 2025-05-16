@@ -1,1 +1,0 @@
-Ian Garry to win by Decision, with Michael Page having significant underdog potential to win by KO/TKO.

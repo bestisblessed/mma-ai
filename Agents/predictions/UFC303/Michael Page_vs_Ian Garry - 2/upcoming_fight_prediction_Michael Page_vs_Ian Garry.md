@@ -1,1 +1,0 @@
-Ian Garry to win by Decision (+150), with a secondary possibility of Michael Page winning by KO/TKO (+250).

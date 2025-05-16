@@ -1,1 +1,0 @@
-The comprehensive statistical report on Jiri Prochazka is complete and includes his profile, career statistics, notable fights, and an analysis of his historical performance and recent experiences.

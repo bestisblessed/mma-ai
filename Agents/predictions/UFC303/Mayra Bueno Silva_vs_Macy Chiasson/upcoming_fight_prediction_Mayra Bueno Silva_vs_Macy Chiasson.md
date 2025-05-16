@@ -1,1 +1,0 @@
-Mayra Bueno Silva is predicted to win by submission, leveraging her superior grappling skills and recent track record in high-stakes fights.

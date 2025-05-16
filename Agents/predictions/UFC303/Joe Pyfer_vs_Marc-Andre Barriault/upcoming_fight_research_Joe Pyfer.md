@@ -1,1 +1,0 @@
-The detailed statistical report and historical performance data for Joe Pyfer are compiled from various reliable sources, covering his professional MMA record, career statistics, significant fights, and additional insights into his skills and fight outcomes.

@@ -1,1 +1,0 @@
-The complete and comprehensive statistical and historical performance information for Mayra Bueno Silva has been gathered and presented above.
