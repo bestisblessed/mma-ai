@@ -49,6 +49,8 @@ agent1 = Agent(
     """,
     tools=[csv_tool1, csv_tool2],
     allow_delegation=True,
+    verbose=True,
+    max_iter=15
 )
 
 ### Public Sentiment & News Analyst ###
@@ -62,7 +64,8 @@ agent2 = Agent(
     """,
     tools=[serper_tool],
     allow_delegation=True,
-    max_iter=15
+    verbose=True,
+    max_iter=10
 )
 
 ### Odds & Market Analyst ###
@@ -75,7 +78,8 @@ agent3 = Agent(
     """,
     tools=[serper_tool],
     allow_delegation=True,
-    max_iter=15
+    verbose=True,
+    max_iter=10
 )
 
 ### Expert MMA Handicapper ###
@@ -90,6 +94,8 @@ agent_final = Agent(
     """,
     tools=[csv_tool1, csv_tool2, serper_tool],
     allow_delegation=True,
+    verbose=True,
+    #max_iter=10
 )
 
 def to_lower_filename(s):
@@ -132,8 +138,7 @@ for fighter1, fighter2 in fight_pairs:
         agents=[agent1, agent2, agent3, agent_final],
         tasks=[task1, task2, task3, task4, task_final]
     )
-    print("\n" + "-"*60)
-    print(f"Processing: {fighter1} vs {fighter2}")
+    print(f"\nProcessing: {fighter1} vs {fighter2}")
     result = crew.kickoff()
-    print(f"Finished: {fighter1} vs {fighter2}")
+    print(f"Finished: {fighter1} vs {fighter2}\n")
     print("-"*60)
