@@ -1,0 +1,1 @@
+The comprehensive statistical report on Ian Garry includes his career overview, detailed striking and grappling statistics, notable fights, and additional background information sourced from reliable MMA platforms like ESPN and UFC Stats.

@@ -1,0 +1,13 @@
+- **Gabriel Green**:
+  - Moneyline Odds: +170 at Bet365
+  - Odds for Victory:
+    - By KO/TKO/DQ: +450
+    - By Submission: +800
+    - By Decision: +650
+
+- **Matheus Camilo**:
+  - Moneyline Odds: -180 at BetRivers
+  - Odds for Victory:
+    - By KO/TKO/DQ: +200
+    - By Submission: +300
+    - By Decision: +150

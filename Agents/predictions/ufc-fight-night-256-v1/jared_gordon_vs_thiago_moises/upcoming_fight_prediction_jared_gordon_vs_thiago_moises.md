@@ -1,0 +1,1 @@
+Thiago Moises by Decision, due to his grappling superiority, recent fight performances, effective fight strategy, and favorable public sentiment and betting odds.

@@ -1,0 +1,1 @@
+The comprehensive statistical report on Michael Page is as detailed above, covering his fight history, career highlights, striking and grappling statistics, and recent developments.

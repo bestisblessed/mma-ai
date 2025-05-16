@@ -1,0 +1,12 @@
+- **Moneyline Odds:**
+  - **Jared Gordon**: +105 (varies by sportsbook)
+  - **Thiago Moises**: -110 (varies by sportsbook)
+
+- **Methods of Victory:**
+  - **Jared Gordon To Win By KO/TKO/DQ**: +800 to +900
+  - **Jared Gordon To Win By Submission**: +2500
+  - **Jared Gordon To Win By Decision**: +110 to +125
+  - **Thiago Moises To Win By KO/TKO/DQ**: +600
+  - **Thiago Moises To Win By Submission**: +400 to +600
+  - **Thiago Moises To Win By Decision**: +150
+  - **Draw**: +5000 to +6600

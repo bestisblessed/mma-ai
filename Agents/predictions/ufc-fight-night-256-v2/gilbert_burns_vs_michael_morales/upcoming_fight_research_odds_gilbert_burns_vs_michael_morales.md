@@ -1,0 +1,5 @@
+- **Gilbert Burns Moneyline Odds**: +500
+- **Michael Morales Moneyline Odds**: -850
+- **Predicted Method of Victory**: 
+   - Michael Morales: Likely to win by KO/TKO (odds around -130)
+   - Gilbert Burns: Potential for submission or decision, but odds favor Morales heavily.

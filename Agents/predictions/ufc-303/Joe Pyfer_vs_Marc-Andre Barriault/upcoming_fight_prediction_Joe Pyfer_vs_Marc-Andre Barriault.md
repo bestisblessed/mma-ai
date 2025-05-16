@@ -1,0 +1,1 @@
+Joe Pyfer wins by KO/TKO in the second round.

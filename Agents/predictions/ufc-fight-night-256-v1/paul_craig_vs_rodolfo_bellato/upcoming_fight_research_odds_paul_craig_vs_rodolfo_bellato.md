@@ -1,0 +1,1 @@
+Rodolfo Bellato vs Paul Craig - Current Odds: Bellato is favored at -500 while Craig sits at +350 to +400. Bellato's likely methods of victory include KO/TKO at -185, while Craig's submission is given at +200. Public sentiment is growing in favor of Bellato due to his finishing ability, while Craig's grappling skills are regarded as his significant potential asset.

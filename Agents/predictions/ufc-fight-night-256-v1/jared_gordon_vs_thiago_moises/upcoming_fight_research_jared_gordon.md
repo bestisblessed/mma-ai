@@ -1,0 +1,23 @@
+- **Name:** Jared Gordon
+- **Nickname:** Flash
+- **Birth Date:** September 6, 1988
+- **Nationality:** United States
+- **Hometown:** Queens, New York
+- **Association:** Kill Cliff FC
+- **Weight Class:** Lightweight
+- **Height:** 5'9"
+- **Fight Record:** 
+  - **Wins:** 20
+    - **By KO/TKO:** 7
+    - **By Decision:** 11
+    - **By Submission:** 2
+  - **Losses:** 7
+    - **By KO/TKO:** 4
+    - **By Decision:** 2
+    - **By Submission:** 1
+- **Fight History Highlights:**
+  - **Notable Fight 1:** Winning Method: TKO (Elbow and Punches), Round: 1, Time: 4:42, Referee: Marc Goddard
+  - **Notable Fight 2:** Winning Method: Decision (Unanimous), Round: 3, Time: 5:00, Referee: Fernando Portella
+  - **Notable Fight 3:** Winning Method: Decision (Unanimous), Round: 3, Time: 5:00, Referee: Marc Goddard
+
+Jared Gordon has shown a well-rounded performance across his fights, with a majority of his victories coming by decision. This reflects his endurance and ability to control fights over longer durations. His recent fights indicate he is consistent in decision outcomes, representing strategic fight management.
