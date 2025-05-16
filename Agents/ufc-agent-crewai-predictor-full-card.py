@@ -11,8 +11,8 @@ warnings.filterwarnings("ignore", category=UserWarning)
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 SERPER_API_KEY = os.getenv("SERPER_API_KEY")
-#os.environ["OPENAI_MODEL_NAME"]="gpt-4o"
-os.environ["OPENAI_MODEL_NAME"]="gpt-4o-mini"
+os.environ["OPENAI_MODEL_NAME"]="gpt-4o"
+#os.environ["OPENAI_MODEL_NAME"]="gpt-4o-mini"
 shutil.rmtree("db", ignore_errors=True)
 
 ### Instantiate tools ###
@@ -49,8 +49,9 @@ agent1 = Agent(
     """,
     tools=[csv_tool1, csv_tool2],
     allow_delegation=True,
+    memory=True,
     verbose=True,
-    max_iter=15
+    max_iter=10
 )
 
 ### Public Sentiment & News Analyst ###
@@ -64,6 +65,7 @@ agent2 = Agent(
     """,
     tools=[serper_tool],
     allow_delegation=True,
+    memory=True,
     verbose=True,
     max_iter=10
 )
@@ -78,6 +80,7 @@ agent3 = Agent(
     """,
     tools=[serper_tool],
     allow_delegation=True,
+    memory=True,
     verbose=True,
     max_iter=10
 )
@@ -92,10 +95,11 @@ agent_final = Agent(
     You integrate detailed statistics, historical performances, public sentiment, and betting odds to provide a comprehensive prediction for upcoming fights.
     Your insights help forecast the potential outcome with high accuracy.
     """,
-    tools=[csv_tool1, csv_tool2, serper_tool],
+    #tools=[csv_tool1, csv_tool2, serper_tool],
     allow_delegation=True,
+    memory=True,
     verbose=True,
-    #max_iter=10
+    max_iter=10
 )
 
 def to_lower_filename(s):
@@ -142,3 +146,15 @@ for fighter1, fighter2 in fight_pairs:
     result = crew.kickoff()
     print(f"Finished: {fighter1} vs {fighter2}\n")
     print("-"*60)
+
+### Generate combined final report ###
+combined_report_path = f"{base_output_dir}/final_report.md"
+with open(combined_report_path, 'w') as combined_report:
+    combined_report.write("# UFC Fight Night 256: Final Predictions Report\n\n")
+    for fighter1, fighter2 in fight_pairs:
+        fight_dir = f"{base_output_dir}/{to_lower_filename(fighter1)}_vs_{to_lower_filename(fighter2)}"
+        prediction_file = f"{fight_dir}/upcoming_fight_prediction_{to_lower_filename(fighter1)}_vs_{to_lower_filename(fighter2)}.md"
+        with open(prediction_file, 'r') as pf:
+            combined_report.write(pf.read())
+            combined_report.write("\n---\n\n")
+print(f"Combined final report generated at: {combined_report_path}")
