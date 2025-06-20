@@ -29,21 +29,63 @@ In this section, we will develop models to predict the probabilities of fight ou
 
 st.markdown("##### Feature Selection")
 st.code('''
-# Select features to include in the model
+# Enhanced feature set for improved model performance
 features = [
-    'fighter1_age_on_fight_night',
-    'fighter2_age_on_fight_night',
-    'fighter1_height_in_inches',
-    'fighter2_height_in_inches',
-    'fighter1_current_win_streak',
-    'fighter2_current_win_streak',
-    'fighter1_current_layoff',
-    'fighter2_current_layoff'
+    # Basic demographics
+    'fighter1_age_on_fight_night', 'fighter2_age_on_fight_night',
+    
+    # Physical attributes
+    'fighter1_height_in_inches', 'fighter2_height_in_inches',
+    
+    # Performance metrics
+    'fighter1_current_win_streak', 'fighter2_current_win_streak',
+    
+    # Activity & timing
+    'fighter1_current_layoff', 'fighter2_current_layoff',
+    
+    # Recent performance (3, 5, 7 fights)
+    'fighter1_recent_win_rate_3fights', 'fighter2_recent_win_rate_3fights',
+    'fighter1_recent_win_rate_5fights', 'fighter2_recent_win_rate_5fights', 
+    'fighter1_recent_win_rate_7fights', 'fighter2_recent_win_rate_7fights',
+    
+    # Career statistics
+    'fighter1_total_wins', 'fighter2_total_wins',
+    'fighter1_total_losses', 'fighter2_total_losses',
+    
+    # Relative advantages
+    'age_difference'
 ]
 X = df[features]
 y = df['target'] # fighter 1 win = 1, fighter2 win = 0
 ''')
-st.caption("""Selecting our dependent variables for a basic baseline model to begin.""")
+st.caption("""Enhanced feature set (19 features) - testing showed this performs best. While some features appear redundant, they provide valuable information that improves model performance.""")
+
+# Define the enhanced feature set (keep all 19 features - testing showed this is optimal)
+enhanced_features = [
+    # Basic demographics
+    'fighter1_age_on_fight_night', 'fighter2_age_on_fight_night',
+    
+    # Physical attributes
+    'fighter1_height_in_inches', 'fighter2_height_in_inches',
+    
+    # Performance metrics
+    'fighter1_current_win_streak', 'fighter2_current_win_streak',
+    
+    # Activity & timing
+    'fighter1_current_layoff', 'fighter2_current_layoff',
+    
+    # Recent performance (3, 5, 7 fights)
+    'fighter1_recent_win_rate_3fights', 'fighter2_recent_win_rate_3fights',
+    'fighter1_recent_win_rate_5fights', 'fighter2_recent_win_rate_5fights', 
+    'fighter1_recent_win_rate_7fights', 'fighter2_recent_win_rate_7fights',
+    
+    # Career statistics
+    'fighter1_total_wins', 'fighter2_total_wins',
+    'fighter1_total_losses', 'fighter2_total_losses',
+    
+    # Relative advantages
+    'age_difference'
+]
 
 # Function to convert probabilities to american odds
 def probability_to_american_odds(prob):
@@ -53,23 +95,22 @@ def probability_to_american_odds(prob):
         return f"+{round((1 - prob) / prob * 100)}"
 
 # Logistic Regression
-st.markdown("## Basic Logistic Regression")
+st.markdown("## Enhanced Logistic Regression")
 # df = pd.read_csv('data/master_logistic_regression.csv')
 df = pd.read_csv(os.path.join(base_dir, '../data/master_logistic_regression.csv'))
 df = df.dropna(subset=['fighter2_height_in_inches'])
-features = [
-    'fighter1_age_on_fight_night',
-    'fighter2_age_on_fight_night',
-    'fighter1_height_in_inches',
-    'fighter2_height_in_inches',
-    'fighter1_current_win_streak',
-    'fighter2_current_win_streak',
-    'fighter1_current_layoff',
-    'fighter2_current_layoff'
-]
+
+# Use enhanced feature set
+features = enhanced_features
 X = df[features]
 y = df['target'] # fighter 1 win = 1, fighter2 win = 0
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0) 
+
+# Impute missing values
+imputer = SimpleImputer(strategy='mean')
+X_train = imputer.fit_transform(X_train)
+X_test = imputer.transform(X_test)
+
 scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
@@ -100,6 +141,7 @@ roc_auc = roc_auc_score(y_test, y_probs)
 # upcoming_fights_df = pd.read_csv('data/upcoming_fights.csv')
 upcoming_fights_df = pd.read_csv(os.path.join(base_dir, '../data/upcoming_fights.csv'))
 X_upcoming = upcoming_fights_df[features]
+X_upcoming = imputer.transform(X_upcoming)
 X_upcoming_scaled = scaler.transform(X_upcoming)
 st.markdown("###### Upcoming Fights Predictions")
 upcoming_fights_df['fighter1_win_probability'] = model.predict_proba(X_upcoming_scaled)[:, 1]
@@ -121,14 +163,7 @@ st.markdown("#### Random Forest")
 with st.expander("View Random Forest Results"):
     df = pd.read_csv(os.path.join(base_dir, '../data/master_logistic_regression.csv'))
     df = df.dropna(subset=['fighter2_height_in_inches'])
-    features = [
-        'fighter1_age_on_fight_night',
-        'fighter2_age_on_fight_night',
-        'fighter1_height_in_inches',
-        'fighter2_height_in_inches',
-        'fighter1_current_win_streak',
-        'fighter2_current_win_streak'
-    ]
+    features = enhanced_features
     X = df[features]
     y = df['target']
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0) 
@@ -154,27 +189,64 @@ with st.expander("View Random Forest Results"):
 st.write(upcoming_fights_df[['fighter 1', 'fighter 2', 'fighter1_win_probability', 'fighter1_american_odds']])
 
 # XGBoost
-st.markdown("#### XGBoost")
+st.markdown("#### XGBoost (Regularized)")
 with st.expander("View XGBoost Results"):
     df = pd.read_csv(os.path.join(base_dir, '../data/master_logistic_regression.csv'))
     df = df.dropna(subset=['fighter2_height_in_inches'])
-    features = [
-        'fighter1_age_on_fight_night',
-        'fighter2_age_on_fight_night',
-        'fighter1_height_in_inches',
-        'fighter2_height_in_inches',
-        'fighter1_current_win_streak',
-        'fighter2_current_win_streak',
-        'fighter1_current_layoff',
-        'fighter2_current_layoff'
-    ]
+    features = enhanced_features
+    X = df[features]
+    y = df['target']
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+    
+    # Use imputer instead of scaler for XGBoost (tree-based models don't need scaling)
+    imputer = SimpleImputer(strategy='mean')
+    X_train = imputer.fit_transform(X_train)
+    X_test = imputer.transform(X_test)
+    
+    # Fixed XGBoost with proper regularization to prevent overfitting
+    model = XGBClassifier(
+        n_estimators=30,        # Fewer trees to prevent overfitting
+        max_depth=3,            # Shallow trees
+        learning_rate=0.05,     # Slower learning
+        reg_alpha=2,            # L1 regularization
+        reg_lambda=2,           # L2 regularization
+        subsample=0.7,          # Use 70% of samples
+        colsample_bytree=0.7,   # Use 70% of features
+        min_child_weight=6,     # Require more samples per leaf
+        gamma=1,                # Minimum loss reduction
+        random_state=0,
+        eval_metric='logloss'
+    )
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    report = classification_report(y_test, y_pred, output_dict=True)
+    conf_matrix = confusion_matrix(y_test, y_pred)
+    st.markdown(f"**Accuracy:** `{accuracy * 100:.2f}%`")
+    st.markdown("###### Confusion Matrix")
+    st.table(conf_matrix)
+    st.markdown("###### Classification Report")
+    st.dataframe(pd.DataFrame(report).transpose())
+    upcoming_fights_df = pd.read_csv(os.path.join(base_dir, '../data/upcoming_fights.csv'))
+    X_upcoming = upcoming_fights_df[features]
+    X_upcoming_imputed = imputer.transform(X_upcoming)
+    upcoming_fights_df['fighter1_win_probability'] = model.predict_proba(X_upcoming_imputed)[:, 1]
+    upcoming_fights_df['fighter1_american_odds'] = upcoming_fights_df['fighter1_win_probability'].apply(probability_to_american_odds)
+st.write(upcoming_fights_df[['fighter 1', 'fighter 2', 'fighter1_win_probability', 'fighter1_american_odds']])
+
+# LightGBM
+st.markdown("#### LightGBM")
+with st.expander("View LightGBM Results"):
+    df = pd.read_csv(os.path.join(base_dir, '../data/master_logistic_regression.csv'))
+    df = df.dropna(subset=['fighter2_height_in_inches'])
+    features = enhanced_features
     X = df[features]
     y = df['target']
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
     scaler = StandardScaler()
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.transform(X_test)
-    model = XGBClassifier(random_state=0)
+    model = LGBMClassifier(random_state=0, verbose=-1)
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
@@ -191,44 +263,3 @@ with st.expander("View XGBoost Results"):
     upcoming_fights_df['fighter1_win_probability'] = model.predict_proba(X_upcoming_scaled)[:, 1]
     upcoming_fights_df['fighter1_american_odds'] = upcoming_fights_df['fighter1_win_probability'].apply(probability_to_american_odds)
 st.write(upcoming_fights_df[['fighter 1', 'fighter 2', 'fighter1_win_probability', 'fighter1_american_odds']])
-
-# LightGBM
-st.markdown("#### LightGBM")
-with st.expander("View LightGBM Results"):
-    from lightgbm import LGBMClassifier
-    df = pd.read_csv(os.path.join(base_dir, '../data/master_logistic_regression.csv'))
-    df = df.dropna(subset=['fighter2_height_in_inches'])
-    features = [
-        'fighter1_age_on_fight_night',
-        'fighter2_age_on_fight_night',
-        'fighter1_height_in_inches',
-        'fighter2_height_in_inches',
-        'fighter1_current_win_streak',
-        'fighter2_current_win_streak',
-        'fighter1_current_layoff',
-        'fighter2_current_layoff'
-    ]
-    X = df[features]
-    y = df['target']
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
-    scaler = StandardScaler()
-    X_train = scaler.fit_transform(X_train)
-    X_test = scaler.transform(X_test)
-    lgbm_model = LGBMClassifier(random_state=0)
-    lgbm_model.fit(X_train, y_train)
-    lgbm_y_pred = lgbm_model.predict(X_test)
-    lgbm_accuracy = accuracy_score(y_test, lgbm_y_pred)
-    lgbm_report = classification_report(y_test, lgbm_y_pred, output_dict=True)
-    lgbm_conf_matrix = confusion_matrix(y_test, lgbm_y_pred)
-    lgbm_y_probs = lgbm_model.predict_proba(X_test)[:, 1]
-    lgbm_fpr, lgbm_tpr, lgbm_thresholds = roc_curve(y_test, lgbm_y_probs)
-    lgbm_roc_auc = roc_auc_score(y_test, lgbm_y_probs)
-    st.markdown(f"**Accuracy:** `{lgbm_accuracy * 100:.2f}%`")
-    st.markdown("###### Confusion Matrix")
-    st.table(lgbm_conf_matrix)
-    st.markdown("###### Classification Report")
-    st.dataframe(pd.DataFrame(lgbm_report).transpose())
-    upcoming_fights_df = pd.read_csv(os.path.join(base_dir, '../data/upcoming_fights.csv'))
-    upcoming_fights_df['lgbm_fighter1_win_probability'] = lgbm_model.predict_proba(X_upcoming_scaled)[:, 1]
-    upcoming_fights_df['lgbm_fighter1_american_odds'] = upcoming_fights_df['lgbm_fighter1_win_probability'].apply(probability_to_american_odds)
-st.write(upcoming_fights_df[['fighter 1', 'fighter 2', 'lgbm_fighter1_win_probability', 'lgbm_fighter1_american_odds']])

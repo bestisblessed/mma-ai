@@ -110,40 +110,117 @@ df['target'] = (df['winning fighter'] == df['fighter 1']).astype(int)
 # Randomly select half of the rows to swap
 rows_to_swap = df.sample(frac=0.5, random_state=42).index
 
-# Swap Fighter 1 and Fighter 2 stats in the selected rows
+# Complete list of all fighter features that need to be swapped
+# This ensures feature integrity is maintained when swapping fighter positions
 swap_columns = [
-    ('fighter1_age_on_fight_night', 'fighter2_age_on_fight_night'),
+    # Basic fighter info
     ('fighter 1', 'fighter 2'),
+    ('fighter 1 id', 'fighter 2 id'),
+    
+    # Age features (handling both column name variants)
+    ('fighter1_age_on_fightnight', 'fighter2_age_on_fightnight'),
+    ('fighter1_age_on_fight_night', 'fighter2_age_on_fight_night'),
+    
+    # Physical attributes
+    ('fighter1_height_in_inches', 'fighter2_height_in_inches'),
+    
+    # Performance metrics
     ('fighter1_current_win_streak', 'fighter2_current_win_streak'),
     ('fighter1_recent_win_rate_7fights', 'fighter2_recent_win_rate_7fights'),
     ('fighter1_recent_win_rate_5fights', 'fighter2_recent_win_rate_5fights'),
     ('fighter1_recent_win_rate_3fights', 'fighter2_recent_win_rate_3fights'),
-    ('fighter1_current_layoff', 'fighter2_current_layoff'),
+    
+    # Career stats
     ('fighter1_total_wins', 'fighter2_total_wins'),
     ('fighter1_total_losses', 'fighter2_total_losses'),
-    ('fighter1_height_in_inches', 'fighter2_height_in_inches')
+    
+    # Fight timing
+    ('fighter1_current_layoff', 'fighter2_current_layoff')
 ]
 
+# Only swap columns that actually exist in the dataframe
+existing_swap_columns = []
 for col1, col2 in swap_columns:
+    if col1 in df.columns and col2 in df.columns:
+        existing_swap_columns.append((col1, col2))
+    else:
+        print(f"Warning: Column pair ({col1}, {col2}) not found in dataset")
+
+print(f"Swapping {len(existing_swap_columns)} feature pairs for {len(rows_to_swap)} rows")
+
+# Perform the swaps
+for col1, col2 in existing_swap_columns:
     df.loc[rows_to_swap, [col1, col2]] = df.loc[rows_to_swap, [col2, col1]].values
 
-# Swap the target variable
+# Swap the target variable to maintain correctness
 df.loc[rows_to_swap, 'target'] = 1 - df.loc[rows_to_swap, 'target']
 
+# Verify data integrity after swapping
+print(f"Data integrity check:")
+print(f"- Total rows: {len(df)}")
+print(f"- Rows swapped: {len(rows_to_swap)}")
+print(f"- Target distribution: {df['target'].value_counts().to_dict()}")
+
 # Save the updated dataset
+df.to_csv('data/master_logistic_regression.csv', index=False)
+
+# Add enhanced feature engineering
+print(f"\n🚀 ADDING ENHANCED FEATURES")
+print("=" * 35)
+
+def add_enhanced_features(df):
+    """Add enhanced features for improved model performance."""
+    print("Adding derived features...")
+    
+    # Physical advantage features
+    df['height_difference'] = df['fighter1_height_in_inches'] - df['fighter2_height_in_inches']
+    df['height_advantage_abs'] = abs(df['height_difference'])
+    
+    # Momentum and activity features
+    df['layoff_difference'] = abs(df['fighter1_current_layoff'] - df['fighter2_current_layoff'])
+    
+    # Experience features
+    df['fighter1_total_fights'] = df['fighter1_total_wins'] + df['fighter1_total_losses']
+    df['fighter2_total_fights'] = df['fighter2_total_wins'] + df['fighter2_total_losses']
+    df['experience_difference'] = df['fighter1_total_fights'] - df['fighter2_total_fights']
+    
+    # Win rate features
+    df['fighter1_win_rate'] = (df['fighter1_total_wins'] / df['fighter1_total_fights']).fillna(0)
+    df['fighter2_win_rate'] = (df['fighter2_total_wins'] / df['fighter2_total_fights']).fillna(0)
+    df['win_rate_difference'] = df['fighter1_win_rate'] - df['fighter2_win_rate']
+    
+    # Recent form differences
+    df['recent_form_diff_3'] = df['fighter1_recent_win_rate_3fights'] - df['fighter2_recent_win_rate_3fights']
+    df['recent_form_diff_5'] = df['fighter1_recent_win_rate_5fights'] - df['fighter2_recent_win_rate_5fights']
+    df['recent_form_diff_7'] = df['fighter1_recent_win_rate_7fights'] - df['fighter2_recent_win_rate_7fights']
+    
+    print(f"✅ Added enhanced features to dataset")
+    return df
+
+# Apply feature engineering to master dataset
+df = pd.read_csv('data/master_logistic_regression.csv')
+df = add_enhanced_features(df)
 df.to_csv('data/master_logistic_regression.csv', index=False)
 
 # Create upcoming fights to predict later on
 df_events = pd.read_csv('data/master_logistic_regression.csv')
 df_fighters = pd.read_csv('data/fighter_info.csv')
 
-# Define the list of upcoming fights
+# Define the list of upcoming fights (hardcoded)
 upcoming_fighters = [
-    ('gilbert burns', 'sean brady'),
-    ('steve garcia', 'kyle nelson'),
-    ('matt schnell', 'alessandro costa'),
-    ('trevor peek', 'yanal ashmoz'),
-    ('isaac dulgarian', 'brendon marotte')
+    ('dustin poirier', 'max holloway'),
+    ('jamahal hill', 'khalil rountree'),
+    ('rafael fiziev', 'ignacio bahamondes'),
+    ('curtis blaydes', 'rizvan kuniev'),
+    ('tofiq musayev', 'myktybek orolbai'),
+    ('nazim sadykhov', 'nikolas motta'),
+    ('muhammadjon naimov', 'bogdan grad'),
+    ('seok hyeon ko', 'oban elliott'),
+    ('ismail naurdiev', 'jun yong park'),
+    ('melissa mullins', 'darya zheleznyakova'),
+    ('irina alekseeva', 'klaudia sygula'),
+    ('tagir ulanbekov', 'azat maksum'),
+    ('hamdy abdelwahab', 'mohammed usman')
 ]
 
 # Function to calculate fighter age on fight night using current date
@@ -168,48 +245,121 @@ def get_most_recent_fight_stats(fighter_name, df):
     most_recent_fight = fighter_fights.sort_values(by='event date', ascending=False).iloc[0]
     return most_recent_fight
 
+# Function to safely get fighter stats from recent fight data
+def get_fighter_stat_from_fight(fighter_name, fight_row, stat_prefix):
+    """
+    Safely extract fighter stats from fight data, handling the fact that
+    the fighter could be in either fighter1 or fighter2 position
+    """
+    if fight_row is None:
+        return None
+    
+    fighter_name = fighter_name.lower()
+    fighter1_name = fight_row['fighter 1'].lower()
+    fighter2_name = fight_row['fighter 2'].lower()
+    
+    if fighter_name == fighter1_name:
+        return fight_row.get(f'fighter1_{stat_prefix}', None)
+    elif fighter_name == fighter2_name:
+        return fight_row.get(f'fighter2_{stat_prefix}', None)
+    else:
+        return None
+
 # Prepare data for upcoming fights
 upcoming_fight_data = []
+skipped_fights = []
+
+print(f"\nProcessing {len(upcoming_fighters)} upcoming fights...")
 
 for fighter1, fighter2 in upcoming_fighters:
     # Normalize fighter names
     fighter1 = fighter1.lower()
     fighter2 = fighter2.lower()
     
+    print(f"\nProcessing: {fighter1.title()} vs {fighter2.title()}")
+    
     # Get fighter details from fighter_info.csv
     fighter1_info = df_fighters[df_fighters['fighter'].str.lower() == fighter1]
     fighter2_info = df_fighters[df_fighters['fighter'].str.lower() == fighter2]
     
-    if fighter1_info.empty or fighter2_info.empty:
-        print(f"\nMissing data for {fighter1} or {fighter2}")
+    if fighter1_info.empty:
+        print(f"  ❌ Missing fighter info for {fighter1}")
+        skipped_fights.append((fighter1, fighter2, f"Missing info for {fighter1}"))
+        continue
+        
+    if fighter2_info.empty:
+        print(f"  ❌ Missing fighter info for {fighter2}")
+        skipped_fights.append((fighter1, fighter2, f"Missing info for {fighter2}"))
         continue
     
     # Calculate fighter age on fight night
-    fighter1_age = calculate_age(fighter1_info.iloc[0]['birth date'])
-    fighter2_age = calculate_age(fighter2_info.iloc[0]['birth date'])
+    try:
+        fighter1_age = calculate_age(fighter1_info.iloc[0]['birth date'])
+        fighter2_age = calculate_age(fighter2_info.iloc[0]['birth date'])
+    except Exception as e:
+        print(f"  ❌ Error calculating ages: {e}")
+        skipped_fights.append((fighter1, fighter2, f"Age calculation error: {e}"))
+        continue
     
     # Get fighter height in inches
-    fighter1_height = fighter1_info.iloc[0]['height_in_inches']
-    fighter2_height = fighter2_info.iloc[0]['height_in_inches']
+    fighter1_height = fighter1_info.iloc[0].get('height_in_inches', None)
+    fighter2_height = fighter2_info.iloc[0].get('height_in_inches', None)
+    
+    if pd.isna(fighter1_height) or pd.isna(fighter2_height):
+        print(f"  ❌ Missing height data")
+        skipped_fights.append((fighter1, fighter2, "Missing height data"))
+        continue
     
     # Get most recent fight stats for current win streak and layoff
     fighter1_recent_fight = get_most_recent_fight_stats(fighter1, df_events)
     fighter2_recent_fight = get_most_recent_fight_stats(fighter2, df_events)
     
-    if fighter1_recent_fight is None or fighter2_recent_fight is None:
-        print(f"Skipping fight: {fighter1} vs {fighter2} due to missing recent fight data.")
+    if fighter1_recent_fight is None:
+        print(f"  ❌ No recent fight data for {fighter1}")
+        skipped_fights.append((fighter1, fighter2, f"No recent fight data for {fighter1}"))
+        continue
+        
+    if fighter2_recent_fight is None:
+        print(f"  ❌ No recent fight data for {fighter2}")
+        skipped_fights.append((fighter1, fighter2, f"No recent fight data for {fighter2}"))
         continue
     
-    fighter1_win_streak = fighter1_recent_fight['fighter1_current_win_streak'] if fighter1_recent_fight['fighter 1'].lower() == fighter1 else fighter1_recent_fight['fighter2_current_win_streak']
-    fighter2_win_streak = fighter2_recent_fight['fighter1_current_win_streak'] if fighter2_recent_fight['fighter 1'].lower() == fighter2 else fighter2_recent_fight['fighter2_current_win_streak']
+    # Extract win streaks using the improved function
+    fighter1_win_streak = get_fighter_stat_from_fight(fighter1, fighter1_recent_fight, 'current_win_streak')
+    fighter2_win_streak = get_fighter_stat_from_fight(fighter2, fighter2_recent_fight, 'current_win_streak')
+    
+    if fighter1_win_streak is None or fighter2_win_streak is None:
+        print(f"  ❌ Missing win streak data")
+        skipped_fights.append((fighter1, fighter2, "Missing win streak data"))
+        continue
     
     # Calculate layoff (time since last fight)
     today = datetime.today()
-    fighter1_layoff = (today - parse_event_date(fighter1_recent_fight['event date'])).days
-    fighter2_layoff = (today - parse_event_date(fighter2_recent_fight['event date'])).days
+    try:
+        fighter1_layoff = (today - parse_event_date(fighter1_recent_fight['event date'])).days
+        fighter2_layoff = (today - parse_event_date(fighter2_recent_fight['event date'])).days
+    except Exception as e:
+        print(f"  ❌ Error calculating layoffs: {e}")
+        skipped_fights.append((fighter1, fighter2, f"Layoff calculation error: {e}"))
+        continue
     
-    # Create a new row with all data
+    # Get additional stats for enhanced features
+    fighter1_total_wins = fighter1_info.iloc[0].get('wins', 0)
+    fighter1_total_losses = fighter1_info.iloc[0].get('losses', 0)
+    fighter2_total_wins = fighter2_info.iloc[0].get('wins', 0)
+    fighter2_total_losses = fighter2_info.iloc[0].get('losses', 0)
+    
+    # Calculate recent win rates (using the same logic as training data)
+    fighter1_recent_3 = get_fighter_stat_from_fight(fighter1, fighter1_recent_fight, 'recent_win_rate_3fights') or 0
+    fighter1_recent_5 = get_fighter_stat_from_fight(fighter1, fighter1_recent_fight, 'recent_win_rate_5fights') or 0
+    fighter1_recent_7 = get_fighter_stat_from_fight(fighter1, fighter1_recent_fight, 'recent_win_rate_7fights') or 0
+    fighter2_recent_3 = get_fighter_stat_from_fight(fighter2, fighter2_recent_fight, 'recent_win_rate_3fights') or 0
+    fighter2_recent_5 = get_fighter_stat_from_fight(fighter2, fighter2_recent_fight, 'recent_win_rate_5fights') or 0
+    fighter2_recent_7 = get_fighter_stat_from_fight(fighter2, fighter2_recent_fight, 'recent_win_rate_7fights') or 0
+    
+    # Create a new row with all data including enhanced features
     new_row = {
+        # Basic features
         'fighter1_age_on_fight_night': fighter1_age,
         'fighter2_age_on_fight_night': fighter2_age,
         'fighter1_height_in_inches': fighter1_height,
@@ -218,15 +368,53 @@ for fighter1, fighter2 in upcoming_fighters:
         'fighter2_current_win_streak': fighter2_win_streak,
         'fighter1_current_layoff': fighter1_layoff,
         'fighter2_current_layoff': fighter2_layoff,
+        
+        # Recent performance features
+        'fighter1_recent_win_rate_3fights': fighter1_recent_3,
+        'fighter2_recent_win_rate_3fights': fighter2_recent_3,
+        'fighter1_recent_win_rate_5fights': fighter1_recent_5,
+        'fighter2_recent_win_rate_5fights': fighter2_recent_5,
+        'fighter1_recent_win_rate_7fights': fighter1_recent_7,
+        'fighter2_recent_win_rate_7fights': fighter2_recent_7,
+        
+        # Career statistics
+        'fighter1_total_wins': fighter1_total_wins,
+        'fighter2_total_wins': fighter2_total_wins,
+        'fighter1_total_losses': fighter1_total_losses,
+        'fighter2_total_losses': fighter2_total_losses,
+        
+        # Age difference
+        'age_difference': fighter1_age - fighter2_age,
+        
+        # Fighter names
         'fighter 1': fighter1.title(),
         'fighter 2': fighter2.title()
     }
     
     upcoming_fight_data.append(new_row)
+    print(f"  ✅ Successfully processed")
+
+print(f"\n📊 Summary:")
+print(f"- Successfully processed: {len(upcoming_fight_data)} fights")
+print(f"- Skipped: {len(skipped_fights)} fights")
+
+if skipped_fights:
+    print(f"\n❌ Skipped fights:")
+    for f1, f2, reason in skipped_fights:
+        print(f"  - {f1.title()} vs {f2.title()}: {reason}")
 
 # Convert the list of dictionaries into a DataFrame
-upcoming_fights_df = pd.DataFrame(upcoming_fight_data)
-upcoming_fights_df.to_csv('data/upcoming_fights.csv')
+if upcoming_fight_data:
+    upcoming_fights_df = pd.DataFrame(upcoming_fight_data)
+    
+    # Apply the same feature engineering as training data
+    print(f"\nApplying feature engineering to upcoming fights...")
+    upcoming_fights_df = add_enhanced_features(upcoming_fights_df)
+    
+    upcoming_fights_df.to_csv('data/upcoming_fights.csv', index=False)
+    print(f"\n✅ Saved {len(upcoming_fights_df)} upcoming fights with enhanced features to upcoming_fights.csv")
+else:
+    print(f"\n❌ No upcoming fights data to save!")
 
 # Copy the master_logistic_regression.csv file to the Streamlit/data/ directory
 shutil.copy('data/master_logistic_regression.csv', 'Streamlit/data/master_logistic_regression.csv')
